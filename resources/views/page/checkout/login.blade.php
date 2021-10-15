@@ -9,9 +9,10 @@
                     <div class="card-body login-card-body">
                     <p class="login-box-msg">Đăng nhập tài khoản</p>
 
-                    <form action="../../index3.html" method="post">
+                    <form action="{{ route('store_login') }}" method="post">
+                        @csrf()
                         <div class="input-group mb-3">
-                        <input type="email" class="form-control" placeholder="Email">
+                        <input type="email" class="form-control" placeholder="Email" name="email" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                             <span class="fas fa-envelope"></span>
@@ -19,7 +20,7 @@
                         </div>
                         </div>
                         <div class="input-group mb-3">
-                        <input type="password" class="form-control" placeholder="Password">
+                        <input type="password" class="form-control" placeholder="Password" name="password" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                             <span class="fas fa-lock"></span>
@@ -38,8 +39,14 @@
                             <div class="col-6">
                                 <button type="submit" class="btn btn-primary btn-block">Đăng nhập</button>
                             </div>
+
                             <!-- /.col -->
-                        </div>
+                        </div>                            
+                        @if (session('error'))
+                            <div class="alert alert-danger" role="alert">
+                                    {{ session('error') }}
+                            </div>
+                        @endif
                     </form>
                     <!-- /.social-auth-links -->
 
@@ -78,6 +85,14 @@
                         </div>
                         <div class="input-group mb-3">
                         <input type="text" class="form-control" placeholder="Địa chỉ" name="address">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                            <span class="fas fa-envelope"></span>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Số điện thoại" name="phone">
                         <div class="input-group-append">
                             <div class="input-group-text">
                             <span class="fas fa-envelope"></span>

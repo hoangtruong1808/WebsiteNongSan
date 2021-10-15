@@ -33,4 +33,8 @@ Route::get('/dang-nhap', [App\Http\Controllers\Page\CheckoutController::class, '
 
 Route::post('/store-signout', [App\Http\Controllers\Page\CheckoutController::class, 'store_signout']) -> name('store_signout');
 
+Route::post('/store-login', [App\Http\Controllers\Page\CheckoutController::class, 'store_login']) -> name('store_login');
+
 Route::get('/thanh-toan', [App\Http\Controllers\Page\CheckoutController::class, 'checkout']) -> name('checkout');
+
+Route::post('/store-checkout', [App\Http\Controllers\Page\CheckoutController::class, 'store_checkout']) -> name('store_checkout');
