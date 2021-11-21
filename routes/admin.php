@@ -51,4 +51,12 @@ Route::prefix('/admin')->group(function(){
     
     });
 
+    Route::prefix('/order')->group(function(){
+
+        Route::get('',[App\Http\Controllers\Admin\OrderController::class, 'order_show'])->name('order_show');
+    
+        Route::get('/order-detail/{order_id}',[App\Http\Controllers\Admin\OrderController::class, 'order_detail_show'])->name('order_detail_show');
+    });
+
+
 });
