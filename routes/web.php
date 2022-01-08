@@ -17,6 +17,8 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index']) -> name('
 
 Route::get('/danh-muc-san-pham/{menu_id}', [App\Http\Controllers\Page\ProductController::class, 'show_menu_product']) -> name('show_menu_product');
 
+Route::post('/tim-kiem-san-pham/{menu_id}', [App\Http\Controllers\Page\ProductController::class, 'search_product']) -> name('search_product');
+
 Route::get('/san-pham', [App\Http\Controllers\Page\ProductController::class, 'show_all_product']) -> name('show_all_product');
 
 Route::get('/san-pham/{product_id}', [App\Http\Controllers\Page\ProductController::class, 'show_product_detail']) -> name('show_product_detail');
@@ -31,6 +33,8 @@ Route::post('/update-cart/{row_id}', [App\Http\Controllers\Page\CartController::
 
 Route::get('/dang-nhap', [App\Http\Controllers\Page\CheckoutController::class, 'login']) -> name('login');
 
+Route::get('/dang-xuat', [App\Http\Controllers\Page\CheckoutController::class, 'logout']) -> name('logout');
+
 Route::post('/store-signout', [App\Http\Controllers\Page\CheckoutController::class, 'store_signout']) -> name('store_signout');
 
 Route::post('/store-login', [App\Http\Controllers\Page\CheckoutController::class, 'store_login']) -> name('store_login');
@@ -38,3 +42,31 @@ Route::post('/store-login', [App\Http\Controllers\Page\CheckoutController::class
 Route::get('/thanh-toan', [App\Http\Controllers\Page\CheckoutController::class, 'checkout']) -> name('checkout');
 
 Route::post('/store-checkout', [App\Http\Controllers\Page\CheckoutController::class, 'store_checkout']) -> name('store_checkout');
+
+Route::get('/xac-nhan-thanh-toan', [App\Http\Controllers\Page\CheckoutController::class, 'confirm_checkout']) -> name('confirm_checkout');
+
+Route::post('/update-cart/{row_id}', [App\Http\Controllers\Page\CartController::class, 'update_cart']) -> name('update_cart');
+
+Route::get('/tai-khoan', [App\Http\Controllers\Page\AccountController::class, 'show_account']) -> name('account');
+
+Route::post('/tai-khoan', [App\Http\Controllers\Page\AccountController::class, 'update_account']) -> name('update_account');
+
+Route::post('/chat-bot', [App\Http\Controllers\Page\AccountController::class, 'chatbot']) -> name('chatbot');
+
+Route::get('/lich-su-dat-hang', [App\Http\Controllers\Page\AccountController::class, 'order_history']) -> name('order_history');
+
+Route::get('/san-pham-dang-tin', [App\Http\Controllers\Page\AccountController::class, 'account_post']) -> name('account_post');
+
+Route::get('/san-pham-can-ban', [App\Http\Controllers\Page\PostController::class, 'product_sale']) -> name('product_sale');
+
+Route::get('/san-pham-can-mua', [App\Http\Controllers\Page\PostController::class, 'product_buy']) -> name('product_buy');
+
+Route::get('/dang-tin', [App\Http\Controllers\Page\PostController::class, 'post_product']) -> name('post_product');
+
+Route::post('/dang-tin', [App\Http\Controllers\Page\PostController::class, 'post_product_process']) -> name('post_product_process');
+
+Route::get('/huy-don-hang/{order_id}',[App\Http\Controllers\Page\AccountController::class, 'delete_order'])->name('delete_order');
+
+Route::get('/xoa-post/{post_id}',[App\Http\Controllers\Page\AccountController::class, 'delete_post'])->name('delete_post');
+
+

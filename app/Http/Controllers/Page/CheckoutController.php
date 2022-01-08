@@ -9,6 +9,7 @@ use Hash;
 use Cart;
 use Session;
 use DB;
+use Mail;
 
 class CheckoutController extends Controller
 {
@@ -30,12 +31,18 @@ class CheckoutController extends Controller
         if (Hash::check($request->password, $account->password))
         {
             $_SESSION['id']= $account->id;
-            return redirect()->route('checkout');
+            return redirect()->route('Home');
         }
         else { 
             Session::flash('error','Sai mật khẩu');
             return redirect()->route('login');
         }
+    }
+    public function logout()
+    {
+        session_destroy();
+        Cart::destroy();
+        return redirect()->route('Home');
     }
     public function signin()
     {
@@ -44,6 +51,23 @@ class CheckoutController extends Controller
     }
     public function store_signout(Request $request)
     {
+        $messages = [
+            'name.required' => 'Họ tên bắt buộc nhập',
+            'address.required' => 'Địa chỉ bắt buộc nhập',
+            'phone.required' => 'Số điện thoại bắt buộc nhập',
+            'phone.numeric' => 'Số điện thoại  nhập đúng định dạng',
+            'email.required' => 'Email bắt buộc nhập',
+            'password.required' => 'Mật khẩu bắt buộc nhập',
+        ];
+        //các loại định dạng bắt buộc khi nhập
+        $request->validate([
+            'name' => 'required',
+            'address' => 'required',
+            'email' => 'required',
+            'password' => 'required',
+            'phone'=>'required',
+            'phone'=>'numeric',
+        ], $messages);
         if ($request->password == $request->repassword)
         {
             $password = bcrypt($request->password);
@@ -57,7 +81,7 @@ class CheckoutController extends Controller
             $_SESSION["id"] = $customer_id;
             return redirect()->route('checkout');
         }
-        else return redirect()->route('login');
+        else return redirect()->route('Home');
 
     }
     public function checkout()
@@ -71,14 +95,30 @@ class CheckoutController extends Controller
                 'customer'=>$customer,
             ]);
         }
-        else 
-        {
-            return redirect()->route('login');
-        }
-
+        else return view('page/checkout/checkout')
+        ->with([
+            'title'=>'Thanh toán giỏ hàng',
+        ]);
     }
     public function store_checkout(Request $request)
     {
+        $messages = [
+            'name.required' => 'Họ tên bắt buộc nhập',
+            'address.required' => 'Địa chỉ bắt buộc nhập',
+            'phone.required' => 'Số điện thoại bắt buộc nhập',
+            'phone.numeric' => 'Số điện thoại  nhập đúng định dạng',
+            'email.required' => 'Email bắt buộc nhập',
+            'payment_method.required' => 'Phương thức thanh toán bắt buộc nhập',
+        ];
+        //các loại định dạng bắt buộc khi nhập
+        $request->validate([
+            'name' => 'required',
+            'address' => 'required',
+            'email' => 'required',
+            'phone'=>'required',
+            'phone'=>'numeric',
+            'payment_method'=>'required',
+        ], $messages);
         $shipping_id = DB::table('shipping')->insertGetId([
             'name'=>$request->name,
             'address'=>$request->address,
@@ -91,8 +131,15 @@ class CheckoutController extends Controller
             'method'=>$request->payment_method,
             'status'=>'Đang xử lý',
         ]);
+        if(isset($_SESSION['id']))
+        {
+            $customer_id = $_SESSION['id'];
+        }
+        else {
+            $customer_id = 9999;
+        }
         $order_id = DB::table('order')->insertGetId([
-            'customer_id'=>$_SESSION['id'],
+            'customer_id'=>$customer_id,
             'shipping_id'=>$shipping_id,
             'status'=>'Đang xử lý',
             'total'=>Cart::total(0,"",""),
@@ -110,7 +157,26 @@ class CheckoutController extends Controller
 
             ]);
         }
+        Session::flash('message', 'Cảm ơn quý khách! Qúy khách đã đặt hàng thành công!');
         Cart::destroy();
-        return redirect()->route('Home');
+        return redirect()->route('confirm_checkout');
+    }
+    public function confirm_checkout()
+    {
+        $to_name = "Hoàng Thư";
+        $to_email = "hoangtruong1808@gmail.com";//send to this email
+
+        $data = array("name"=>"Đơn hàng từ Vegefoods", "body"=>"noi dung body"); //body of mail.blade.php
+
+        Mail::send('page/checkout/mail',$data,function($message) use ($to_name,$to_email){
+        $message->to($to_email)->subject('test mail nhé');//send this mail with subject
+        $message->from($to_email,$to_name);//send from this mail
+        });
+        return view('page/checkout/confirm')
+        ->with(
+                [
+                    'title'=>'Hoàn tất thanh toán',
+                ]
+                );
     }
 }

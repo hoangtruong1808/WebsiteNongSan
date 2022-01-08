@@ -8,6 +8,20 @@ use DB;
 
 class ProductController extends Controller
 {
+    public $unread;
+    public $unread_count;
+    public function __construct()
+    {
+        $this->unread = $message = DB::table('message')
+                        ->join('customer', 'message.customer_id', '=', 'customer.id')
+                        ->select('message.*', 'customer.name')
+                        ->orderBy('message.id', 'DESC')
+                        ->where('message.status', 0)
+                        ->get();
+        $this->unread_count = $message = DB::table('message')
+                        ->where('message.status', 0)
+                        ->count();
+    }
     /**
      * Display a listing of the resource.
      *
@@ -28,7 +42,10 @@ class ProductController extends Controller
         $menu = DB::table('menu')->get();
         return view('admin/product/create')
         ->with(['title'=>'Tạo sản phẩm',
-                'menu'=>$menu]);
+                'menu'=>$menu,
+                'unread'=>$this->unread,
+                'unread_count'=>$this->unread_count,
+            ]);
     }
 
     /**
@@ -68,11 +85,14 @@ class ProductController extends Controller
     public function show()
     {
         $product = DB::table('product')
+        ->orderBy('id', 'desc')
         ->paginate(10);
 
         return view('admin/product/show')
             ->with(['title'=>'Danh sách sản phẩm',
-                    'product'=>$product 
+                    'product'=>$product,
+                    'unread'=>$this->unread,
+                    'unread_count'=>$this->unread_count,
                 ]);
     }
 
@@ -92,7 +112,9 @@ class ProductController extends Controller
         return view('admin/product/edit')
         ->with(['title'=>'Cập nhật sản phẩm',
                 'product'=>$product,
-                'menu'=>$menu]);
+                'menu'=>$menu,
+                'unread'=>$this->unread,
+                'unread_count'=>$this->unread_count,]);
     }
 
     /**

@@ -41,7 +41,7 @@
                                     </td>
                                     
                                     <td class="total" id="total">{{ number_format($key->price * $key->qty)  }} vnđ</td>
-                                    <td><button class="btn btn-primary py-2 px-3" style="color: white">Update</button></td>
+                                    <td><button class="btn btn-primary py-3 px-4" style="color: white">Update</button></td>
                                 </tr><!-- END TR-->
                                 </form>
                                 @endforeach</tbody>
@@ -51,38 +51,8 @@
                 </div>
                 <div class="row justify-content-end">
                     <div class="col-lg-4 mt-5 cart-wrap ftco-animate">
-                        <div class="cart-total mb-3">
-                            <h3>Coupon Code</h3>
-                            <p>Enter your coupon code if you have one</p>
-                            <form action="#" class="info">
-                    <div class="form-group">
-                        <label for="">Coupon code</label>
-                        <input type="text" class="form-control text-left px-3" placeholder="">
                     </div>
-                    </form>
-                        </div>
-                        <p><a href="checkout.html" class="btn btn-primary py-3 px-4">Apply Coupon</a></p>
-                    </div>
-                    <div class="col-lg-4 mt-5 cart-wrap ftco-animate">
-                        <div class="cart-total mb-3">
-                            <h3>Estimate shipping and tax</h3>
-                            <p>Enter your destination to get a shipping estimate</p>
-                            <form action="#" class="info">
-                    <div class="form-group">
-                        <label for="">Country</label>
-                        <input type="text" class="form-control text-left px-3" placeholder="">
-                    </div>
-                    <div class="form-group">
-                        <label for="country">State/Province</label>
-                        <input type="text" class="form-control text-left px-3" placeholder="">
-                    </div>
-                    <div class="form-group">
-                        <label for="country">Zip/Postal Code</label>
-                        <input type="text" class="form-control text-left px-3" placeholder="">
-                    </div>
-                    </form>
-                        </div>
-                        <p><a href="checkout.html" class="btn btn-primary py-3 px-4">Estimate</a></p>
+                    <div class="col-lg-4 mt-5 cart-wrap ftco-animate">          
                     </div>
                     <div class="col-lg-4 mt-5 cart-wrap ftco-animate">
                         <div class="cart-total mb-3">
@@ -104,13 +74,8 @@
                                 <span>Thành tiền</span>
                                 <span>{{ Cart::total(0,',', '.') }} vnđ</span>
                             </p>
-                        </div>
-                            @if(isset($_SESSION['id']))                         
-                            <p><a href="{{route('checkout')}}" class="btn btn-primary py-3 px-4">Thanh toán</a></p>                    
-                            @else 
-                            <p><a href="{{route('login')}}" class="btn btn-primary py-3 px-4">Thanh toán</a></p>
-                            @endif
-               
+                        </div>                       
+                            <p><a href="{{route('checkout')}}" class="btn btn-primary py-3 px-4">Thanh toán</a></p>                   
                     </div>
                 </div>
                 </div>

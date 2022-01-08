@@ -9,4 +9,5 @@
   <link rel="stylesheet" href="{{ asset('admin_template/plugins/fontawesome-free/css/all.min.css') }}">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ asset('admin_template/dist/css/adminlte.min.css') }}">
+  <LINK REL="SHORTCUT ICON"  HREF="{{ asset('logo.jpg') }}">
 </head>

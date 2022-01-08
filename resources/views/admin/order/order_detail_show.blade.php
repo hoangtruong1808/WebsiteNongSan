@@ -51,4 +51,7 @@
                     <td>{{ $shipping->method }}</td>
                 </tr>
             </table>  
+            <div>
+                <a href="{{ route('export_excel', ['order_id'=> $order->id]) }}" class="btn btn-success" style="margin: 10px 10px 20px 46%">Xuất hóa đơn</a>
+            </div>
 @stop

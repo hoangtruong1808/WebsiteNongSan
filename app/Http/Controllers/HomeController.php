@@ -8,6 +8,10 @@ use DB;
 
 class HomeController extends Controller
 {
+    public function __construct()
+    {
+        session_start();
+    }
     public function index()
     {
         $product = DB::table('product')->where('active',1)->limit(8)->orderBy('id', 'desc')->get();

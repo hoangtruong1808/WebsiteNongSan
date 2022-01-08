@@ -8,6 +8,16 @@
                 <form action="{{ route('store_checkout') }}" method="POST" class="billing-form">
                     @csrf()
                     <h3 class="mb-4 billing-heading">Thanh toán đơn hàng</h3>
+                    @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li style="font-size: 15px">{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                    @if(isset($_SESSION['id']))
                     <div class="row align-items-end">
                         <div class="col-md-12">
                             <div class="form-group">
@@ -37,6 +47,38 @@
                                 <input type="text" class="form-control" placeholder="" value="{{$customer->email}}" style="font-size: 16px; font-weight: bold" name="email">
                             </div>
                         </div>
+
+                    @else 
+                    <div class="row align-items-end">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="firstname">Họ tên:</label>
+                            <input type="text" class="form-control" placeholder="" style="font-size: 16px; font-weight: bold" name="name">
+                        </div>
+                    </div>
+    
+                    <div class="w-100"></div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="streetaddress">Địa chỉ</label>
+                            <input type="text" class="form-control" placeholder="" style="font-size: 16px; font-weight: bold" name="address">
+                        </div>
+                    </div>
+        
+                    <div class="w-100"></div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="phone">Số điện thoại</label>
+                                <input type="text" class="form-control" placeholder="" style="font-size: 16px; font-weight: bold" name="phone">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="emailaddress">Email</label>
+                                <input type="text" class="form-control" placeholder="" style="font-size: 16px; font-weight: bold" name="email">
+                            </div>
+                        </div>
+                    @endif
                     <div class="w-100"></div>
                     <label for="note">Ghi chú</label>
                     <div class="col-md-12">
@@ -54,43 +96,41 @@
                         <div class="cart-detail cart-total p-3 p-md-4">
                             <h3 class="billing-heading mb-4">Tổng giỏ hàng</h3>
                             <p class="d-flex">
-                                        <span>Tổng tiền</span>
-                                        <span>$20.60</span>
-                                    </p>
-                                    <p class="d-flex">
-                                        <span>Phí giao hàng </span>
-                                        <span>$0.00</span>
-                                    </p>
-                                    <p class="d-flex">
-                                        <span>Giảm giá  </span>
-                                        <span>$3.00</span>
-                                    </p>
-                                    <hr>
-                                    <p class="d-flex total-price">
-                                        <span>Thành tiền</span>
-                                        <span>$17.60</span>
-                                    </p>
-                                    </div>
+                                <span>Tổng tiền</span>
+                                <span>{{ Cart::subtotal(0,',', '.') }} vnđ</span>
+                            </p>
+                            <p class="d-flex">
+                                <span>Phí giao hàng </span>
+                                <span>Free</span>
+                            </p>
+                            <hr>
+                            <p class="d-flex total-price">
+                                <span>Thành tiền</span>
+                                <span>{{ Cart::total(0,',', '.') }} vnđ</span>
+                            </p>
+                        </div>
                     </div>
                     <div class="col-md-12">
                         <div class="cart-detail p-3 p-md-4">
                             <h3 class="billing-heading mb-4">Phương thức thanh toán</h3>
-                                        <div class="form-group">
-                                            <div class="col-md-12">
-                                                <div class="radio">
-                                                <label><input type="radio" name="payment_method" value="Chuyển tiền trực tiếp" class="mr-2">Chuyển tiền trực tiếp</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-md-12">
-                                                <div class="radio">
-                                                <label><input type="radio" name="payment_method" value="Thanh toán khi nhận hàng" class="mr-2">Thanh toán khi nhận hàng</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div><button class="btn btn-primary py-3 px-4">Đặt hàng</button></div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <div class="radio">
+                                    <label><input type="radio" name="payment_method" value="Chuyển tiền trực tiếp" class="mr-2">Chuyển tiền trực tiếp</label>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <div class="radio">
+                                    <label><input type="radio" name="payment_method" value="Thanh toán khi nhận hàng" class="mr-2">Thanh toán khi nhận hàng</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <button class="btn btn-primary py-3 px-4">Đặt hàng</button>
+                            </div>
+                        </div>
                     </div>
                 </form>
                 </div>

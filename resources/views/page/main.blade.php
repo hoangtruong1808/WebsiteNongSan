@@ -14,7 +14,7 @@
         
         @include('page/footer')
     
-
+    @include('page/chatbot')
     <!-- loader -->
     @include('page/lib')
         

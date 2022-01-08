@@ -27,3 +27,4 @@
     <link rel="stylesheet" href="{{ asset('page_template/css/style.css')}}">
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script> 
+    <LINK REL="SHORTCUT ICON"  HREF="{{ asset('logo.jpg') }}">

@@ -8,6 +8,20 @@ use DB;
 
 class MenuController extends Controller
 {
+    public $unread;
+    public $unread_count;
+    public function __construct()
+    {
+        $this->unread = $message = DB::table('message')
+                        ->join('customer', 'message.customer_id', '=', 'customer.id')
+                        ->select('message.*', 'customer.name')
+                        ->orderBy('message.id', 'DESC')
+                        ->where('message.status', 0)
+                        ->get();
+        $this->unread_count = $message = DB::table('message')
+                        ->where('message.status', 0)
+                        ->count();
+    }
     public function index()
     {
         
@@ -16,7 +30,9 @@ class MenuController extends Controller
     public function create()
     {
         return view('admin/menu/create')
-                ->with(['title'=>'Tạo danh mục']);
+                ->with(['title'=>'Tạo danh mục',
+                'unread'=>$this->unread,
+                'unread_count'=>$this->unread_count,]);
     }
     /**
      * Show the form for creating a new resource.
@@ -45,7 +61,9 @@ class MenuController extends Controller
                 ->paginate(20);
         return view('admin/menu/show')
             ->with(['title'=>'Danh sách danh mục',
-                    'menu'=>$menu 
+                    'menu'=>$menu,
+                    'unread'=>$this->unread,
+                    'unread_count'=>$this->unread_count,
                 ]);
     }
 
@@ -63,7 +81,9 @@ class MenuController extends Controller
 
         return view('admin/menu/edit')
         ->with(['title'=>'Cập nhật danh mục',
-                'menu'=>$menu]);
+                'menu'=>$menu,
+                'unread'=>$this->unread,
+                'unread_count'=>$this->unread_count,]);
     }
 
     /**
@@ -79,6 +99,8 @@ class MenuController extends Controller
             'name'=>$request->name,
             'description'=>$request->description,
             'active'=>$request->active,
+            'unread'=>$this->unread,
+            'unread_count'=>$this->unread_count,
         ]);
         return redirect()->route('menu_show');
     }

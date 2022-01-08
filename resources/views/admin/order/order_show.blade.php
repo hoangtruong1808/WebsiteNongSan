@@ -9,6 +9,8 @@
                     <th>Tổng tiền</th>
                     <th>Trạng thái</th>
                     <th>Thời gian đặt</th>
+                    <th style="width: 100px">Đang giao hàng</th>
+                    <th style="width: 100px">Đã nhận hàng</th>
                     <th></th>
                     <th></th>
                 </tr>
@@ -26,6 +28,14 @@
                     <td>{{ number_format($item->total)}} vnđ</td>
                     <td>{{ $item->status }}</td>
                     <td>{{ $item->created_at }}</td>
+                    <td>
+                        <a href="{{ route('order_shipping_status', ['order_id'=> $item->id]) }}" style="color: pink"><i class="fas fa-shipping-fast"></i>
+                        </a>  
+                    </td>
+                    <td>
+                        <a href="{{ route('order_checked_status', ['order_id'=> $item->id]) }}" style="color: green"><i class="fas fa-check"></i>
+                        </a>                   
+                    </td>
                     <td>
                         <a href="{{ route('order_detail_show', ['order_id'=> $item->id]) }}"> <i class="fas fa-edit"></i>
                         </a>                   

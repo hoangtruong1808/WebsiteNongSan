@@ -4,7 +4,7 @@
 		<section class="ftco-section">
 			<div class="container">
 				<div class="row justify-content-center">
-					<div class="col-md-10 mb-5 text-center">
+					<div class="col-md-8 mb-5 text-center">
 						<ul class="product-category">
 							<li><a href="{{ route('show_all_product')}}" <?php if ($menu_id==0) echo 'class="active"'?>>All</a></li>
 							@foreach ($menu as $item)
@@ -12,7 +12,19 @@
 							@endforeach
 						</ul>
 					</div>
+					<div class="col-md-4">
+						<form action="{{ route('search_product',['menu_id'=>$menu_id]) }}" method="post">
+							<div class="input-group">
+								@csrf()
+								<input type="text" name="key" style="padding-right: 10px, width: 90%">
+								<span class="input-group-btn"  style="margin-left: 10px">
+									<button class="btn btn-primary" type="submit">Tìm</button>
+								</span>  
+							</div>
+						</form>
+					</div>
 				</div>
+	</br>
 				<div class="row">
 					@foreach($product as $item)
 					<div class="col-md-6 col-lg-3 ftco-animate">

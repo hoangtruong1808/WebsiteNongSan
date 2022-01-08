@@ -56,7 +56,29 @@ Route::prefix('/admin')->group(function(){
         Route::get('',[App\Http\Controllers\Admin\OrderController::class, 'order_show'])->name('order_show');
     
         Route::get('/order-detail/{order_id}',[App\Http\Controllers\Admin\OrderController::class, 'order_detail_show'])->name('order_detail_show');
+
+        Route::get('/shchecked/{order_id}',[App\Http\Controllers\Admin\OrderController::class, 'order_shipping_status'])->name('order_shipping_status');
+
+        Route::get('/checked/{order_id}',[App\Http\Controllers\Admin\OrderController::class, 'order_checked_status'])->name('order_checked_status');
+
+        Route::get('/export-excel/{order_id}',[App\Http\Controllers\Admin\OrderController::class, 'export_excel'])->name('export_excel');
     });
 
+    Route::prefix('/khachhang')->group(function(){
+    
+        Route::get('/danh-sach',[App\Http\Controllers\Admin\CustomerController::class, 'customer_show'])->name('customer_show');
 
+        Route::get('/chi-tiet/{customer_id}',[App\Http\Controllers\Admin\CustomerController::class, 'customer_detail'])->name('customer_detail');
+    });
+
+    Route::get('/message',[App\Http\Controllers\Admin\MessageController::class, 'message_show'])->name('message_show');
+
+    Route::prefix('/post')->group(function(){
+    
+        Route::get('/danh-sach',[App\Http\Controllers\Admin\PostController::class, 'post_show'])->name('post_show');
+
+        Route::get('/duyet/{post_id}',[App\Http\Controllers\Admin\PostController::class, 'post_approve'])->name('post_approve');
+
+        Route::get('/khong-duyet/{post_id}',[App\Http\Controllers\Admin\PostController::class, 'post_cancel'])->name('post_cancel');
+    });
 });

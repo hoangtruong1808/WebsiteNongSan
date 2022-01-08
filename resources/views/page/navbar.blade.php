@@ -12,8 +12,11 @@
                                 <span class="text">hoangtruong1808@gmail.com</span>
                             </div>
                             <div class="col-md-5 pr-4 d-flex topper align-items-center text-lg-right">
-                                <span class="text"><a href="" class="text">Đăng nhập</a> / <a  href="" class="text">Đăng ký</a></span> 
-                            
+                                @if(isset($_SESSION["id"]))
+                                <span class="text"><a href="{{ route('logout') }}" class="text">Đăng xuất</a></span>
+                                @else
+                                <span class="text"><a href="{{ route('login') }}" class="text">Đăng nhập</a></span>
+                                @endif
                             </div>
                         </div>
                     </div>  
@@ -39,9 +42,10 @@
                     <a class="dropdown-item" href="{{ route('show_menu_product',['menu_id'=>9]) }}">Đồ khô</a>
                 </div>
                 </li>
-                <li class="nav-item"><a href="#" class="nav-link">Cần bán - Cần mua</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">Giới thiệu</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">Liên hệ</a></li>
+                <li class="nav-item"><a href="{{ route('product_sale') }}" class="nav-link">Cần bán - Cần mua</a></li>
+                @if(isset($_SESSION["id"]))
+                <li class="nav-item"><a href="{{ route('account') }}" class="nav-link">Tài khoản</a></li>
+                @endif
                 <li class="nav-item cta cta-colored"><a href="{{ route('show_cart') }}" class="nav-link"><span><i class="fas fa-shopping-cart"></i></span>[{{ Cart::content()->count() }}]</a></li>
 
                 </ul>

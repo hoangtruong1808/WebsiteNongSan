@@ -30,9 +30,9 @@
 					
     				<p class="price"><span>{{ number_format($product->price) }} vnđ / {{ $product->unit }}</span></p>--}}
     				<p>{{ $product->description }}</p>
-					<form method="POST" action="{{route('store_cart')}}">
-						@csrf()
-						<input  name='name' type='hidden' value='{{$product->name}}'/>
+					<form action="{{route('store_cart')}}" method="post">
+                        @csrf()
+                        <input  name='name' type='hidden' value='{{$product->name}}'/>
 						<input  name='id' type='hidden' value='{{$product->id}}'/>
 						<input  name='price' type='hidden' value='{{$product->price}}'/>
 						<input  name='thumb' type='hidden' value='{{$product->thumb}}'/>
@@ -49,15 +49,19 @@
 									<td>{{ number_format($product->price) }}đ</td>
 									<td>
 										<input type="button" value="-" id="btn-minus"/>
-										<input id='quantity' min='0' name='quantity' type='text' value='0' style="width: 50px; text-align: center"/>
+										<input id='quantity' min='0.1' name='quantity' type='text' style="width: 50px; text-align: center" required/>
 										<input type="button" value="+" id="btn-plus"/>
 									</td>
 									<td id="money"></td>
 								</tr>
+								<tr>
+									<td></td>
+								</tr>
 							</table>
-						</div>
-						<button>Thêm giỏ hàng</button>
-					<form>
+                        <!-- /.card-body -->
+                        </div>
+						<button type="submit">Thêm giỏ hàng</button>
+                    </form>
     			</div>
     		</div>
     	</div>

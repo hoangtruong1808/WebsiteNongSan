@@ -8,7 +8,6 @@
                 <div class="card">
                     <div class="card-body login-card-body">
                     <p class="login-box-msg">Đăng nhập tài khoản</p>
-
                     <form action="{{ route('store_login') }}" method="post">
                         @csrf()
                         <div class="input-group mb-3">
@@ -64,7 +63,15 @@
                 <div class="card">
                     <div class="card-body register-card-body">
                     <p class="login-box-msg">Đăng ký tài khoản mới</p>
-
+                    @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li style="font-size: 15px">{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                     <form action="{{ route('store_signout') }}" method="post">
                     @csrf()
                         <div class="input-group mb-3">

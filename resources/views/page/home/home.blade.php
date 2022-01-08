@@ -111,11 +111,11 @@
                     @foreach($product as $item)
                     <div class="col-md-6 col-lg-3 ftco-animate">
                         <div class="product">
-                            <a href="#" class="img-prod"><img class="img-fluid" style="height: 202px; width: 100%" src="{{ asset('storage/product/'.$item->thumb) }}" alt="Colorlib Template">
+                            <a href="{{ route('show_product_detail', ['product_id'=>$item->id]) }}" class="img-prod"><img class="img-fluid" style="height: 202px; width: 100%" src="{{ asset('storage/product/'.$item->thumb) }}" alt="Colorlib Template">
                                 <div class="overlay"></div>
                             </a>
                             <div class="text py-3 pb-4 px-3 text-center">
-                                <h3><a href="#">{{ $item->name }}</a></h3>
+                                <h3><a href="{{ route('show_product_detail', ['product_id'=>$item->id]) }}">{{ $item->name }}</a></h3>
                                 <div class="d-flex">
                                     <div class="pricing">
                                         <p class="price"><span>{{ number_format($item->price) }} vnđ /{{ $item->unit }}</span></p>
