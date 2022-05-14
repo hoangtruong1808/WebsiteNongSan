@@ -56,7 +56,7 @@
                   <i class="right fas fa-angle-left"></i>
                 </p>
               </a>
-              
+
               <ul class="nav nav-treeview">
                 <li class="nav-item">
                   <a href="{{ route('product_show') }}" class="nav-link">
@@ -90,24 +90,39 @@
                 </p>
               </a>
             </li>
-            <li class="nav-item">
-              <a href="{{ route('message_show') }}" class="nav-link">
-                  <i class="fas fa-bars"></i>
-                <p>
-                  Tin nhắn
-                  <i class="right fas fa-angle-left"></i>
-                </p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="{{ route('post_show') }}" class="nav-link">
-                  <i class="fas fa-bars"></i>
-                <p>
-                  Cần bán - cần mua
-                  <i class="right fas fa-angle-left"></i>
-                </p>
-              </a>
-            </li>
+{{--            <li class="nav-item">--}}
+{{--              <a href="{{ route('message_show') }}" class="nav-link">--}}
+{{--                  <i class="fas fa-bars"></i>--}}
+{{--                <p>--}}
+{{--                  Tin nhắn--}}
+{{--                  <i class="right fas fa-angle-left"></i>--}}
+{{--                </p>--}}
+{{--              </a>--}}
+{{--            </li>--}}
+              <li class="nav-item">
+                  <a href="" class="nav-link">
+                      <i class="fas fa-bars"></i>
+                      <p>
+                          Mã khuyến mãi
+                          <i class="right fas fa-angle-left"></i>
+                      </p>
+                  </a>
+
+                  <ul class="nav nav-treeview">
+                      <li class="nav-item">
+                          <a href="{{ route('voucher_show') }}" class="nav-link">
+                              <i class="far fa-circle nav-icon"></i>
+                              <p>Danh sách</p>
+                          </a>
+                      </li>
+                      <li class="nav-item">
+                          <a href="{{ route('voucher_create') }}" class="nav-link">
+                              <i class="far fa-circle nav-icon"></i>
+                              <p>Thêm</p>
+                          </a>
+                      </li>
+                  </ul>
+              </li>
           </ul>
         </nav>
         <!-- /.sidebar-menu -->

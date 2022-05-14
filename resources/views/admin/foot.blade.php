@@ -1,5 +1,5 @@
 <!-- jQuery -->
-<script src="{{ asset('admin_template/plugins/jquery/jquery.min.js') }}"></script>
+{{--<script src="{{ asset('admin_template/plugins/jquery/jquery.min.js') }}"></script>--}}
 <!-- Bootstrap 4 -->
 <script src="{{ asset('admin_template/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <!-- bs-custom-file-input -->
@@ -29,6 +29,24 @@ $(function () {
 
 <!-- Your SDK code -->
 <script>
+    $('#datatable').DataTable({
+        "lengthChange": false,
+        "columnDefs": [ {
+            "targets": 'no-sort',
+            "orderable": false,
+        } ],
+        order: [[ 0, 'asc' ]],
+        "bDestroy": true,
+        "iDisplayLength": 15,
+        select: {
+            style:    'multi',
+            selector: 'td:first-child'
+        },
+        language: {
+            url: 'https://cdn.datatables.net/plug-ins/1.11.4/i18n/vi.json'
+        }
+    });
+
   window.fbAsyncInit = function() {
     FB.init({
       xfbml            : true,

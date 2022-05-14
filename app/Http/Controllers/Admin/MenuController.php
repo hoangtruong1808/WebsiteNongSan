@@ -5,6 +5,8 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DB;
+Use Alert;
+use Validator;
 
 class MenuController extends Controller
 {
@@ -24,9 +26,9 @@ class MenuController extends Controller
     }
     public function index()
     {
-        
+
     }
-    
+
     public function create()
     {
         return view('admin/menu/create')
@@ -41,12 +43,30 @@ class MenuController extends Controller
      */
     public function store(Request $request)
     {
-        DB::table('menu')->insert([
-            'name'=>$request->name,
-            'description'=>$request->description,
-            'active'=>$request->active,
-        ]);
-        return redirect()->route('menu_show');
+        $messages = [
+            'name.required' => ' Tên danh mục bắt buộc nhập',
+            'description.required' => ' Mô tả bắt buộc nhập',
+        ];
+        //các loại định dạng bắt buộc khi nhập
+        $validator = Validator::make($request->all(),[
+            'name' => 'required',
+            'description' => 'required',
+        ], $messages);
+
+        if ($validator->passes()) {
+            DB::table('menu')->insert([
+                'name' => $request->name,
+                'description' => $request->description,
+                'active' => $request->active,
+            ]);
+            Alert::success('Thành công', 'Thêm danh mục thành công');
+            return redirect()->route('menu_show');
+        }
+        else{
+            $error = $validator->errors()->all();
+            Alert::error('Thất bại', $error);
+            return redirect()->route('menu_create');
+        }
     }
 
     /**
@@ -58,7 +78,8 @@ class MenuController extends Controller
     public function show()
     {
         $menu = DB::table('menu')
-                ->paginate(20);
+                ->where("is_deleted", 0)
+                ->get();
         return view('admin/menu/show')
             ->with(['title'=>'Danh sách danh mục',
                     'menu'=>$menu,
@@ -95,14 +116,31 @@ class MenuController extends Controller
      */
     public function update(Request $request, $menu_id)
     {
-        DB::table('menu')->where('id', $menu_id)->update([
-            'name'=>$request->name,
-            'description'=>$request->description,
-            'active'=>$request->active,
-            'unread'=>$this->unread,
-            'unread_count'=>$this->unread_count,
-        ]);
-        return redirect()->route('menu_show');
+        $messages = [
+            'name.required' => ' Tên danh mục bắt buộc nhập',
+            'description.required' => ' Mô tả bắt buộc nhập',
+        ];
+        //các loại định dạng bắt buộc khi nhập
+        $validator = Validator::make($request->all(),[
+            'name' => 'required',
+            'description' => 'required',
+        ], $messages);
+
+        if ($validator->passes()) {
+            DB::table('menu')->where('id', $menu_id)->update([
+                'name'=>$request->name,
+                'description'=>$request->description,
+                'active'=>$request->active,
+            ]);
+            Alert::success('Thành công', 'Cập nhật danh mục thành công');
+            return redirect()->route('menu_show');
+        }
+        else{
+            $error = $validator->errors()->all();
+            Alert::error('Thất bại', $error);
+            return redirect()->route('menu_edit', ['menu_id'=>$menu_id]);
+        }
+
     }
 
     /**
@@ -111,10 +149,11 @@ class MenuController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($menu_id)
+    public function destroy(Request $request)
     {
-        DB::table('menu')->where('id', $menu_id)->delete();
-        return redirect()->route('menu_show');
+        DB::table('menu')->where('id', $request->menu_id)->update([
+            'is_deleted'=>1,
+        ]);
     }
 
 }

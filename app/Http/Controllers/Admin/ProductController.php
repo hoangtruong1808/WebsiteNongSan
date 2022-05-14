@@ -5,6 +5,8 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DB;
+use Validator;
+use Alert;
 
 class ProductController extends Controller
 {
@@ -29,7 +31,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        
+
     }
 
     /**
@@ -56,24 +58,57 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $thumb = $request->file('thumb')->getClientOriginalName();
-        $request->file('thumb')->storeAs('public/product', $thumb);
-        DB::table('product')->insert([
-            'name'=>$request->name,
-            'description'=>$request->description,
-            'menu_id'=>$request->menu_id ,
-            'price'=>$request->price,
-            'active'=>$request->active,
-            'unit'=>$request->unit,
-            'thumb'=>$thumb,
-            'thanhphan'=>$request->thanhphan,
-            'muavu'=>$request->muavu,
-            'donggoi'=>$request->donggoi,
-            'hansudung'=>$request->hansudung,
-            'xuatsu'=>$request->xuatsu,
-            'giaohang'=>$request->giaohang,
-        ]);
-        return redirect()->route('product_show');
+        try {
+            $messages = [
+                'name.required' => 'Tên sản phẩm bắt buộc nhập',
+                'description.required' => 'Mô tả bắt buộc nhập',
+                'menu_id.required' => 'Danh mục bắt buộc nhập',
+                'menu_id.numeric' => 'Danh mục không hợp lệ',
+                'price.required' => 'Giá sản phẩm bắt buộc nhập',
+                'price.numeric' => 'Giá sản phẩm phải là số',
+                'thumb.required' => 'Ảnh sản phẩm bắt buộc nhập',
+                'thumb.image' => 'Ảnh sản phẩm phải là file ảnh có đuôi ".jpg, .png, .jpeg, .gif, .svg"',
+                'thumb.mimes' => 'Ảnh sản phẩm phải là file ảnh có đuôi ".jpg, .png, .jpeg, .gif, .svg"',
+            ];
+            //các loại định dạng bắt buộc khi nhập
+            $validator = Validator::make($request->all(), [
+                'name' => 'required',
+                'description' => 'required',
+                'menu_id' => 'required|numeric',
+                'price' => 'required|numeric',
+                'thumb' => 'required|image|mimes:jpg,png,jpeg,gif,svg',
+            ], $messages);
+
+            if ($validator->passes()) {
+                $thumb = $request->file('thumb')->getClientOriginalName();
+                $request->file('thumb')->storeAs('public/product', $thumb);
+                DB::table('product')->insert([
+                    'name' => $request->name,
+                    'description' => $request->description,
+                    'menu_id' => $request->menu_id,
+                    'price' => $request->price,
+                    'active' => 1,
+                    'unit' => $request->unit,
+                    'thumb' => $thumb,
+                    'thanhphan' => $request->thanhphan,
+                    'muavu' => $request->muavu,
+                    'donggoi' => $request->donggoi,
+                    'hansudung' => $request->hansudung,
+                    'xuatsu' => $request->xuatsu,
+                    'giaohang' => $request->giaohang,
+                ]);
+                Alert::success('Thành công', 'Thêm sản phẩm thành công');
+                return redirect()->route('product_show');
+            } else {
+                $error = $validator->errors()->all();
+                Alert::error('Thất bại', $error);
+                return redirect()->route('product_create');
+            }
+        }
+        catch(Exception $e) {
+            Alert::error('Thất bại', $e->getMessage());
+            return redirect()->route('product_create');
+        }
     }
 
     /**
@@ -85,8 +120,9 @@ class ProductController extends Controller
     public function show()
     {
         $product = DB::table('product')
-        ->orderBy('id', 'desc')
-        ->paginate(10);
+            ->where("is_deleted", 0)
+            ->orderBy("id", "DESC")
+            ->get();
 
         return view('admin/product/show')
             ->with(['title'=>'Danh sách sản phẩm',
@@ -126,35 +162,68 @@ class ProductController extends Controller
      */
     public function update(Request $request, $product_id)
     {
-        if (empty($request->file('thumb')))
-        {
-            $data_array = DB::table('product')            
+        try {
+            $messages = [
+                'name.required' => 'Tên sản phẩm bắt buộc nhập',
+                'description.required' => 'Mô tả bắt buộc nhập',
+                'menu_id.required' => 'Danh mục bắt buộc nhập',
+                'menu_id.numeric' => 'Danh mục không hợp lệ',
+                'price.required' => 'Giá sản phẩm bắt buộc nhập',
+                'price.numeric' => 'Giá sản phẩm phải là số',
+                'thumb.image' => 'Ảnh sản phẩm phải là file ảnh có đuôi ".jpg, .png, .jpeg, .gif, .svg"',
+                'thumb.mimes' => 'Ảnh sản phẩm phải là file ảnh có đuôi ".jpg, .png, .jpeg, .gif, .svg"',
+            ];
+            //các loại định dạng bắt buộc khi nhập
+            $validator = Validator::make($request->all(), [
+                'name' => 'required',
+                'description' => 'required',
+                'menu_id' => 'required|numeric',
+                'price' => 'required|numeric',
+                'thumb' => 'image|mimes:jpg,png,jpeg,gif,svg',
+            ], $messages);
+
+            if ($validator->passes()) {
+                if (empty($request->file('thumb')))
+                {
+                    $data_array = DB::table('product')
                         ->select('thumb')
                         ->where('id',$product_id)
                         ->first();
-            $thumb = $data_array->thumb;
+                    $thumb = $data_array->thumb;
+                }
+                else
+                {
+                    $thumb = $request->file('thumb')->getClientOriginalName();
+                    $request->file('thumb')->storeAs('public/product', $thumb);
+                }
+                DB::table('product')->where('id', $product_id)->update([
+                    'name'=>$request->name,
+                    'description'=>$request->description,
+                    'menu_id'=>$request->menu_id ,
+                    'price'=>$request->price,
+                    'active'=>$request->active,
+                    'unit'=>$request->unit,
+                    'thumb'=>$thumb,
+                    'thanhphan'=>$request->thanhphan,
+                    'muavu'=>$request->muavu,
+                    'donggoi'=>$request->donggoi,
+                    'hansudung'=>$request->hansudung,
+                    'xuatsu'=>$request->xuatsu,
+                    'giaohang'=>$request->giaohang,
+                ]);
+                Alert::success('Thành công', 'Thêm sản phẩm thành công');
+                return redirect()->route('product_show');
+            } else {
+                $error = $validator->errors()->all();
+                Alert::error('Thất bại', $error);
+                return redirect()->route('product_edit',['product_id'=>$product_id]);
+            }
         }
-        else 
-        {
-            $thumb = $request->file('thumb')->getClientOriginalName();
-            $request->file('thumb')->storeAs('public/product', $thumb);
+        catch(Exception $e) {
+            Alert::error('Thất bại', $e->getMessage());
+            return redirect()->route('product_edit',['product_id'=>$product_id]);
         }
-        DB::table('product')->where('id', $product_id)->update([
-            'name'=>$request->name,
-            'description'=>$request->description,
-            'menu_id'=>$request->menu_id ,
-            'price'=>$request->price,
-            'active'=>$request->active,
-            'unit'=>$request->unit,
-            'thumb'=>$thumb,
-            'thanhphan'=>$request->thanhphan,
-            'muavu'=>$request->muavu,
-            'donggoi'=>$request->donggoi,
-            'hansudung'=>$request->hansudung,
-            'xuatsu'=>$request->xuatsu,
-            'giaohang'=>$request->giaohang,
-        ]);
-        return redirect()->route('product_show');
+
     }
 
     /**
@@ -163,9 +232,15 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($product_id)
+    public function destroy(Request $request)
     {
-        DB::table('product')->where('id', $product_id)->delete();
-        return redirect()->route('product_show');
+        DB::table('product')->where('id', $request->product_id)->update([
+            'is_deleted'=>1,
+        ]);
+    }
+    public function export_qrcode($product_id){
+        return view('admin/product/export_qrcode')
+            ->with(['title'=>'Cập nhật sản phẩm',
+            'product_id'=>$product_id]);
     }
 }

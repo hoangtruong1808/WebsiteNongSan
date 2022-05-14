@@ -1,5 +1,5 @@
     @extends('page/main')
-            
+
     @section('content')
     <section class="ftco-section">
         <div class="container">
@@ -25,7 +25,7 @@
                             <input type="text" class="form-control" placeholder="" value="{{$customer->name}}" style="font-size: 16px; font-weight: bold" name="name">
                         </div>
                     </div>
-    
+
                     <div class="w-100"></div>
                     <div class="col-md-12">
                         <div class="form-group">
@@ -33,7 +33,7 @@
                             <input type="text" class="form-control" placeholder="" value="{{$customer->address}}" style="font-size: 16px; font-weight: bold" name="address">
                         </div>
                     </div>
-        
+
                     <div class="w-100"></div>
                         <div class="col-md-6">
                             <div class="form-group">
@@ -48,7 +48,7 @@
                             </div>
                         </div>
 
-                    @else 
+                    @else
                     <div class="row align-items-end">
                         <div class="col-md-12">
                             <div class="form-group">
@@ -56,7 +56,7 @@
                             <input type="text" class="form-control" placeholder="" style="font-size: 16px; font-weight: bold" name="name">
                         </div>
                     </div>
-    
+
                     <div class="w-100"></div>
                     <div class="col-md-12">
                         <div class="form-group">
@@ -64,7 +64,7 @@
                             <input type="text" class="form-control" placeholder="" style="font-size: 16px; font-weight: bold" name="address">
                         </div>
                     </div>
-        
+
                     <div class="w-100"></div>
                         <div class="col-md-6">
                             <div class="form-group">
@@ -83,11 +83,11 @@
                     <label for="note">Ghi chú</label>
                     <div class="col-md-12">
                         <div class="form-group">
-                            
+
                             <textarea style="width: 100%; height: 170px; border: #D8D8D8 1px solid" name="note"></textarea>
                         </div>
                     </div>
-                  
+
                     </div>
                         </div>
                         <div class="col-xl-5">
@@ -97,7 +97,11 @@
                             <h3 class="billing-heading mb-4">Tổng giỏ hàng</h3>
                             <p class="d-flex">
                                 <span>Tổng tiền</span>
-                                <span>{{ Cart::subtotal(0,',', '.') }} vnđ</span>
+                                <span>{{ Cart::initial(0,'.', ',') }} vnđ</span>
+                            </p>
+                            <p class="d-flex">
+                                <span>Giảm giá</span>
+                                <span>{{Cart::discount(0,'.', ',')}} vnđ</span>
                             </p>
                             <p class="d-flex">
                                 <span>Phí giao hàng </span>
@@ -106,7 +110,7 @@
                             <hr>
                             <p class="d-flex total-price">
                                 <span>Thành tiền</span>
-                                <span>{{ Cart::total(0,',', '.') }} vnđ</span>
+                                <span>{{ Cart::subtotal(0,'.', ',') }} vnđ</span>
                             </p>
                         </div>
                     </div>

@@ -1,5 +1,5 @@
 @extends('page/main')
-            
+
 @section('content')
 <section class="ftco-section">
 	<div class="container">
@@ -8,13 +8,13 @@
                 <ul class="product-category">
                     <li><a href="{{ route('account') }}" >Thông tin tài khoản</a></li>
                     <li><a href="{{ route('order_history') }}" class="active" >Lịch sử đặt hàng</a></li>
-                    <li><a href="{{ route('account_post') }}">Đăng tin sản phẩm</a></li>
+                    <li><a href="{{ route('show_voucher') }}">Mã khuyến mãi</a></li>
                     <li><a href="{{ route('logout') }}">Đăng xuất</a></li>
                 </ul>
             </div>
         </div>
     </div>
-    <div class="container"> 
+    <div class="container">
     <?php
                 $message = Session::get('message');
                 if($message) {
@@ -24,7 +24,7 @@
                 $stt=1;
             ?>
             <table class="table">
-                
+
                 <tr>
                     <th>
                         STT
@@ -82,8 +82,8 @@
                     <th>
                         @if ($value->status== "Đang xử lý")
                         <a href="{{ route('delete_order',['order_id'=>$value->id]) }}" onclick="confirm('Bạn có chắc chắn muốn hủy đơn hàng này')" style="color:blue">Hủy</i>
-                        </a> 
-                        @endif     
+                        </a>
+                        @endif
                     </th>
                 </tr>
                 @endforeach

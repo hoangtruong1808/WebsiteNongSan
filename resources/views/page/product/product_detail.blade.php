@@ -27,15 +27,14 @@
 								<a href="#" class="mr-2" style="color: #000;">500 <span style="color: #bbb;">Sold</span></a>
 							</p>
 					</div>
-					
+
     				<p class="price"><span>{{ number_format($product->price) }} vnđ / {{ $product->unit }}</span></p>--}}
     				<p>{{ $product->description }}</p>
-					<form action="{{route('store_cart')}}" method="post">
                         @csrf()
-                        <input  name='name' type='hidden' value='{{$product->name}}'/>
-						<input  name='id' type='hidden' value='{{$product->id}}'/>
-						<input  name='price' type='hidden' value='{{$product->price}}'/>
-						<input  name='thumb' type='hidden' value='{{$product->thumb}}'/>
+                        <input  name='name' type='hidden' id='product_name' value='{{$product->name}}'/>
+						<input  name='id' type='hidden' id='product_id' value='{{$product->id}}'/>
+						<input  name='price' type='hidden' id='product_price' value='{{$product->price}}'/>
+						<input  name='thumb' type='hidden' id='product_thumb' value='{{$product->thumb}}'/>
 						<div class="table-price" style="margin-bottom: 15px; padding-top: 15px; border-top: 1.5px solid #A4A4A4">
 							<table style="text-align: center">
 								<tr>
@@ -46,10 +45,10 @@
 								</tr>
 								<tr>
 									<td>1kg</td>
-									<td>{{ number_format($product->price) }}đ</td>
+									<td>{{ number_format($product->price/10) }}đ</td>
 									<td>
 										<input type="button" value="-" id="btn-minus"/>
-										<input id='quantity' min='0.1' name='quantity' type='text' style="width: 50px; text-align: center" required/>
+										<input id='quantity' min='0.1' name='quantity' type='text' style="width: 50px; text-align: center" value="0.1" required/>
 										<input type="button" value="+" id="btn-plus"/>
 									</td>
 									<td id="money"></td>
@@ -60,8 +59,8 @@
 							</table>
                         <!-- /.card-body -->
                         </div>
-						<button type="submit">Thêm giỏ hàng</button>
-                    </form>
+                        <div class="error-login" style="margin-top: 10px"></div>
+						<button id="add-cart">Thêm giỏ hàng</button>
     			</div>
     		</div>
     	</div>
@@ -104,8 +103,33 @@
 									</tr>
 								</table>
 							</div>
-							<div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-								Nội dung Tab2 - HTML code
+							<div class="tab-pane fade comment-product" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                <div class="container mt-5">
+                                    <div class="d-flex justify-content-center row">
+                                            <div class="d-flex flex-column comment-section" style="width:100%">
+                                                <div class="comment-show">
+                                                    @foreach($comment as $key=>$value)
+                                                        <div class="bg-white p-2" style="border-bottom: 1px solid lightgrey; margin-bottom: 10px ">
+                                                            <div class="d-flex flex-row user-info"><img class="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40">
+                                                                <div class="d-flex flex-column justify-content-start ml-2"><span class="d-block font-weight-bold name">{{$value->name}}</span><span class="date text-black-50">{{$value->date}}</span></div>
+                                                            </div>
+                                                            <div class="mt-2">
+                                                                <p class="comment-text">{{$value->content}}</p>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                                @if (isset($_SESSION['id']))
+                                                <div class="bg-light p-2">
+                                                    <div class="d-flex flex-row align-items-start"><img class="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40"><textarea class="form-control ml-1 shadow-none textarea" id="text-comment"></textarea></div>
+                                                    <div class="mt-2 text-right"><button class="btn btn-primary btn-sm shadow-none" id="btn-comment" type="button">Bình luận</button><button class="btn btn-outline-primary btn-sm ml-1 shadow-none" type="button">Hủy bỏ</button></div>
+                                                    <div><input type="hidden" id="customer_id" value="{{$_SESSION['id']}}"></div>
+                                                </div>
+                                                    @endif
+                                            </div>
+
+                                    </div>
+                                </div>
 							</div>
 						</div>
 			</div>
@@ -113,9 +137,11 @@
     </section>
 	<script>
     $(document).ready(function(){
+        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 		var quantity = Number($('#quantity').val());
-		var soluong; 
+		var soluong;
 		var money;
+        var comment;
         $('#btn-minus').click(function(){
 			if (quantity > 0.1)
 			{
@@ -124,16 +150,79 @@
 			soluong = parseFloat(quantity).toFixed(1);
 			money = soluong * {{$product->price}};
 			$('#quantity').val(soluong);
-			$('#money').html(money);
+			$('#money').html(money +' vnđ');
 		});
 		$('#btn-plus').click(function(){
 			quantity= quantity + 0.1;
 			soluong = parseFloat(quantity).toFixed(1);
 			money = soluong * {{$product->price}};
 			$('#quantity').val(soluong);
-			$('#money').html(money);
+			$('#money').html(money +' vnđ');
 		});
-		
+        $('#add-cart').click(function(){
+            console.log('abc');
+            var name = $('#product_name').val();
+            var id = $('#product_id').val();
+            var price = $('#product_price').val();
+            var thumb = $('#product_thumb').val();
+            var quantity = $('#quantity').val();
+            $.ajax({
+                url: "{{route('store_cart')}}",
+                method: 'POST',
+                data: {_token: CSRF_TOKEN,
+                    name: name,
+                    id: id,
+                    price: price,
+                    thumb: thumb,
+                    quantity: quantity,
+                },
+                dataType: 'JSON',
+                success: function (data) {
+                    if (data.success == true){
+                        window.location.replace("{{ route('show_cart')}}");
+                    }
+                    else {
+                        $(".error-input").remove();
+                        $(".error-login").html('<div class="alert alert-danger error-input" role="alert" id="error-login">'+data.error+'</div>');
+                    }
+                }
+            });
+        });
+        $('#btn-comment').click(function(){
+
+            var xhtml ="";
+            comment = $('#text-comment').val();
+            customer_id = $('#customer_id').val();
+            $.ajax({
+                url: "{{route('comment_product')}}",
+                method: 'POST',
+                data: {_token: CSRF_TOKEN,
+                    comment: comment,
+                    product_id: {{$product->id}},
+                    customer_id: customer_id,
+                },
+                dataType: 'JSON',
+                success: function (data) {
+                    if (data.success == true){
+                        xhtml ='';
+                        xhtml += '<div class="bg-white p-2" style="border-bottom: 1px solid lightgrey; margin-bottom: 20px ">';
+                        xhtml += '<div class="d-flex flex-row user-info"><img class="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40">'
+                        xhtml +=  '<div class="d-flex flex-column justify-content-start ml-2"><span class="d-block font-weight-bold name">'+data.data.name+'</span><span class="date text-black-50">'+data.data.date+'</span></div>'
+                        xhtml += '</div>';
+                        xhtml +=     '<div class="mt-2">';
+                        xhtml +=         '<p class="comment-text">'+comment+'</p>';
+                        xhtml +=    '</div>';
+                        xhtml +=    '</div>';
+                        $('.comment-show').append(xhtml);
+                        $('#text-comment').val(' ');
+                    }
+                    else {
+                        alert(data.error);
+                    }
+                }
+            });
+        });
+
 
     });
 	</script>
@@ -146,7 +235,7 @@
             <h2 class="mb-4">Các sản phẩm liên quan</h2>
             <p>Hàng nông sản tươi và sạch sẽ, đảm bảo an toàn vệ sinh thực phẩm cho Quý Khách Hàng.</p>
           </div>
-        </div>   		
+        </div>
     	</div>
     	<div class="container">
     		<div class="row">

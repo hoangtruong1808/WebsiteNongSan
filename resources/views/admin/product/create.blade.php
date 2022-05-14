@@ -9,12 +9,12 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="name">Tên sản phẩm</label>
-                                <input type="form" name="name" class="form-control" id="name" placeholder="Nhập tên sản phẩm" required>
+                                <input type="form" name="name" class="form-control" id="name" placeholder="Nhập tên sản phẩm">
                             </div>
-        
+
                             <div class="form-group">
                                 <label for="description">Mô tả</label>
-                                <textarea id="description" name="description" class="form-control" required></textarea>
+                                <textarea id="description" name="description" class="form-control"></textarea>
                             </div>
 
                             <div class="form-group">
@@ -28,38 +28,38 @@
 
                             <div class="form-group">
                                 <label for="thanhphan">Thành phần</label>
-                                <input type="form" name="thanhphan" class="form-control" id="thanhphan" placeholder="Nhập thành phần" required>
+                                <input type="form" name="thanhphan" class="form-control" id="thanhphan" placeholder="Nhập thành phần">
                             </div>
 
                             <div class="form-group">
                                 <label for="muavu">Mùa vụ</label>
-                                <input type="form" name="muavu" class="form-control" id="muavu" placeholder="Nhập mùa vụ" required>
+                                <input type="form" name="muavu" class="form-control" id="muavu" placeholder="Nhập mùa vụ">
                             </div>
 
                             <div class="form-group">
                                 <label for="donggoi">Đóng gói</label>
-                                <input type="form" name="donggoi" class="form-control" id="donggoi" placeholder="Nhập cách đóng gói" required>
+                                <input type="form" name="donggoi" class="form-control" id="donggoi" placeholder="Nhập cách đóng gói">
                             </div>
 
                             <div class="form-group">
                                 <label for="hansudung">Hạn sử dụng</label>
-                                <input type="form" name="hansudung" class="form-control" id="hansudung" placeholder="Nhập hạn sử dụng" required>
+                                <input type="form" name="hansudung" class="form-control" id="hansudung" placeholder="Nhập hạn sử dụng">
                             </div>
 
                             <div class="form-group">
                                 <label for="xuatsu">Xuất sứ</label>
-                                <input type="form" name="xuatsu" class="form-control" id="xuatsu" placeholder="Nhập nơi xuất sứ" required>
+                                <input type="form" name="xuatsu" class="form-control" id="xuatsu" placeholder="Nhập nơi xuất sứ">
                             </div>
-                            
-                            
+
+
                             <div class="form-group">
                                 <label for="giaohang">Giao hàng</label>
-                                <input type="form" name="giaohang" class="form-control" id="giaohang" placeholder="Nhập giao hàng" required>
+                                <input type="form" name="giaohang" class="form-control" id="giaohang" placeholder="Nhập giao hàng">
                             </div>
 
                             <div class="form-group">
                                 <label>Giá</label>
-                                <input type="form" name="price" class="form-control" placeholder="Nhập giá sản phẩm" required>
+                                <input type="form" name="price" class="form-control" placeholder="Nhập giá sản phẩm">
                             </div>
 
                             <div class="form-group">
@@ -83,7 +83,7 @@
                             </div>
 
                             <label for="name">Kích hoạt</label>
-                            <div class="form-check">    
+                            <div class="form-check">
                                 <input class="form-check-input" type="radio" name="active" value='1' checked="">
                                 <label class="form-check-label">Có</label>
                             </div>
@@ -91,7 +91,7 @@
                                 <input class="form-check-input" type="radio" name="active" value='0'>
                                 <label class="form-check-label">Không</label>
                             </div>
-        
+
                         <!-- /.card-body -->
                         </div>
                         <div class="card-footer">

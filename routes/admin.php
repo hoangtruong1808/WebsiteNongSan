@@ -31,8 +31,8 @@ Route::prefix('/admin')->group(function(){
 
         Route::post('/update/{menu_id}',[App\Http\Controllers\Admin\MenuController::class, 'update'])->name('menu_update');
 
-        Route::get('/destroy/{menu_id}',[App\Http\Controllers\Admin\MenuController::class, 'destroy'])->name('menu_destroy');
-    
+        Route::post('/destroy',[App\Http\Controllers\Admin\MenuController::class, 'destroy'])->name('menu_destroy');
+
     });
 
     Route::prefix('/product')->group(function(){
@@ -47,14 +47,16 @@ Route::prefix('/admin')->group(function(){
 
         Route::post('/update/{product_id}',[App\Http\Controllers\Admin\ProductController::class, 'update'])->name('product_update');
 
-        Route::get('/destroy/{product_id}',[App\Http\Controllers\Admin\ProductController::class, 'destroy'])->name('product_destroy');
-    
+        Route::post('/destroy',[App\Http\Controllers\Admin\ProductController::class, 'destroy'])->name('product_destroy');
+
+        Route::get('/export-qrcode/{product_id}',[App\Http\Controllers\Admin\ProductController::class, 'export_qrcode'])->name('product_export_qrcode');
+
     });
 
     Route::prefix('/order')->group(function(){
 
         Route::get('',[App\Http\Controllers\Admin\OrderController::class, 'order_show'])->name('order_show');
-    
+
         Route::get('/order-detail/{order_id}',[App\Http\Controllers\Admin\OrderController::class, 'order_detail_show'])->name('order_detail_show');
 
         Route::get('/shchecked/{order_id}',[App\Http\Controllers\Admin\OrderController::class, 'order_shipping_status'])->name('order_shipping_status');
@@ -65,7 +67,7 @@ Route::prefix('/admin')->group(function(){
     });
 
     Route::prefix('/khachhang')->group(function(){
-    
+
         Route::get('/danh-sach',[App\Http\Controllers\Admin\CustomerController::class, 'customer_show'])->name('customer_show');
 
         Route::get('/chi-tiet/{customer_id}',[App\Http\Controllers\Admin\CustomerController::class, 'customer_detail'])->name('customer_detail');
@@ -74,11 +76,27 @@ Route::prefix('/admin')->group(function(){
     Route::get('/message',[App\Http\Controllers\Admin\MessageController::class, 'message_show'])->name('message_show');
 
     Route::prefix('/post')->group(function(){
-    
+
         Route::get('/danh-sach',[App\Http\Controllers\Admin\PostController::class, 'post_show'])->name('post_show');
 
         Route::get('/duyet/{post_id}',[App\Http\Controllers\Admin\PostController::class, 'post_approve'])->name('post_approve');
 
         Route::get('/khong-duyet/{post_id}',[App\Http\Controllers\Admin\PostController::class, 'post_cancel'])->name('post_cancel');
+    });
+
+    Route::prefix('/voucher')->group(function(){
+
+        Route::get('/create',[App\Http\Controllers\Admin\VoucherController::class, 'create'])->name('voucher_create');
+
+        Route::post('/store',[App\Http\Controllers\Admin\VoucherController::class, 'store'])->name('voucher_store');
+
+        Route::get('/show',[App\Http\Controllers\Admin\VoucherController::class, 'show'])->name('voucher_show');
+
+        Route::get('/edit/{voucher_id}',[App\Http\Controllers\Admin\VoucherController::class, 'edit'])->name('voucher_edit');
+
+        Route::post('/update/{voucher_id}',[App\Http\Controllers\Admin\VoucherController::class, 'update'])->name('voucher_update');
+
+        Route::post('/destroy',[App\Http\Controllers\Admin\VoucherController::class, 'destroy'])->name('voucher_destroy');
+
     });
 });

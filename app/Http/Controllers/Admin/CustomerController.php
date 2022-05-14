@@ -29,7 +29,7 @@ class CustomerController extends Controller
         return view('admin/customer/show')
             ->with(['title'=>'Danh sách khách hàng',
                     'customer'=>$customer,
-                    'unread'=>$this->unread, 
+                    'unread'=>$this->unread,
                     'unread_count'=>$this->unread_count,
                 ]);
     }
@@ -46,7 +46,7 @@ class CustomerController extends Controller
             ->get();
         return view('admin/customer/detail')
             ->with(['title'=>'Chi tiết khách hàng',
-                    'customer'=>$customer, 
+                    'customer'=>$customer,
                     'order_history' => $order_history,
                     'unread'=>$this->unread,
                     'unread_count'=>$this->unread_count,

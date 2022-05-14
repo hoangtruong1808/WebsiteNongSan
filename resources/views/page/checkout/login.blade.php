@@ -1,5 +1,5 @@
 @extends('page/main')
-            
+
 @section('content')
 <div class="container">
     <div class="row">
@@ -8,10 +8,10 @@
                 <div class="card">
                     <div class="card-body login-card-body">
                     <p class="login-box-msg">Đăng nhập tài khoản</p>
-                    <form action="{{ route('store_login') }}" method="post">
+                    <form>
                         @csrf()
                         <div class="input-group mb-3">
-                        <input type="email" class="form-control" placeholder="Email" name="email" required>
+                            <input type="email" class="form-control" placeholder="Email" name="email" id="email-login" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                             <span class="fas fa-envelope"></span>
@@ -19,39 +19,26 @@
                         </div>
                         </div>
                         <div class="input-group mb-3">
-                        <input type="password" class="form-control" placeholder="Password" name="password" required>
+                        <input type="password" class="form-control" placeholder="Password" name="password" id="password-login" required>
                         <div class="input-group-append">
                             <div class="input-group-text">
                             <span class="fas fa-lock"></span>
                             </div>
                         </div>
                         </div>
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="icheck-primary">
-                                <input type="checkbox" id="remember">
-                                <label for="remember">
-                                    Lưu mật khẩu
-                                </label>
-                                </div>
+                        <div class="error-login" style="margin-top: 10px">
+                        </div>
+                        <div class="col-12">
+                            <div id="login-btn" class="btn btn-primary btn-block">Đăng nhập</div>
+                            <div class="mb-1" style=" margin-top: 10px; text-align: center">
+                                <a href="forgot-password.html" style="text-align: center">Quên mật khẩu?</a>
                             </div>
-                            <div class="col-6">
-                                <button type="submit" class="btn btn-primary btn-block">Đăng nhập</button>
-                            </div>
+                        </div>
 
-                            <!-- /.col -->
-                        </div>                            
-                        @if (session('error'))
-                            <div class="alert alert-danger" role="alert">
-                                    {{ session('error') }}
-                            </div>
-                        @endif
+
                     </form>
                     <!-- /.social-auth-links -->
 
-                    <p class="mb-1">
-                        <a href="forgot-password.html">Quên mật khẩu?</a>
-                    </p>
                     </div>
                     <!-- /.login-card-body -->
                 </div>
@@ -63,19 +50,10 @@
                 <div class="card">
                     <div class="card-body register-card-body">
                     <p class="login-box-msg">Đăng ký tài khoản mới</p>
-                    @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li style="font-size: 15px">{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
-                    <form action="{{ route('store_signout') }}" method="post">
+                    <form method="post">
                     @csrf()
                         <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Họ tên" name="name">
+                        <input type="text" class="form-control" placeholder="Họ tên" id="name-signin" name="name">
                         <div class="input-group-append">
                             <div class="input-group-text">
                             <span class="fas fa-user"></span>
@@ -83,7 +61,7 @@
                         </div>
                         </div>
                         <div class="input-group mb-3">
-                        <input type="email" class="form-control" placeholder="Email" name="email">
+                        <input type="email" class="form-control" placeholder="Email" id="email-signin" name="email">
                         <div class="input-group-append">
                             <div class="input-group-text">
                             <span class="fas fa-envelope"></span>
@@ -91,23 +69,23 @@
                         </div>
                         </div>
                         <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Địa chỉ" name="address">
+                        <input type="text" class="form-control" placeholder="Địa chỉ" id="address-signin" name="address">
                         <div class="input-group-append">
                             <div class="input-group-text">
-                            <span class="fas fa-envelope"></span>
+                            <span class="fas fa-address-card"></span>
                             </div>
                         </div>
                         </div>
                         <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Số điện thoại" name="phone">
+                        <input type="text" class="form-control" placeholder="Số điện thoại" id="phone-signin" name="phone">
                         <div class="input-group-append">
                             <div class="input-group-text">
-                            <span class="fas fa-envelope"></span>
+                            <span class="fas fa-phone"></span>
                             </div>
                         </div>
                         </div>
                         <div class="input-group mb-3">
-                        <input type="password" class="form-control" placeholder="Mật khẩu" name="password">
+                        <input type="password" class="form-control" placeholder="Mật khẩu" id="password-signin" name="password">
                         <div class="input-group-append">
                             <div class="input-group-text">
                             <span class="fas fa-lock"></span>
@@ -115,18 +93,23 @@
                         </div>
                         </div>
                         <div class="input-group mb-3">
-                        <input type="password" class="form-control" placeholder="Nhập lại mật khẩu" name="repassword">
+                        <input type="password" class="form-control" placeholder="Nhập lại mật khẩu" id="repassword-signin" name="repassword">
                         <div class="input-group-append">
                             <div class="input-group-text">
                             <span class="fas fa-lock"></span>
                             </div>
                         </div>
+                        </div>
+                        <div class="error-signin" style="margin-top: 10px">
                         </div>
                         <div class="row">
                         <!-- /.col -->
-                        <div class="col-12">
-                            <button type="submit" class="btn btn-primary btn-block">Đăng ký</button>
-                        </div>
+
+                            <div class="col-12">
+                                <div id="signin-btn" class="btn btn-primary btn-block">Đăng ký</div>
+                            </div>
+
+
                         <!-- /.col -->
                         </div>
                     </form>
@@ -136,5 +119,71 @@
             </div>
         </div>
     </div>
-</div>   
+</div>
+<script>
+    var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+
+    $( "#login-btn" ).click(function() {
+        var email =  $("#email-login").val();
+        var password = $("#password-login").val();
+        $.ajax({
+            url: "{{ route('store_login') }}",
+            method: 'POST',
+            data: {_token: CSRF_TOKEN,
+                    email: email,
+                    password: password,
+                    },
+            dataType: 'JSON',
+            success: function (data) {
+                if (data.success == true){
+                    swal("Thành công", "Đăng nhập thành công", "success");
+                    window.location.replace("{{ route('Home') }}");
+                }
+                else {
+                    var error="";
+                    $.each( data.error, function( key, value ) {
+                        error += value + ', ';
+                    });
+                    swal("Thất bại", error, "error");
+                }
+            }
+        });
+    });
+    $( "#signin-btn" ).click(function() {
+        var name =  $("#name-signin").val();
+        var email =  $("#email-signin").val();
+        var address =  $("#address-signin").val();
+        var phone =  $("#phone-signin").val();
+        var password =  $("#password-signin").val();
+        var repassword =  $("#repassword-signin").val();
+        $.ajax({
+            url: "{{ route('store_signout') }}",
+            method: 'POST',
+            data: {_token: CSRF_TOKEN,
+                email: email,
+                password: password,
+                name: name,
+                address: address,
+                phone: phone,
+                repassword: repassword,
+            },
+            dataType: 'JSON',
+            success: function (data) {
+                if (data.success == true){
+                    swal("Thành công", "Đăng ký thành công", "success");
+                    window.location.replace("{{ route('Home') }}");
+                }
+                else {
+                    var error="";
+                    $.each( data.error, function( key, value ) {
+                        error += value + ', ';
+                    });
+                    swal("Thất bại", error, "error");
+
+                }
+            }
+        });
+    });
+</script>
 @stop

@@ -1,5 +1,5 @@
 @extends('page/main')
-            
+
 @section('content')
 <section class="ftco-section">
 	<div class="container">
@@ -8,13 +8,13 @@
                 <ul class="product-category">
                     <li><a href="{{ route('account') }}" class="active">Thông tin tài khoản</a></li>
                     <li><a href="{{ route('order_history') }}">Lịch sử đặt hàng</a></li>
-                    <li><a href="{{ route('account_post') }}">Đăng tin sản phẩm</a></li>
+                    <li><a href="{{ route('show_voucher') }}">Mã khuyến mãi</a></li>
                     <li><a href="{{ route('logout') }}">Đăng xuất</a></li>
                 </ul>
             </div>
         </div>
     </div>
-    <div class="container"> 
+    <div class="container">
         <form action="{{ route('update_account') }}" method="post" style="margin-left: 200px; margin-right: 200px">
             @csrf()
             @if ($errors->any())
@@ -25,27 +25,19 @@
                     @endforeach
                 </ul>
             </div>
-            @endif            
+            @endif
             <div class="card-body">
-                <?php
-                    $message = Session::get('message');
-                    if($message) {
-                        echo '<div class="alert alert-success" style="width: 100%">'.$message.'</div>';
-                        Session::put('message', null);
-                    }
-                    $stt=1;
-                ?>
                 <div class="form-group">
                     <label>Họ tên</label>
                     <input type="form" name="name" class="form-control" value="{{ $account->name }}" required>
                 </div>
                 <div class="form-group">
                     <label>Địa chỉ</label>
-                    <input type="form" name="email" class="form-control" value="{{ $account->address }}" required>
+                    <input type="form" name="address" class="form-control" value="{{ $account->address }}" required>
                 </div>
                 <div class="form-group">
                     <label>Email</label>
-                    <input type="form" name="address" class="form-control" value="{{ $account->email }}" required>
+                    <input type="form" name="email" class="form-control" value="{{ $account->email }}" required>
                 </div>
                 <div class="form-group">
                     <label>Số điện thoại</label>
@@ -60,7 +52,7 @@
             <div class="card-footer">
                 <button type="submit" class="btn btn-primary" style="margin-left: 42%">Cập nhật</button>
             </div>
-            
+
         </form>
     </div>
 </section>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DB;
 use Session;
+use Alert;
 
 class AccountController extends Controller
 {
@@ -58,7 +59,7 @@ class AccountController extends Controller
         $account = DB::table('customer')
         ->where('id', $user_id)
         ->first();
-        Session::flash('message','Thay đổi thông tin thành công!');
+        Alert::success('Thành công', 'Cập nhật thông tin thành công');
         return view('page/account/show_account')
         ->with([
                 'title'=>'Tài khoản',
@@ -90,16 +91,32 @@ class AccountController extends Controller
         Session::flash('message','Hủy đơn hàng thành công!');
         return redirect()->route('order_history');
     }
-    public function account_post()
+    public function show_voucher()
     {
         $user_id = $_SESSION["id"];
-        $account_post = DB::table('post')
-            ->where('customer_id', $user_id)
-            ->get();
-        return view('page/account/account_post')
+        $customer_type = DB::table('customer')
+                    ->where('id', $user_id)
+                    ->first()
+                    ->customer_type;
+        $account_voucher = DB::table('voucher')
+            ->orderBy('ID', 'desc')
+            ->paginate(10);
+////            ->where('customer_id', $user_id)
+//            ->where('is_deleted', 0)
+//            ->where('active', 1)
+//            ->where('quantity', '>', 0)
+//            ->where(function($query) {
+//                $query->where('customer_type', 0)
+//                      ->orWhere('customer_id', $_SESSION['id']);
+////                      ->orWhere('customer_type', $customer_type);
+//            })
+//            ->where('customer_type', $customer_type)
+//            ->where('customer_type', 0)
+//            ->paginate(10);
+        return view('page/account/show_voucher')
         ->with([
-                'title'=>'Tin sản phẩm đăng',
-                'account_post' => $account_post,
+                'title'=>'Danh sách mã khuyến mãi',
+                'account_voucher' => $account_voucher,
             ]);
     }
     public function delete_post($post_id)
@@ -125,5 +142,45 @@ class AccountController extends Controller
             'time'=>date('Y-m-d H:i:s'),
         ]);
         return redirect()->route('Home');
+    }
+    public function rotate(){
+        $rotate_quantity = DB::table('customer')
+            ->where('id',$_SESSION["id"])
+            ->first()
+            ->rotate_quantity;
+        return view('page/account/rotate')
+            ->with([
+                'title'=>'Vòng quay may mắn',
+                'rotate_quantity'=>$rotate_quantity,
+            ]);;
+    }
+    public function store_rotate(Request $request){
+        $voucher_id = DB::table('voucher')->insertGetId([
+            'code'=>$request->code,
+            'value'=>$request->val,
+            'unit'=>'VNĐ',
+            'quantity'=>1,
+            'describe'=>'Mã khuyến mãi từ vòng quay may mắn',
+            'voucher_type'=>2,
+            'created_at'=>date("Y-m-d"),
+            'customer_id'=>$_SESSION["id"],
+            'customer_type'=>NULL,
+        ]);
+        DB::table('rotate')->insert([
+            'customer_id'=>$_SESSION["id"],
+            'voucher_id'=>$voucher_id,
+            'rotate_at'=>date("Y-m-d"),
+        ]);
+        $rotate_quantity = DB::table('customer')
+            ->where('id',$_SESSION["id"])
+            ->first()
+            ->rotate_quantity;
+        if( DB::table('customer')->where('id',$_SESSION["id"])->first()->rotate_quantity > 0) {
+            DB::table('customer')
+                ->where('id', $_SESSION["id"])
+                ->update([
+                    'rotate_quantity' => $rotate_quantity - 1,
+                ]);
+        }
     }
 }

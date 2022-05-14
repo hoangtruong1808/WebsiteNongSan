@@ -19,7 +19,7 @@
                                 @endif
                             </div>
                         </div>
-                    </div>  
+                    </div>
                 </div>
             </div>
         </div>
@@ -33,17 +33,16 @@
                 <ul class="navbar-nav ml-auto">
                 <li class="nav-item active"><a href="{{ route('Home') }}" class="nav-link">Trang chủ</a></li>
                 <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="route('show_all_product')" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Mua hàng</a>
+                <a class="nav-link dropdown-toggle" href="{{route('show_all_product')}}" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Mua hàng</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown04">
-                    <a class="dropdown-item" href="{{ route('show_menu_product',['menu_id'=>5]) }}">Combo</a>
-                    <a class="dropdown-item" href="{{ route('show_menu_product',['menu_id'=>6]) }}">Rau củ</a>
-                    <a class="dropdown-item" href="{{ route('show_menu_product',['menu_id'=>7]) }}">Trái cây</a>
-                    <a class="dropdown-item" href="{{ route('show_menu_product',['menu_id'=>8]) }}">Thủy hải sản</a>
-                    <a class="dropdown-item" href="{{ route('show_menu_product',['menu_id'=>9]) }}">Đồ khô</a>
+                    <a class="dropdown-item" href="/san-pham?menu_id=6">Rau củ</a>
+                    <a class="dropdown-item" href="/san-pham?menu_id=7">Trái cây</a>
+                    <a class="dropdown-item" href="/san-pham?menu_id=8">Thủy hải sản</a>
+                    <a class="dropdown-item" href="/san-pham?menu_id=9">Đồ khô</a>
                 </div>
                 </li>
-                <li class="nav-item"><a href="{{ route('product_sale') }}" class="nav-link">Cần bán - Cần mua</a></li>
                 @if(isset($_SESSION["id"]))
+                <li class="nav-item"><a href="{{ route('rotate') }}" class="nav-link">Vòng quay may mắn</a></li>
                 <li class="nav-item"><a href="{{ route('account') }}" class="nav-link">Tài khoản</a></li>
                 @endif
                 <li class="nav-item cta cta-colored"><a href="{{ route('show_cart') }}" class="nav-link"><span><i class="fas fa-shopping-cart"></i></span>[{{ Cart::content()->count() }}]</a></li>
