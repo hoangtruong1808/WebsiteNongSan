@@ -29,6 +29,15 @@ $(function () {
 
 <!-- Your SDK code -->
 <script>
+    $(".fiter-form li div").hide();
+    $(".fiter-form li").click(function(){
+        if ($(this).find('*').is(":hidden")){
+            $(this).find('*').show();
+        }
+        // else{
+        //     $(this).find('*:not(label)').hide();
+        // }
+    });
     $('#datatable').DataTable({
         "lengthChange": false,
         "columnDefs": [ {

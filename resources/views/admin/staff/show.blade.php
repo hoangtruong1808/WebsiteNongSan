@@ -10,12 +10,12 @@
                     </div>
                     <div class="col-sm-2">
                         <a class="btn btn-default" href="" data-toggle="modal" data-target="#filter-data"  style="font-size: 16px; margin-left: 20px ;margin-right: 10px; color: grey"><i class="fas fa-filter"></i></a>
-                        <a class="btn btn-default" href="{{ route('menu_create') }}" style="color: grey"><i class="fas fa-plus"></i> Tạo mới</a>
+                        <a class="btn btn-default" href="{{ route('staff_create') }}" style="color: grey"><i class="fas fa-plus"></i> Tạo mới</a>
                     </div>
                 </div>
             </div>
             <div class="modal fade" id="filter-data" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="margin-top: 100px">
-                <form action="{{route('customer_filter')}}" method="GET">
+                <form action="{{route('staff_filter')}}" method="GET">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header" style="padding-left: 47%">
@@ -23,12 +23,12 @@
                             </div>
                             <div class="modal-body">
                                 <ul class="fiter-form">
-                                    <li><label>Mã khách hàng</label>
+                                    <li><label>Mã nhân viên</label>
                                         <div class="form-group">
                                             <input type="form" name="id" class="form-control" id="name">
                                         </div>
                                     </li>
-                                    <li><label>Tên khách hàng</label>
+                                    <li><label>Tên nhân viên</label>
                                         <div class="form-group">
                                             <input type="form" name="name" class="form-control" id="name">
                                         </div>
@@ -56,7 +56,19 @@
                                             </div>
                                             <div>
                                                 <input class="form-check-input" type="radio" name="is_deleted" value='1'>
-                                                <p class="form-check-label">Bị khóa</p>
+                                                <p class="form-check-label">Dừng hoạt động</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li><label>Vai trò</label>
+                                        <div class="form-check">
+                                            <div>
+                                                <input class="form-check-input" type="radio" name="role" value='2'>
+                                                <p class="form-check-label">Quản lý</p>
+                                            </div>
+                                            <div>
+                                                <input class="form-check-input" type="radio" name="role" value='1'>
+                                                <p class="form-check-label">Nhân viên</p>
                                             </div>
                                         </div>
                                     </li>
@@ -78,54 +90,54 @@
             <table class="table table-bordered" >
                 <tr  style="text-align: center">
                     <th>STT</th>
+                    <th style="width: 100px">Avatar</th>
                     <th>Tên</th>
                     <th>Thông tin</th>
-                    <th>Số đơn hàng</th>
+                    <th>Vai trò</th>
                     <th>Trạng thái</th>
                     <th>Thao tác</th>
                 </tr>
                 <?php $i=1 ?>
-                @foreach($customer as $item)
-                <tr>
-                    <td>{{ $i++ }}</td>
-                    <td>{{ $item->name }}</td>
-                    <td style="text-align: left">
-                        <div> Địa chỉ: {{ $item->address }}</div>
-                        <div> SĐT: {{ $item->phone }}</div>
-                        <div> Email: {{ $item->email }}</div>
-                    </td>
-                    <td style="font-size: 16px">
-                        <div>
-                            <div class="badge badge-info"><i class="fas fa-clock"></i> : {{ $item->process_order_count }}</div>
-
-                            <div class="badge badge-primary"><i class="fas fa-shipping-fast"></i> : {{ $item->shipping_order_count }}</div>
-                        </div>
-                        <div>
-                            <div class="badge badge-success"><i class="fas fa-check"></i> : {{ $item->complete_order_count }}</div>
-
-                            <div class="badge badge-danger">X: {{ $item->cancel_order_count }}</div>
-                        </div>
-                        <div>Tổng: {{ $item->order_count }}</div>
-                    </td>
-                    <td  style="text-align: center">
-                        @if($item->is_deleted == 1)
-                        <span class="badge badge-dark">Bị khóa</span>
-                        @else($item->is_deleted == 0)
-                        <span class="badge badge-success">Hoạt động</span>
-                        @endif
-                    </td>
-                    <td style="text-align: center">
-                        <a class="btn btn-info" href="{{ route('customer_detail', ['customer_id'=>$item->id]) }}" title="Xem chi tiết" style="margin-right: 5px"> <i class="fas fa-eye"></i>
-                        </a>
-                        @if($item->is_deleted == 0)
-                            <a class="btn btn-secondary" href="{{ route('lock_customer', ['customer_id'=>$item->id]) }}" onclick="confirm('Bạn có chắc chắn muốn khóa tài khoản này?')" title="Khóa tài khoản"> <i class="fas fa-lock"></i>
+                @foreach($staff as $item)
+                    <tr style="text-align: center">
+                        <td>{{ $i++ }}</td>
+                        <td>
+                            <img src="{{asset('storage/avatar/'.$item->avatar)}}" width="100px" height="100px">
+                        </td>
+                        <td>{{ $item->name }}</td>
+                        <td style="text-align: left">
+                            <div> Địa chỉ: {{ $item->address }}</div>
+                            <div> SĐT: {{ $item->phone }}</div>
+                            <div> Email: {{ $item->email }}</div>
+                        </td>
+                        <td  style="text-align: center">
+                            @if($item->role == 1)
+                                Nhân viên
+                            @else($item->role == 2)
+                                Quản lý
+                            @endif
+                        </td>
+                        <td  style="text-align: center">
+                            @if($item->is_deleted == 1)
+                                <span class="badge badge-dark">Dừng hoạt động</span>
+                            @else($item->is_deleted == 0)
+                                <span class="badge badge-success">Hoạt động</span>
+                            @endif
+                        </td>
+                        <td style="text-align: center">
+                            <a class="btn btn-info" href="{{ route('staff_edit', ['staff_id'=>$item->id]) }}" title="Cập nhật" style="margin-right: 5px"> <i class="fas fa-pen"></i>
                             </a>
-                        @else($item->is_deleted == 1)
-                            <a class="btn" href="{{ route('unlock_customer', ['customer_id'=>$item->id]) }}" title="Mở khóa tài khoản"> <i class="fas fa-unlock"></i>
-                            </a>
-                        @endif
-                    </td>
-                </tr>
+                            @if ($item->id != $_SESSION['admin_id'])
+                                @if($item->is_deleted == 0)
+                                    <a class="btn btn-secondary" href="{{ route('lock_staff', ['staff_id'=>$item->id]) }}" onclick="confirm('Bạn có chắc chắn muốn khóa tài khoản này?')" title="Dừng hoạt động tài khoản"> <i class="fas fa-trash"></i>
+                                    </a>
+                                @else($item->is_deleted == 1)
+                                    <a class="btn" href="{{ route('unlock_staff', ['staff_id'=>$item->id]) }}" title="Khôi phục tài khoản"> <i class="fa fa-rotate-left"></i>
+                                    </a>
+                                @endif
+                            @endif
+                        </td>
+                    </tr>
                 @endforeach
             </table>
         </div>

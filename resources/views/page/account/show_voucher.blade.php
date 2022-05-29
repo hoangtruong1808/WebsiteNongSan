@@ -9,6 +9,7 @@
                     <li><a href="{{ route('account') }}" >Thông tin tài khoản</a></li>
                     <li><a href="{{ route('order_history') }}">Lịch sử đặt hàng</a></li>
                     <li><a href="{{ route('show_voucher') }}"  class="active" >Mã khuyến mãi</a></li>
+                    <li><a href="{{ route('show_favorite') }}">Sản phẩm yêu thích</a></li>
                     <li><a href="{{ route('logout') }}">Đăng xuất</a></li>
                 </ul>
             </div>

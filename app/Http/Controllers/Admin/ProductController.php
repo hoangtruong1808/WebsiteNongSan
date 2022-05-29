@@ -12,8 +12,17 @@ class ProductController extends Controller
 {
     public $unread;
     public $unread_count;
+    public $current_account;
     public function __construct()
     {
+        session_start();
+        if (!isset($_SESSION['admin_id'])){
+            header("Location: /admin/login");
+            exit();
+        }
+        $this->current_account = DB::table('staff')
+            ->where('id', $_SESSION['admin_id'])
+            ->first();
         $this->unread = $message = DB::table('message')
                         ->join('customer', 'message.customer_id', '=', 'customer.id')
                         ->select('message.*', 'customer.name')
@@ -41,12 +50,15 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $menu = DB::table('menu')->get();
+        $menu = DB::table('menu')
+                ->where('is_deleted', 0)
+                ->get();
         return view('admin/product/create')
         ->with(['title'=>'Tạo sản phẩm',
                 'menu'=>$menu,
                 'unread'=>$this->unread,
                 'unread_count'=>$this->unread_count,
+                'account'=>$this->current_account,
             ]);
     }
 
@@ -119,6 +131,9 @@ class ProductController extends Controller
      */
     public function show()
     {
+        $menu = DB::table('menu')
+            ->where('is_deleted', 0)
+            ->get();
         $product = DB::table('product')
             ->where("is_deleted", 0)
             ->orderBy("id", "DESC")
@@ -129,6 +144,8 @@ class ProductController extends Controller
                     'product'=>$product,
                     'unread'=>$this->unread,
                     'unread_count'=>$this->unread_count,
+                    'menu'=>$menu,
+                    'account'=>$this->current_account,
                 ]);
     }
 
@@ -140,7 +157,9 @@ class ProductController extends Controller
      */
     public function edit($product_id)
     {
-        $menu = DB::table('menu')->get();
+        $menu = DB::table('menu')
+            ->where('is_deleted', 0)
+            ->get();
         $product = DB::table('product')
         ->where('id', $product_id)
         ->first();
@@ -150,7 +169,9 @@ class ProductController extends Controller
                 'product'=>$product,
                 'menu'=>$menu,
                 'unread'=>$this->unread,
-                'unread_count'=>$this->unread_count,]);
+                'unread_count'=>$this->unread_count,
+                'account'=>$this->current_account,
+            ]);
     }
 
     /**
@@ -242,5 +263,40 @@ class ProductController extends Controller
         return view('admin/product/export_qrcode')
             ->with(['title'=>'Cập nhật sản phẩm',
             'product_id'=>$product_id]);
+    }
+    public function filter(Request $request){
+        $query = "";
+        foreach ($request->all() as $key=>$value){
+            if (isset($value)){
+                if ($key == 'min_price'){
+                    $query.= "price >= $value and ";
+                }
+                else if ($key == 'max_price'){
+                    $query.= "price <= $value and ";
+                }
+                else {
+                    $query.= "$key LIKE '%$value%' and ";
+                }
+            }
+        }
+        $query = chop($query,"and ");
+        if (empty($query)){
+            return redirect()->route('product_show');
+        }
+        $menu = DB::table('menu')
+            ->where('is_deleted', 0)
+            ->get();
+        $product = DB::table('product')
+            ->where("is_deleted", 0)
+            ->whereRaw($query)
+            ->get();
+        return view('admin/product/show')
+            ->with(['title'=>'Danh sách danh mục',
+                'product'=>$product,
+                'menu'=>$menu,
+                'unread'=>$this->unread,
+                'unread_count'=>$this->unread_count,
+                'account'=>$this->current_account,
+            ]);
     }
 }

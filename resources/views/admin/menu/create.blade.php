@@ -1,7 +1,15 @@
     @extends('admin/main')
 
     @section('content')
-
+            <div class="content-wrapper">
+                <div class="card card-primary" style="margin: 20px 30px 0px 30px">
+                    <div class="card-header" style="background-color: #298A08; " >
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <h3 class="card-title">{{ $title }}</h3>
+                            </div>
+                        </div>
+                    </div>
                     <!-- /.card-header -->
                     <!-- form start -->
                     <form action="{{ route('menu_store') }}" method="post">
@@ -33,4 +41,6 @@
                             <button type="submit" class="btn btn-primary" style="background-color: #298A08">Tạo danh mục</button>
                         </div>
                     </form>
+                </div>
+            </div>
     @stop

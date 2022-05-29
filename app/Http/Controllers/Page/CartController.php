@@ -75,35 +75,8 @@ class CartController extends Controller
                 ->first()
                 ->customer_type;
             $account_voucher = DB::table('voucher')
+                ->whereRaw("is_deleted = 0 and active = 1 and quantity > 0 and (customer_type = 0 OR customer_id =1 OR customer_type = 2)")
                 ->get();
-////            ->where('customer_id', $user_id)
-//                ->where('is_deleted', 0)
-//                ->where('active', 1)
-//                ->whereNotIn('ID', function($query) {
-//                    $query->select('voucher_id')
-//                        ->from('use_voucher')
-//                        ->where('customer_id', $_SESSION['id']);
-//                })
-//                ->where('quantity', '>', 0)
-//                ->where('customer_type', $customer_type)
-//                ->where('is_deleted', 0)
-//                ->where('active', 1)
-//                ->whereNotIn('ID', function($query) {
-//                    $query->select('voucher_id')
-//                        ->from('use_voucher')
-//                        ->where('customer_id', $_SESSION['id']);
-//                })
-//                ->where('quantity', '>', 0)
-//                ->orWhere('customer_type', 0)
-//                ->where('is_deleted', 0)
-//                ->where('active', 1)
-//                ->whereNotIn('ID', function($query) {
-//                    $query->select('voucher_id')
-//                        ->from('use_voucher')
-//                        ->where('customer_id', $_SESSION['id']);
-//                })
-//                ->where('quantity', '>', 0)
-//                ->orWhere('customer_id', $_SESSION['id']);
             $check_voucher = 0;
             foreach($account_voucher as $key=>$value){
                 if ($value->code == $request->voucher_code){
@@ -128,6 +101,7 @@ class CartController extends Controller
                     $discountRate = $voucher->value/Cart::initial(0,'','')*100;
                     Cart::setGlobalDiscount($discountRate);
                 }
+                $_SESSION['is_checkout'] = 1;
                 return Response::json(array(
                     'success' => true,
                 ));

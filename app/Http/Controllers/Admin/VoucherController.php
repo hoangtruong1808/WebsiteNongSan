@@ -12,8 +12,17 @@ class VoucherController extends Controller
 {
     public $unread;
     public $unread_count;
+    public $current_account;
     public function __construct()
     {
+        session_start();
+        if (!isset($_SESSION['admin_id'])){
+            header("Location: /admin/login");
+            exit();
+        }
+        $this->current_account = DB::table('staff')
+            ->where('id', $_SESSION['admin_id'])
+            ->first();
         $this->unread = $message = DB::table('message')
             ->join('customer', 'message.customer_id', '=', 'customer.id')
             ->select('message.*', 'customer.name')
@@ -34,7 +43,8 @@ class VoucherController extends Controller
         return view('admin/voucher/create')
             ->with(['title'=>'Tạo mã khuyến mãi',
                 'unread'=>$this->unread,
-                'unread_count'=>$this->unread_count,]);
+                'unread_count'=>$this->unread_count,
+                'account'=>$this->current_account,]);
     }
     /**
      * Show the form for creating a new resource.
@@ -119,10 +129,11 @@ class VoucherController extends Controller
             ->where("voucher_type", 1)
             ->get();
         return view('admin/voucher/show')
-            ->with(['title'=>'Danh sách danh mục',
+            ->with(['title'=>'Danh sách mã khuyến mãi',
                 'voucher'=>$voucher,
                 'unread'=>$this->unread,
                 'unread_count'=>$this->unread_count,
+                'account'=>$this->current_account,
             ]);
     }
 
@@ -142,7 +153,8 @@ class VoucherController extends Controller
             ->with(['title'=>'Cập nhật mã giảm giá',
                 'voucher'=>$voucher,
                 'unread'=>$this->unread,
-                'unread_count'=>$this->unread_count,]);
+                'unread_count'=>$this->unread_count,
+                'account'=>$this->current_account,]);
     }
 
     /**
@@ -238,5 +250,43 @@ class VoucherController extends Controller
 
         $comparision = $time_stamp1 - $time_stamp2;
         return $comparision;
+    }
+    public function filter(Request $request){
+        $query = "";
+        foreach ($request->all() as $key=>$value){
+            if (isset($value)){
+               if ($key == 'customer_name'){
+                    $query.= "customer.name LIKE '%$value%' and  ";
+                }
+               else if ($key == 'value' or $key== 'custom_type'){
+                   $query.= "$key = $value and ";
+               }
+                else if ($key == 'start_date'){
+                    $query.= "date_start >= '$value' and ";
+                }
+                else if ($key == 'end_date'){
+                    $query.= "date_end <= '$value' and ";
+                }
+                else {
+                    $query.= "`$key` LIKE '%$value%' and ";
+                }
+            }
+        }
+        $query = chop($query,"and ");
+        if (empty($query)){
+            return redirect()->route('voucher_show');
+        }
+        $voucher = DB::table('voucher')
+            ->where("is_deleted", 0)
+            ->where("voucher_type", 1)
+            ->whereRaw($query)
+            ->get();
+        return view('admin/voucher/show')
+            ->with(['title'=>'Danh sách mã khuyến mãi',
+                'voucher'=>$voucher,
+                'unread'=>$this->unread,
+                'unread_count'=>$this->unread_count,
+                'account'=>$this->current_account,
+            ]);
     }
 }

@@ -92,8 +92,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hoangtruong1808@gmai.com'),
-        'name' => env('MAIL_FROM_NAME', 'Cửa hàng Vegefoods'),
+        'address' => env('MAIL_FROM_ADDRESS', 'hoangtruong1808.test@gmai.com'),
+        'name' => env('MAIL_FROM_NAME', 'Cửa hàng Nông sản Việt'),
     ],
 
     /*

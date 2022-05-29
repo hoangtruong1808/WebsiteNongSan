@@ -29,7 +29,7 @@
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://unpkg.com/sweetalert2@7.18.0/dist/sweetalert2.all.js"></script>
-    <LINK REL="SHORTCUT ICON"  HREF="{{ asset('logo.jpg') }}">
+    <LINK REL="SHORTCUT ICON"  HREF="{{ asset('logo.png') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 
     <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>

@@ -27,6 +27,8 @@ Route::get('/san-pham/{product_id}', [App\Http\Controllers\Page\ProductControlle
 
 Route::post('/binh-luan', [App\Http\Controllers\Page\ProductController::class, 'comment_product']) -> name('comment_product');
 
+Route::post('/yeu-thich-san-pham', [App\Http\Controllers\Page\ProductController::class, 'favorite_product']) -> name('favorite_product');
+
 Route::get('/show-cart', [App\Http\Controllers\Page\CartController::class, 'show_cart']) -> name('show_cart');
 
 Route::post('/store-cart', [App\Http\Controllers\Page\CartController::class, 'store_cart']) -> name('store_cart');
@@ -51,6 +53,14 @@ Route::post('/store-checkout', [App\Http\Controllers\Page\CheckoutController::cl
 
 Route::get('/xac-nhan-thanh-toan', [App\Http\Controllers\Page\CheckoutController::class, 'confirm_checkout']) -> name('confirm_checkout');
 
+Route::get('/xac-nhan-thanh-toan', [App\Http\Controllers\Page\CheckoutController::class, 'confirm_checkout']) -> name('confirm_checkout');
+
+Route::get('/email-view', function () {
+    return view('page/checkout/mail');
+});
+
+//Route::
+
 Route::post('/update-cart/{row_id}', [App\Http\Controllers\Page\CartController::class, 'update_cart']) -> name('update_cart');
 
 Route::get('/tai-khoan', [App\Http\Controllers\Page\AccountController::class, 'show_account']) -> name('account');
@@ -61,13 +71,11 @@ Route::post('/chat-bot', [App\Http\Controllers\Page\AccountController::class, 'c
 
 Route::get('/lich-su-dat-hang', [App\Http\Controllers\Page\AccountController::class, 'order_history']) -> name('order_history');
 
-Route::get('/san-pham-dang-tin', [App\Http\Controllers\Page\AccountController::class, 'account_post']) -> name('account_post');
-
-Route::get('/san-pham-can-ban', [App\Http\Controllers\Page\PostController::class, 'product_sale']) -> name('product_sale');
-
-Route::get('/san-pham-can-mua', [App\Http\Controllers\Page\PostController::class, 'product_buy']) -> name('product_buy');
+Route::post('/chi_tiet_dat_hang', [App\Http\Controllers\Page\AccountController::class, 'order_detail']) -> name('order_detail');
 
 Route::get('/ma-khuyen-mai', [App\Http\Controllers\Page\AccountController::class, 'show_voucher']) -> name('show_voucher');
+
+Route::get('/danh-sach-yeu-thich', [App\Http\Controllers\Page\AccountController::class, 'show_favorite']) -> name('show_favorite');
 
 Route::get('/huy-don-hang/{order_id}',[App\Http\Controllers\Page\AccountController::class, 'delete_order'])->name('delete_order');
 

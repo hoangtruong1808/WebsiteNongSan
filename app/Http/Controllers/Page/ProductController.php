@@ -64,10 +64,17 @@ class ProductController extends Controller
                 ->paginate(12);
         }
         else if (isset($_GET['query']) && $_GET['query']!="" ){
-            $query = $_GET['query'];
+            $key_search_string = $_GET['query'];
+            $key_search = explode(',', $key_search_string);
+            $query ="";
+            foreach ($key_search as $key=>$value ){
+                $query.= "name LIKE '%$value%' OR ";
+            }
+            $query = chop($query,"OR ");
+//            var_dump($query);
             $products = DB::table('product')
                 ->orderBy('id', 'desc')
-                ->where('name', 'like', "%$query%")
+                ->whereRaw($query)
                 ->where('is_deleted', 0)
                 ->paginate(12);
         }
@@ -76,6 +83,22 @@ class ProductController extends Controller
                 ->orderBy('id', 'desc')
                 ->where('is_deleted', 0)
                 ->paginate(12);
+        }
+        if (isset($_SESSION['id'])) {
+            foreach($products as $key=>$item)
+            {
+                $favorite = [];
+                $favorite = DB::table('favorite')
+                    ->where('customer_id', $_SESSION['id'])
+                    ->where('product_id', $item->id)
+                    ->get();
+                if (count($favorite) >= 1){
+                    $products[$key]->is_favorite = 1;
+                }
+                else{
+                    $products[$key]->is_favorite = 0;
+                }
+            }
         }
         $product_count = $products->count();
         $page_number = floor($product_count/12) +1;
@@ -87,6 +110,9 @@ class ProductController extends Controller
             $product[$key]['price'] = number_format($value->price);
             $product[$key]['unit'] = $value->unit;
             $product[$key]['thumb'] = $value->thumb;
+            if (isset($_SESSION['id'])) {
+                $product[$key]['is_favorite'] = $value->is_favorite;
+            }
         }
         $data['product'] = $product;
         $data['page_number'] = $page_number;
@@ -125,10 +151,41 @@ class ProductController extends Controller
         $product = DB::table('product')
                 ->where('id', $product_id)
                 ->first();
+
         $related_product = DB::table('product')
+                        ->where('active',1)
                         ->where('menu_id', $product->menu_id)
                         ->limit(4)
+                        ->where('is_deleted', 0)
                         ->get();
+        if (isset($_SESSION['id'])) {
+            $favorite = DB::table('favorite')
+                ->where('customer_id', $_SESSION['id'])
+                ->where('product_id', $product_id)
+                ->get();
+            if (count($favorite) >= 1){
+                $product->is_favorite = 1;
+            }
+            else{
+                $product->is_favorite = 0;
+            }
+            foreach($related_product as $key=>$item)
+            {
+                $favorite = [];
+                $favorite = DB::table('favorite')
+                    ->where('customer_id', $_SESSION['id'])
+                    ->where('product_id', $item->id)
+                    ->get();
+                if (count($favorite) >= 1){
+                    $related_product[$key]->is_favorite = 1;
+                }
+                else{
+                    $related_product[$key]->is_favorite = 0;
+                }
+            }
+
+
+        }
         $comment = DB::table('comment')
                 ->where('comment.product_id', $product_id)
                 ->where('comment.is_deleted', 0)
@@ -173,6 +230,43 @@ class ProductController extends Controller
                 'success' => false,
                 'error' => 'Xảy ra lỗi khi bình luận',
             ));
+        }
+    }
+    public function favorite_product(Request $request){
+        if ($request->favorite_type == 'add-favorite')
+        {
+            $insert = DB::table('favorite')->insert([
+                'product_id'=>$request->product_id,
+                'customer_id'=>$_SESSION['id'],
+            ]);
+            if ($insert == true){
+                return Response::json(array(
+                    'success' => true,
+                ));
+            }
+            else {
+                return Response::json(array(
+                    'success' => false,
+                    'error' => 'Xảy ra lỗi khi yêu thích',
+                ));
+            }
+        }
+        else {
+            $delete = DB::table('favorite')
+                ->where('product_id', $request->product_id)
+                ->where('customer_id', $_SESSION['id'])
+                ->delete();
+            if ($delete == true){
+                return Response::json(array(
+                    'success' => true,
+                ));
+            }
+            else {
+                return Response::json(array(
+                    'success' => false,
+                    'error' => 'Xảy ra lỗi khi bỏ yêu thích',
+                ));
+            }
         }
     }
 }

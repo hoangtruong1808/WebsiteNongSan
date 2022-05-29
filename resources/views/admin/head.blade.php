@@ -1,7 +1,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-{{--  <title>{{$title}}</title>--}}
+  <title>{{$title}}</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
     <link rel="stylesheet" href=https://cdn.datatables.net/1.11.4/css/dataTables.bootstrap4.min.css />
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
@@ -26,7 +26,8 @@
   <link rel="stylesheet" href="{{ asset('admin_template/plugins/fontawesome-free/css/all.min.css') }}">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ asset('admin_template/dist/css/adminlte.min.css') }}">
-  <LINK REL="SHORTCUT ICON"  HREF="{{ asset('logo.jpg') }}">
+  <LINK REL="SHORTCUT ICON"  HREF="{{ asset('logo.png') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
+    <link rel="stylesheet" href="{{ asset('admin_template/mystyle.css') }}">
 </head>

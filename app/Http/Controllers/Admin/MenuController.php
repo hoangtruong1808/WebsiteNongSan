@@ -12,8 +12,18 @@ class MenuController extends Controller
 {
     public $unread;
     public $unread_count;
+    public $current_account;
     public function __construct()
     {
+        session_start();
+        if (!isset($_SESSION['admin_id'])){
+            header("Location: /admin/login");
+            exit();
+        }
+        $this->current_account = DB::table('staff')
+            ->where('id', $_SESSION['admin_id'])
+            ->first();
+
         $this->unread = $message = DB::table('message')
                         ->join('customer', 'message.customer_id', '=', 'customer.id')
                         ->select('message.*', 'customer.name')
@@ -23,6 +33,7 @@ class MenuController extends Controller
         $this->unread_count = $message = DB::table('message')
                         ->where('message.status', 0)
                         ->count();
+
     }
     public function index()
     {
@@ -34,7 +45,8 @@ class MenuController extends Controller
         return view('admin/menu/create')
                 ->with(['title'=>'Tạo danh mục',
                 'unread'=>$this->unread,
-                'unread_count'=>$this->unread_count,]);
+                'unread_count'=>$this->unread_count,
+                'account'=>$this->current_account,]);
     }
     /**
      * Show the form for creating a new resource.
@@ -85,6 +97,7 @@ class MenuController extends Controller
                     'menu'=>$menu,
                     'unread'=>$this->unread,
                     'unread_count'=>$this->unread_count,
+                    'account'=>$this->current_account,
                 ]);
     }
 
@@ -104,7 +117,8 @@ class MenuController extends Controller
         ->with(['title'=>'Cập nhật danh mục',
                 'menu'=>$menu,
                 'unread'=>$this->unread,
-                'unread_count'=>$this->unread_count,]);
+                'unread_count'=>$this->unread_count,
+                'account'=>$this->current_account,]);
     }
 
     /**
@@ -154,6 +168,30 @@ class MenuController extends Controller
         DB::table('menu')->where('id', $request->menu_id)->update([
             'is_deleted'=>1,
         ]);
+    }
+
+    public function filter(Request $request){
+        $query = "";
+        foreach ($request->all() as $key=>$value){
+            if (isset($value)){
+                $query.= "$key = '$value' and ";
+            }
+        }
+        $query = chop($query,"and ");
+        if (empty($query)){
+            return redirect()->route('menu_show');
+        }
+        $menu = DB::table('menu')
+            ->where("is_deleted", 0)
+            ->whereRaw($query)
+            ->get();
+        return view('admin/menu/show')
+            ->with(['title'=>'Danh sách danh mục',
+                'menu'=>$menu,
+                'unread'=>$this->unread,
+                'unread_count'=>$this->unread_count,
+                'account'=>$this->current_account,
+            ]);
     }
 
 }

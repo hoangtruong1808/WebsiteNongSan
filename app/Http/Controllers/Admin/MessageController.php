@@ -38,6 +38,7 @@ class MessageController extends Controller
                     'message'=>$message,
                     'unread'=>$this->unread,
                     'unread_count'=>$this->unread_count,
+                    'account'=>$this->current_account,
                 ]);
     }
 }

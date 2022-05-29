@@ -13,15 +13,8 @@
       @include('/admin/sidebar')
 
       <!-- Content Wrapper. Contains page content -->
-      <div class="content-wrapper">
-        <div class="card card-primary" style="margin: 20px 30px 0px 30px">
-          <div class="card-header" style="margin-bottom: 10px; background-color: #298A08">
-            <h3 class="card-title">{{ $title }}</h3>
-          </div>
         <!-- Content Header (Page header) -->
         @yield('content')
-        </div>
-      </div>
 
       <footer class="main-footer">
         <div class="float-right d-none d-sm-block">

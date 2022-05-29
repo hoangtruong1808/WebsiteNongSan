@@ -8738,7 +8738,7 @@ h1, h2, h3, h4, h5,
       font-weight: 300;
       text-transform: uppercase;
       letter-spacing: 1px;
-      font-family: "Poppins", Arial, sans-serif; }
+      font-family: Arial, sans-serif; }
       .product .text h3 a {
         color: #000000; }
     .product .text p.price {
@@ -8778,7 +8778,8 @@ h1, h2, h3, h4, h5,
         -webkit-border-radius: 50%;
         -moz-border-radius: 50%;
         -ms-border-radius: 50%;
-        border-radius: 50%; }
+        border-radius: 50%;
+          cursor: pointer;}
       .product .text .bottom-area .m-auto {
         margin: 0 auto; }
   .product:hover {
@@ -8891,7 +8892,7 @@ h1, h2, h3, h4, h5,
   height: 54px !important;
   text-align: center;
   bordeR: 1px solid rgba(0, 0, 0, 0.05) !important;
-  color: #000000 !important;
+  color: #000000;
   padding: 0;
   font-size: 14px; }
 

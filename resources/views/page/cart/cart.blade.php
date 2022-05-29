@@ -32,7 +32,7 @@
 
                                     </td>
 
-                                    <td class="price">{{ number_format($key->price) }} vnđ</td>
+                                    <td class="price">{{ number_format($key->price) }} VNĐ</td>
 
                                     <td class="quantity">
                                         <div class="input-group mb-3">
@@ -40,8 +40,8 @@
                                         </div>
                                     </td>
 
-                                    <td class="total" id="total">{{ number_format($key->price * $key->qty)  }} vnđ</td>
-                                    <td><button class="btn btn-primary py-3 px-4" style="color: white ">Update</button></td>
+                                    <td class="total" id="total">{{ number_format($key->price * $key->qty)  }} VNĐ</td>
+                                    <td><button class="btn btn-primary py-3 px-4 btn-hover" style="color: white ">Update</button></td>
                                 </tr><!-- END TR-->
                                 </form>
                                 @endforeach</tbody>
@@ -86,7 +86,7 @@
                                 <span>{{ Cart::initial(0,'.', ',') }} vnđ</span>
                             </p>
                         </div>
-                            <p><a class="btn btn-primary py-3 px-4" id="checkout-btn">Thanh toán</a></p>
+                            <p><a class="btn btn-primary py-3 px-4 btn-hover" id="checkout-btn">Thanh toán</a></p>
                     </div>
                 </div>
                 </div>

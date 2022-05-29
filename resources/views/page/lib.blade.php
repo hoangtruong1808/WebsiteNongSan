@@ -1,4 +1,4 @@
-<script src="{{ asset('page_template/js/jquery.min.js') }}"></script>
+{{--<script src="{{ asset('page_template/js/jquery.min.js') }}"></script>--}}
 <script src="{{ asset('page_template/js/jquery-migrate-3.0.1.min.js') }}"></script>
 <script src="{{ asset('page_template/js/popper.min.js') }}"></script>
 <script src="{{ asset('page_template/js/bootstrap.min.js') }}"></script>

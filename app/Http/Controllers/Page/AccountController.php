@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use DB;
 use Session;
 use Alert;
+use Response;
 
 class AccountController extends Controller
 {
@@ -70,25 +71,34 @@ class AccountController extends Controller
     {
         $user_id = $_SESSION["id"];
         $order_history = DB::table('order')
-            ->where('customer_id', $user_id)
-            ->get();
-        $order_history = DB::table('order')
             ->join('shipping', 'shipping.id', '=', 'order.shipping_id')
             ->join('payment', 'payment.id', '=', 'order.payment_id')
             ->select('shipping.*', 'payment.method', 'order.*')
             ->where('order.customer_id', $user_id)
-            ->get();
+            ->orderBy('order.id', 'DESC')
+            ->paginate(10);
         return view('page/account/order_history')
         ->with([
                 'title'=>'Lịch sử đặt hàng',
                 'order_history' => $order_history,
             ]);
     }
+    public function order_detail(Request $request){
+        $order_detail = DB::table('order_detail')
+            ->where('order_id', $request->order_id)
+            ->get();
+        foreach($order_detail as $key=>$value){
+            $data[$key]['product_name'] = $value->name;
+            $data[$key]['price'] = $value->price;
+            $data[$key]['quantity'] = $value->quantity;
+        }
+        return Response::json($data);
+    }
     public function delete_order($order_id)
     {
-        DB::table('order_detail')->where('order_id', $order_id)->delete();
-        DB::table('order')->where('id', $order_id)->delete();
-        Session::flash('message','Hủy đơn hàng thành công!');
+
+        DB::table('order')->where('id', $order_id)->update(['status'=> 'Đơn hàng bị hủy']);
+        Alert::success('Thành công', 'Hủy đơn hàn thành công');
         return redirect()->route('order_history');
     }
     public function show_voucher()
@@ -99,31 +109,29 @@ class AccountController extends Controller
                     ->first()
                     ->customer_type;
         $account_voucher = DB::table('voucher')
+            ->whereRaw("is_deleted = 0 and active = 1 and quantity > 0 and (customer_type = 0 OR customer_id =1 OR customer_type = 2)")
             ->orderBy('ID', 'desc')
             ->paginate(10);
-////            ->where('customer_id', $user_id)
-//            ->where('is_deleted', 0)
-//            ->where('active', 1)
-//            ->where('quantity', '>', 0)
-//            ->where(function($query) {
-//                $query->where('customer_type', 0)
-//                      ->orWhere('customer_id', $_SESSION['id']);
-////                      ->orWhere('customer_type', $customer_type);
-//            })
-//            ->where('customer_type', $customer_type)
-//            ->where('customer_type', 0)
-//            ->paginate(10);
         return view('page/account/show_voucher')
         ->with([
                 'title'=>'Danh sách mã khuyến mãi',
                 'account_voucher' => $account_voucher,
             ]);
     }
-    public function delete_post($post_id)
+    public function show_favorite()
     {
-        DB::table('post')->where('id', $post_id)->delete();
-        Session::flash('message','Xóa bài đăng thành công!');
-        return redirect()->route('account_post');
+
+        $account_favorite = DB::table('favorite')
+            ->join('product', 'favorite.product_id', '=', 'product.id')
+            ->where('favorite.customer_id', $_SESSION["id"])
+            ->where('product.is_deleted', 0)
+            ->paginate(10);
+
+        return view('page/account/show_favorite')
+            ->with([
+                'title'=>'Danh sách sản phẩm yêu thích',
+                'account_favorite' => $account_favorite,
+            ]);
     }
     public function chatbot(Request $request)
     {

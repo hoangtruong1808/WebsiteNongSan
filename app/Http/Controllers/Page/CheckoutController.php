@@ -204,6 +204,9 @@ class CheckoutController extends Controller
             {
                 $customer_id = $_SESSION['id'];
             }
+            else {
+                $customer_id = 0;
+            };
             $order_id = DB::table('order')->insertGetId([
                 'customer_id' => $customer_id,
                 'shipping_id' => $shipping_id,
@@ -222,7 +225,7 @@ class CheckoutController extends Controller
 
                 ]);
             }
-            if (!isset($_SESSION['voucher_id'])) {
+            if (isset($_SESSION['voucher_id'])) {
                 DB::table('use_voucher')->insert([
                     'customer_id' => $customer_id,
                     'order_id' => $order_id,
@@ -233,9 +236,14 @@ class CheckoutController extends Controller
                     ->update([
                         'quantity' => DB::table('voucher')->where('ID', $_SESSION['voucher_id'])->first()->quantity - 1,
                     ]);
-                unset($_SESSION['voucher_id']);
             }
-            Cart::destroy();
+            $_SESSION['checkout']['name'] = $request->name;
+            $_SESSION['checkout']['address'] = $request->address;
+            $_SESSION['checkout']['email'] = $request->email;
+            $_SESSION['checkout']['note'] = $request->note;
+            $_SESSION['checkout']['phone'] = $request->phone;
+            $_SESSION['checkout']['payment'] = $request->payment_method;
+
             return redirect()->route('confirm_checkout');
         }
         else{
@@ -246,20 +254,30 @@ class CheckoutController extends Controller
     }
     public function confirm_checkout()
     {
-//        $to_name = "Hoàng Thư";
-//        $to_email = "hoangtruong1808@gmail.com";//send to this email
-//
-//        $data = array("name"=>"Đơn hàng từ Vegefoods", "body"=>"noi dung body"); //body of mail.blade.php
-//
-//        Mail::send('page/checkout/mail',$data,function($message) use ($to_name,$to_email){
-//        $message->to($to_email)->subject('test mail nhé');//send this mail with subject
-//        $message->from($to_email,$to_name);//send from this mail
-//        });
+        if (Cart::count() == 0) {
+            return redirect()->route('Home');
+        }
+
+        $to_name = "Cửa hàng Nông sản Việt";
+        $to_email = $_SESSION['checkout']['email'];//send to this email
+
+//        $data = array("name"=>"Đơn hàng từ Nông sản Việt", "body"=>"noi dung body", 'check-out'); //body of mail.blade.php
+
+        $data = $_SESSION['checkout'];
+
+        Mail::send('page/checkout/mail',$data,function($message) use ($to_name,$to_email){
+            $message->to($to_email)->subject('Thông tin đơn hàng');//send this mail with subject
+            $message->from($to_email,$to_name);//send from this mail
+
+        });
+        unset($_SESSION['checkout']);
+        Cart::destroy();
+        unset($_SESSION['voucher_id']);
         return view('page/checkout/confirm')
         ->with(
                 [
                     'title'=>'Hoàn tất thanh toán',
                 ]
-                );
+        );
     }
 }
