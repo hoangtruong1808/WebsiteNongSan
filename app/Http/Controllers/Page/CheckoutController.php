@@ -42,13 +42,14 @@ class CheckoutController extends Controller
         ], $messages);
 
         if ($validator->passes()) {
-            $account = DB::table('customer')->select('id', 'password')
+            $account = DB::table('customer')->select('id', 'password', 'name')
                 ->where('email', $request->get('email'))
                 ->first();
             if ($account){
                 if (Hash::check($request->get('password'), $account->password))
                 {
                     $_SESSION['id']= $account->id;
+                    $_SESSION['customer_name']= $account->name;
                     return Response::json(array(
                         'success' => true,
                     ));
@@ -224,6 +225,21 @@ class CheckoutController extends Controller
                     'quantity' => $key->qty,
 
                 ]);
+
+                $inventory_quantity =  DB::table('warehouse')
+                    ->where('product_id', $key->id)
+                    ->first()
+                    ->inventory_quantity;
+                $wait_delivery_quantity = DB::table('warehouse')
+                    ->where('product_id', $key->id)
+                    ->first()
+                    ->wait_delivery_quantity;
+                DB::table('warehouse')
+                    ->where('product_id', $key->id)
+                    ->update([
+                        'wait_delivery_quantity' => $wait_delivery_quantity + $key->qty,
+                        'inventory_quantity' => $inventory_quantity - $key->qty,
+                    ]);
             }
             if (isset($_SESSION['voucher_id'])) {
                 DB::table('use_voucher')->insert([
@@ -261,13 +277,13 @@ class CheckoutController extends Controller
         $to_name = "Cửa hàng Nông sản Việt";
         $to_email = $_SESSION['checkout']['email'];//send to this email
 
-//        $data = array("name"=>"Đơn hàng từ Nông sản Việt", "body"=>"noi dung body", 'check-out'); //body of mail.blade.php
+        $data = array("name"=>"Đơn hàng từ Nông sản Việt", "body"=>"noi dung body", 'check-out'); //body of mail.blade.php
 
         $data = $_SESSION['checkout'];
 
         Mail::send('page/checkout/mail',$data,function($message) use ($to_name,$to_email){
-            $message->to($to_email)->subject('Thông tin đơn hàng');//send this mail with subject
-            $message->from($to_email,$to_name);//send from this mail
+            $message->to('hoangtruong.test@outlook.com.vn')->subject('Thông tin đơn hàng');//send this mail with subject
+            $message->from('hoangtruong.test@outlook.com.vn','Cửa hàng nông sản');//send from this mail
 
         });
         unset($_SESSION['checkout']);

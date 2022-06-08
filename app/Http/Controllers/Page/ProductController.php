@@ -149,7 +149,8 @@ class ProductController extends Controller
     public function show_product_detail($product_id)
     {
         $product = DB::table('product')
-                ->where('id', $product_id)
+                ->where('product.id', $product_id)
+                ->join('warehouse', 'product.id', '=', 'warehouse.product_id')
                 ->first();
 
         $related_product = DB::table('product')

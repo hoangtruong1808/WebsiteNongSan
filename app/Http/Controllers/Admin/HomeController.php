@@ -40,11 +40,65 @@ class HomeController extends Controller
     }
     public function index()
     {
+        $data['product_count'] = DB::table('product')->where('is_deleted', 0)->count();
+        $data['new_order_count'] = DB::table('order')->where('status', 'Đang xử lý')->count();
+        $data['shipping_order_count'] = DB::table('order')->where('status', 'Đang giao hàng')->count();
+        $data['confirm_order_count'] = DB::table('order')->where('status', 'Đã nhận hàng')->count();
+        $data['cancel_order_count'] = DB::table('order')->where('status', 'Đơn hàng bị hủy')->count();
+        $data['customer_count'] =  DB::table('customer')->where('is_deleted', 0)->count();
+        $data['staff_count'] =  DB::table('staff')->where('is_deleted', 0)->count();
+
+        $best_seller = DB::table('order_detail')
+                ->selectRaw('order_detail.*, sum(order_detail.quantity) as sum')
+                ->join('order', 'order.id', '=', 'order_detail.order_id')
+                ->groupBy('order_detail.product_id')
+                ->where('order.status', 'Đã nhận hàng')
+                ->orderByRaw('sum(quantity) DESC')
+                ->limit('4')
+                ->get();
+        $data['best_seller'] = $best_seller;
+
+        $turnover_date = DB::table('order')
+            ->selectRaw('*, sum(order.total) as sum, MONTH(order.created_at) as month, YEAR(order.created_at) as year')
+            ->groupBy('month')
+            ->where('order.status', 'Đã nhận hàng')
+            ->orderByRaw('sum(order.total) DESC')
+            ->limit('4')
+            ->get();
+
+        $data_date_chart =[];
+        foreach ($turnover_date as $key=>$value){
+            $data_date_chart['name'][] = 'Tháng '. $value->month . '/'.  $value->year;
+            $data_date_chart['money'][] = $value->sum;
+        }
+
+        DB::table('voucher')
+            ->whereRaw("date_end<CURRENT_TIMESTAMP  OR quantity=0")
+            ->where('voucher_type', 1)
+            ->update([
+                'active'=>2,
+            ]);
+        DB::table('voucher')
+            ->whereRaw("date_start>CURRENT_TIMESTAMP")
+            ->where('voucher_type', 1)
+            ->update([
+                'active'=>3,
+            ]);
+        DB::table('voucher')
+            ->whereRaw("date_start<CURRENT_TIMESTAMP  AND date_end>CURRENT_TIMESTAMP  AND quantity>0")
+            ->where('voucher_type', 1)
+            ->update([
+                'active'=>1,
+            ]);
+
         return view('/admin/home/index')
             ->with(['title'=>'Trang chủ',
                 'unread'=>$this->unread,
                 'account'=>$this->current_account,
-                'unread_count'=>$this->unread_count,]);
+                'unread_count'=>$this->unread_count,
+                'data'=>$data,
+                'data_date'=>$data_date_chart,
+            ]);
     }
     public function showAccount(){
 

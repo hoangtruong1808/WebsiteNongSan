@@ -15,9 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('/admin')->group(function(){
 
-    Route::get('', function(){
-        return view('/admin/main')->with(['title'=>'Giao diện admin']);
-    });
+    Route::get('/',[App\Http\Controllers\Admin\HomeController::class, 'index'])->name('admin_home');
 
     Route::get('/home',[App\Http\Controllers\Admin\HomeController::class, 'index'])->name('admin_home');
 
@@ -147,6 +145,34 @@ Route::prefix('/admin')->group(function(){
 
         Route::get('/mo-khoa-tai-khoan-nhan-vien/{staff_id}',[App\Http\Controllers\Admin\StaffController::class, 'unlock_staff'])->name('unlock_staff');
 
+
+    });
+
+    Route::prefix('/warehouse')->group(function(){
+
+        Route::get('/show',[App\Http\Controllers\Admin\WarehouseController::class, 'show'])->name('warehouse_show');
+
+        Route::post('/filter',[App\Http\Controllers\Admin\WarehouseController::class, 'filter'])->name('warehouse_filter');
+
+        Route::post('/update',[App\Http\Controllers\Admin\WarehouseController::class, 'update'])->name('warehouse_update');
+
+        Route::get('/import_goods',[App\Http\Controllers\Admin\WarehouseController::class, 'import_goods'])->name('import_goods');
+
+    });
+
+    Route::prefix('/turnover')->group(function(){
+
+        Route::get('/product',[App\Http\Controllers\Admin\TurnoverController::class, 'based_on_product'])->name('turnover_based_on_product');
+
+        Route::get('/product-chart',[App\Http\Controllers\Admin\TurnoverController::class, 'product_chart'])->name('turnover_product_chart');
+
+        Route::get('/date',[App\Http\Controllers\Admin\TurnoverController::class, 'based_on_date'])->name('turnover_based_on_date');
+
+        Route::get('/date-chart',[App\Http\Controllers\Admin\TurnoverController::class, 'date_chart'])->name('turnover_date_chart');
+
+        Route::get('/customer',[App\Http\Controllers\Admin\TurnoverController::class, 'based_on_customer'])->name('turnover_based_on_customer');
+
+        Route::get('/customer-chart',[App\Http\Controllers\Admin\TurnoverController::class, 'customer_chart'])->name('turnover_customer_chart');
 
     });
 });

@@ -90,12 +90,92 @@ class OrderController extends Controller
         }
         public function update_status_order($order_id, Request $request)
         {
-                DB::table('order')
-                    ->where('id', $order_id)
-                    ->update(
-                    [
-                        'status'=>$request->status,
-                    ]);
+            $before_order_status = DB::table('order')
+                ->where('id', $order_id)
+                ->first()
+                ->status;
+            $customer_id = DB::table('order')
+                ->where('id', $order_id)
+                ->first()
+                ->customer_id;
+            if ($before_order_status == 'Đang xử lý' && $request->status != 'Đang giao hàng'){
+                Alert::error('Thất bại', 'Lỗi xảy ra trong quá trình');
+                return redirect()->route('order_show');
+                die;
+            }
+//            if ($before_order_status == 'Đang giao hàng' && ($request->status != 'Đã nhận hàng' || $request->status != 'Đơn hàng bị hủy')){
+//                Alert::error('Thất bại', 'Lỗi xảy ra trong quá trình');
+//                return redirect()->route('order_show');
+//                die;
+//            }
+
+            DB::table('order')
+                ->where('id', $order_id)
+                ->update(
+                [
+                    'status'=>$request->status,
+                ]);
+            $order_detail = DB::table('order_detail')
+                ->where('order_id', $order_id)
+                ->get();
+            foreach($order_detail as $key=>$value){
+                $inventory_quantity =  DB::table('warehouse')
+                    ->where('product_id', $value->product_id)
+                    ->first()
+                    ->inventory_quantity;
+
+                $wait_delivery_quantity =  DB::table('warehouse')
+                    ->where('product_id', $value->product_id)
+                    ->first()
+                    ->wait_delivery_quantity;
+
+                $delivery_quantity =  DB::table('warehouse')
+                    ->where('product_id', $value->product_id)
+                    ->first()
+                    ->delivery_quantity;
+
+                $sold_quantity =  DB::table('warehouse')
+                    ->where('product_id', $value->product_id)
+                    ->first()
+                    ->sold_quantity;
+
+                if ($request->status == 'Đang giao hàng'){
+                    DB::table('warehouse')
+                        ->where('product_id', $value->product_id)
+                        ->update([
+                            'delivery_quantity' => $delivery_quantity + $value->quantity,
+                            'wait_delivery_quantity' => $wait_delivery_quantity - $value->quantity,
+                        ]);
+                }
+                else if ($request->status == 'Đã nhận hàng'){
+                    DB::table('warehouse')
+                        ->where('product_id', $value->product_id)
+                        ->update([
+                            'sold_quantity' => $sold_quantity + $value->quantity,
+                            'delivery_quantity'=> $delivery_quantity - $value->quantity,
+                        ]);
+                    $before_rotate_quantity = DB::table('customer')
+                                        ->where('id', $customer_id)
+                                        ->first()
+                                        ->rotate_quantity;
+                    DB::table('customer')
+                        ->where('id', $customer_id)
+                        ->update([
+                            'rotate_quantity'=>$before_rotate_quantity+1
+                        ]);
+
+                }
+                else if ($request->status == 'Đơn hàng bị hủy')
+                {
+                    DB::table('warehouse')
+                        ->where('product_id', $value->product_id)
+                        ->update([
+                            "inventory_quantity"=> $value->quantity +  $inventory_quantity ,
+                            'wait_delivery_quantity' => $wait_delivery_quantity -  $inventory_quantity,
+
+                        ]);
+                }
+            }
             Alert::success('Thành công', 'Cập nhật trạng thái thành công');
             return redirect()->route('order_show');
         }

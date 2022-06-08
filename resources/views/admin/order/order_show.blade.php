@@ -143,19 +143,19 @@
                                     <div class="modal-body">
                                         <div class="form-check" style="margin-left: 10%; font-size: 18px">
                                             <div>
-                                                <input class="form-check-input" type="radio" name="status" value='Đang xử lý'>
+                                                <input class="form-check-input" type="radio" name="status" value='Đang xử lý' {{($item->status == 'Đang xử lý')?'checked':''}}>
                                                 <span class="badge badge-info"><i class="fas fa-clock"></i> Đang xử lý</span>
                                             </div>
                                             <div>
-                                                <input class="form-check-input" type="radio" name="status" value='Đang giao hàng'>
+                                                <input class="form-check-input" type="radio" name="status" value='Đang giao hàng' {{($item->status == 'Đang giao hàng')?'checked':''}}>
                                                 <span class="badge badge-primary"><i class="fas fa-shipping-fast"></i> Đang giao hàng</span>
                                             </div>
                                             <div>
-                                                <input class="form-check-input" type="radio" name="status" value='Đã nhận hàng'>
+                                                <input class="form-check-input" type="radio" name="status" value='Đã nhận hàng' {{($item->status == 'Đã nhận hàng')?'checked':''}}>
                                                 <span class="badge badge-success"><i class="fas fa-check"></i> Đã nhận hàng</span>
                                             </div>
                                             <div>
-                                                <input class="form-check-input" type="radio" name="status" value='Đơn hàng bị hủy'>
+                                                <input class="form-check-input" type="radio" name="status" value='Đơn hàng bị hủy' {{($item->status == 'Đơn hàng bị hủy')?'checked':''}}>
                                                 <span class="badge badge-danger"><i class="fas fa-x"></i> Hủy đơn hàng</span>
                                             </div>
                                         </div>

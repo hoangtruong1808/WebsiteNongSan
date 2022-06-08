@@ -15,7 +15,7 @@
                     <ul>
                         <li style="margin-bottom: 10px"><i class="fa fa-home" style="padding-right: 10px; color: #0eac85;"></i><span class="text"> <b>Địa chỉ: </b> 22/14 Phan Văn Hớn - Quận 12 - TP.Hồ Chí Minh</span></li>
                         <li style="margin-bottom: 10px"><i class="fa fa-phone-alt" style="padding-right: 10px; color: #0eac85;"></i></span><span class="text"><b>Số diện thoại:  </b> 0704 804 311</span></a></li>
-                        <li style="margin-bottom: 10px"><i class="fa fa-envelope" style="padding-right: 10px; color: #0eac85;"></i><span class="text"><b>Email":  </b> hoangtruong1808@gmail.com</span></a></li>
+                        <li style="margin-bottom: 10px"><i class="fa fa-envelope" style="padding-right: 10px; color: #0eac85;"></i><span class="text"><b>Email:  </b> hoangtruong1808@gmail.com</span></a></li>
                     </ul>
                     </div>
                 </div>

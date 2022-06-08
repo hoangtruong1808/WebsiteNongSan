@@ -45,13 +45,13 @@
 								</tr>
 								<tr>
 									<td>1kg</td>
-									<td>{{ number_format($product->price/10) }}đ</td>
+									<td>{{ number_format($product->price) }} VNĐ</td>
 									<td>
 										<input type="button" value="-" id="btn-minus"/>
-										<input id='quantity' min='0.1' name='quantity' type='text' style="width: 50px; text-align: center" value="0.1" required/>
+										<input id='quantity' min='1' name='quantity' type='text' style="width: 50px; text-align: center" value="1" required/>
 										<input type="button" value="+" id="btn-plus"/>
 									</td>
-									<td id="money"></td>
+									<td id="money">{{ number_format($product->price) }} VNĐ</td>
 								</tr>
 								<tr>
 									<td></td>
@@ -61,18 +61,22 @@
                         </div>
                         <div class="error-login" style="margin-top: 10px"></div>
                         <div style="margin-left: 20%">
-                            @if (isset($_SESSION['id']))
-                                @if ($product->is_favorite == 0)
-                                    <button class="add-to-favorite" id="add-product-to-favorite-{{$product->id}}" data-type="add-favorite" style="cursor:pointer" data-id="{{$product->id}}" title="Yêu thích">
-                                        Yêu thích
-                                    </button>
-                                @else
-                                    <button class="add-to-favorite" id="add-product-to-favorite-{{$product->id}}" style="color:white; background-color: #82ae46 !important; cursor:pointer" data-type="remove-favorite" data-id="{{$product->id}}" title="Bỏ yêu thích">
-                                        Bỏ yêu thích
-                                    </button>
+                            @if ($product->inventory_quantity > 0)
+                                @if (isset($_SESSION['id']))
+                                    @if ($product->is_favorite == 0)
+                                        <button class="add-to-favorite" id="add-product-to-favorite-{{$product->id}}" data-type="add-favorite" style="cursor:pointer" data-id="{{$product->id}}" title="Yêu thích">
+                                            Yêu thích
+                                        </button>
+                                    @else
+                                        <button class="add-to-favorite" id="add-product-to-favorite-{{$product->id}}" style="color:white; background-color: #82ae46 !important; cursor:pointer" data-type="remove-favorite" data-id="{{$product->id}}" title="Bỏ yêu thích">
+                                            Bỏ yêu thích
+                                        </button>
+                                    @endif
                                 @endif
+                                    <button id="add-cart" style="cursor:pointer; margin-left: 6%" ><span><i class="fas fa-cart-plus" style="color:#82ae46; margin-left: 5px"></i></span> Thêm giỏ hàng</button>
+                            @else
+                            Rất tiếc! Sản phẩm hết hàng.
                             @endif
-                                <button id="add-cart" style="cursor:pointer; margin-left: 6%" ><span><i class="fas fa-cart-plus" style="color:#82ae46; margin-left: 5px"></i></span> Thêm giỏ hàng</button>
                         </div>
                 </div>
     		</div>
@@ -156,28 +160,34 @@
 		var money;
         var comment;
         $('#btn-minus').click(function(){
-			if (quantity > 0.1)
+			if (quantity > 0)
 			{
-				quantity=quantity-0.1;
+				quantity=quantity-1;
 			}
-			soluong = parseFloat(quantity).toFixed(1);
+			soluong = quantity;
 			money = soluong * {{$product->price}};
 			$('#quantity').val(soluong);
-			$('#money').html(money +' vnđ');
+            $('#money').html(money/1000 +',000 vnđ');
 		});
 		$('#btn-plus').click(function(){
-			quantity= quantity + 0.1;
-			soluong = parseFloat(quantity).toFixed(1);
+			quantity= quantity + 1;
+			soluong = quantity;
 			money = soluong * {{$product->price}};
 			$('#quantity').val(soluong);
-			$('#money').html(money +' vnđ');
+			$('#money').html(money/1000 +',000 vnđ');
 		});
-        $('#add-cart').click(function(){
+        $('#add-cart').click(function() {
             var name = $('#product_name').val();
             var id = $('#product_id').val();
             var price = $('#product_price').val();
             var thumb = $('#product_thumb').val();
             var quantity = $('#quantity').val();
+            var inventory_quantity = {{$product->inventory_quantity}};
+            if (quantity > inventory_quantity)
+            {
+                swal("Thất bại", 'Rất tiếc! Số lượng sản phẩm trong kho không đủ', "error");
+                return;
+            }
             $.ajax({
                 url: "{{route('store_cart')}}",
                 method: 'POST',
@@ -195,7 +205,7 @@
                     }
                     else {
                         $(".error-input").remove();
-                        $(".error-login").html('<div class="alert alert-danger error-input" role="alert" id="error-login">'+data.error+'</div>');
+                        swal("Thất bại", data.error, "error");
                     }
                 }
             });

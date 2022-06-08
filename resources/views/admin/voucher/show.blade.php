@@ -143,7 +143,7 @@
                             @elseif ($item->active == 2)
                                 <span class="badge badge-danger" style="font-size: 14px">Hết hạn sử dụng</span>
                             @elseif ($item->active == 3)
-                                <span class="badge badge-warning" style="font-size: 14px">Hết số lượng</span>
+                                <span class="badge badge-warning" style="font-size: 14px">Chưa được sử dụng</span>
                             @endif
                         </div>
                     </td>

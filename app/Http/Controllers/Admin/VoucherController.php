@@ -32,6 +32,25 @@ class VoucherController extends Controller
         $this->unread_count = $message = DB::table('message')
             ->where('message.status', 0)
             ->count();
+        DB::table('voucher')
+            ->whereRaw("date_end<CURRENT_TIMESTAMP  OR quantity=0")
+            ->where('voucher_type', 1)
+            ->update([
+                'active'=>2,
+            ]);
+        DB::table('voucher')
+            ->whereRaw("date_start>CURRENT_TIMESTAMP")
+            ->where('voucher_type', 1)
+            ->update([
+                'active'=>3,
+            ]);
+        DB::table('voucher')
+            ->whereRaw("date_start<CURRENT_TIMESTAMP  AND date_end>CURRENT_TIMESTAMP  AND quantity>0")
+            ->where('voucher_type', 1)
+            ->update([
+                'active'=>1,
+            ]);
+
     }
     public function index()
     {

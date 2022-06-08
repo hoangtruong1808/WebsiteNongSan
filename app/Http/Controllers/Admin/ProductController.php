@@ -94,7 +94,7 @@ class ProductController extends Controller
             if ($validator->passes()) {
                 $thumb = $request->file('thumb')->getClientOriginalName();
                 $request->file('thumb')->storeAs('public/product', $thumb);
-                DB::table('product')->insert([
+                $product_id = DB::table('product')->insertGetId([
                     'name' => $request->name,
                     'description' => $request->description,
                     'menu_id' => $request->menu_id,
@@ -109,6 +109,11 @@ class ProductController extends Controller
                     'xuatsu' => $request->xuatsu,
                     'giaohang' => $request->giaohang,
                 ]);
+
+                DB::table('warehouse')->insert([
+                    'product_id'=>$product_id,
+                ]);
+
                 Alert::success('Thành công', 'Thêm sản phẩm thành công');
                 return redirect()->route('product_show');
             } else {

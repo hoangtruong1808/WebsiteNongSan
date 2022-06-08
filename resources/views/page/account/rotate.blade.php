@@ -1,7 +1,63 @@
 @extends('page/main')
 
 @section('content')
-    <section class="ftco-section">
+    <style>
+        p.bubble {
+            position: relative;
+            width: 300px;
+            text-align: center;
+            line-height: 1.4em;
+            margin: 0px auto;
+            background-color: #fff;
+            border: 6px solid #82ae46 ;
+            border-radius: 30px;
+            font-family: sans-serif;
+            padding: 0px;
+            font-size: 14px;
+        }
+
+        p.thought {
+            margin-left: 60%;
+            width: 300px;
+            border-radius: 200px;
+            padding: 30px;
+        }
+
+        p.bubble:before,
+        p.bubble:after {
+            content: ' ';
+            position: absolute;
+            width: 0;
+            height: 0;
+        }
+
+        p.thought:before,
+        p.thought:after {
+            left: 10px;
+            bottom: -30px;
+            width: 40px;
+            height: 40px;
+            background-color: #fff;
+            border: 6px solid #82ae46 ;
+            -webkit-border-radius: 28px;
+            -moz-border-radius: 28px;
+            border-radius: 28px;
+        }
+
+        p.thought:after {
+            width: 20px;
+            height: 20px;
+            left: 5px;
+            bottom: -40px;
+            -webkit-border-radius: 18px;
+            -moz-border-radius: 18px;
+            border-radius: 18px;
+        }
+    </style>
+    <section class="ftco-section" style="padding-top: 40px">
+        <p class="bubble thought">
+            <b>Mỗi đơn hàng trên 250.000 VNĐ sẽ nhận ngay được một lần quay</b>
+        </p>
         <div align="center" style="margin-bottom: 0px">
             <table cellpadding="0" cellspacing="0" border="0">
                 <tr>

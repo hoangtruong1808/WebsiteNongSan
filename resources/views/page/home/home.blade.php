@@ -146,6 +146,60 @@
                 </div>
             </div>
         </section>
+
+        <section class="ftco-section">
+            <div class="container">
+                <div class="row justify-content-center mb-3 pb-3">
+                    <div class="col-md-12 heading-section text-center ftco-animate">
+                        <h2 class="mb-4">Sản phẩm bán chạy</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    @foreach($best_seller as $item)
+                        <div class="col-md-6 col-lg-3 ftco-animate">
+                            <div class="product">
+                                <a href="{{ route('show_product_detail', ['product_id'=>$item->id]) }}" class="img-prod"><img class="img-fluid" style="height: 202px; width: 100%" src="{{ asset('storage/product/'.$item->thumb) }}" alt="Colorlib Template">
+                                    <div class="overlay"></div>
+                                </a>
+                                <div class="text py-3 pb-4 px-3 text-center">
+                                    <h3><a href="{{ route('show_product_detail', ['product_id'=>$item->id]) }}">{{ $item->name }}</a></h3>
+                                    <div class="d-flex">
+                                        <div class="pricing">
+                                            <p class="price"><span>{{ number_format($item->price) }} vnđ /{{ $item->unit }}</span></p>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <div class="pricing">
+                                            <p class="price"><span>Đã bán <b>{{ceil($item->sum)}}</b> sản phẩm</span></p>
+                                        </div>
+                                    </div>
+                                    <div class="bottom-area d-flex px-3">
+                                        <div class="m-auto d-flex">
+                                            <a href="/san-pham/{{$item->id}}" class="add-to-cart d-flex justify-content-center align-items-center mx-1" title="Thêm giỏ hàng" data-id="{{$item->id}}">
+                                                <span><i class="fas fa-cart-plus"></i></span>
+                                            </a>
+                                            @if (isset($_SESSION['id']))
+                                                @if ($item->is_favorite == 0)
+                                                    <a class="heart add-to-favorite d-flex justify-content-center align-items-center" id="add-to-favorite-{{$item->id}}" data-type="add-favorite" data-id="{{$item->id}}" title="Yêu thích">
+                                                        <span><i class="fas fa-heart"></i></span>
+                                                    </a>
+                                                @else
+                                                    <a class="heart add-to-favorite d-flex justify-content-center align-items-center" id="add-to-favorite-{{$item->id}}" data-type="remove-favorite" data-id="{{$item->id}}" title="Bỏ yêu thích" style="background-color: #e1f3c8; color: #82ae46;">
+                                                        <span><i class="fas fa-heart"></i></span>
+                                                    </a>
+                                                @endif
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </section>
         <hr>
         <script>
             var product_id;

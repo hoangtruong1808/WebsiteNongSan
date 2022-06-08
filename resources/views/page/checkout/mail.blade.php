@@ -7,7 +7,7 @@
 <body>
     <div class="mail-area" style="margin: 20px; border: #82ae46 1px solid; padding: 30px; text-align: left;">
         <b>Cảm ơn bạn đã mua hàng!</b>
-        <p>Xin chào {{$name}}, Cửa hàng chúng tôi đã nhận được đơn hàng của bạn. Chúng tôi sẽ thông báo cho bạn khi tiếp tục gửi đi. <a href="/san-pham">Tiếp tục mua hàng</a> hoặc <a href="">Liên hệ cửa hàng</a></p>
+        <p>Xin chào {{$name}}, Cửa hàng chúng tôi đã nhận được đơn hàng của bạn. Chúng tôi sẽ thông báo cho bạn khi tiếp tục gửi đi. </p>
     </div>
     <div class="mail-area customer-information" style="margin: 20px; border: #82ae46 1px solid; padding: 30px; text-align: left;">
         <table>
@@ -70,7 +70,7 @@
                         </td>
                         <td style="padding-bottom: 20px; padding-right: 50px;">{{ number_format($key->price) }} VNĐ</td>
 
-                        <td style="padding-bottom: 20px; padding-right: 50px;">
+                        <td style="padding-bottom: 20px">
                             <div class="input-group mb-3">
                                 {{ $key->qty }}
                             </div>

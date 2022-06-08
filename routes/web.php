@@ -83,4 +83,6 @@ Route::get('/vong-quay-may-man',[App\Http\Controllers\Page\AccountController::cl
 
 Route::post('/vong-quay-may-man',[App\Http\Controllers\Page\AccountController::class, 'store_rotate'])->name('store_rotate');
 
+Route::get('/test-chatbot',[App\Http\Controllers\HomeController::class, 'test_chatbot'])->name('test_chatbot');
 
+Route::match(['get', 'post'], '/botman', [App\Http\Controllers\Page\ChatbotController::class, 'handle']);
