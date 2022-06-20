@@ -8,6 +8,8 @@ use DB;
 Use Alert;
 use Validator;
 use Response;
+use Excel;
+use App\Exports\PhieuNhapHangExport;
 
 class WarehouseController extends Controller
 {
@@ -149,9 +151,16 @@ class WarehouseController extends Controller
             ]);
     }
     public function import_goods(){
+
+        $supplier = DB::table('supplier')
+            ->where('is_deleted', 0)
+            ->get();
         $staff = DB::table('staff')
             ->where('is_deleted', 0)
             ->where('role', 1)
+            ->get();
+        $product = DB::table('product')
+            ->where('is_deleted', 0)
             ->get();
         return view('admin/warehouse/import_goods')
             ->with(['title'=>'Nhập hàng',
@@ -159,6 +168,52 @@ class WarehouseController extends Controller
                 'unread_count'=>$this->unread_count,
                 'account'=>$this->current_account,
                 'staff'=>$staff,
+                'supplier'=>$supplier,
+                'product'=>$product,
             ]);
+    }
+    public function import_goods_store(Request $request)
+    {
+
+        $total = 0;
+        $error = false;
+        if (isset($request->sanpham)) {
+            $product_quantity = count($request->sanpham);
+
+            for ($i = 0; $i < $product_quantity; $i++){
+                $total += $request->soluong[$i] * $request->dongia[$i];
+                if (!isset($request->sanpham[$i]) || !isset($request->soluong[$i]) || !isset($request->dongia[$i]) || !isset($request->supplier) || !isset($request->staff)){
+                    Alert::error('Thất bại', 'Vui lòng nhập đầy đủ thông tin');
+                    return redirect()->route('import_goods');
+                    die;
+                }
+            }
+
+            $import_goods_id = DB::table('import_goods')->insertGetId([
+                'supplier_id' => $request->supplier,
+                'staff_id' => $request->staff,
+                'total' => $total,
+            ]);
+
+
+            for ($i = 0; $i < $product_quantity; $i++){
+                $before_inventory_quantity =  DB::table('warehouse')->where('product_id', $request->sanpham[$i])->first()->inventory_quantity;
+                DB::table('import_goods_detail')->insert([
+                    'import_goods_id'=>$import_goods_id,
+                    'product_id'=>$request->sanpham[$i],
+                    'quantity'=>$request->soluong[$i],
+                    'unit_price'=>$request->dongia[$i],
+                    'price'=>$request->soluong[$i] * $request->dongia[$i],
+                ]);
+                DB::table('warehouse')->where('product_id', $request->sanpham[$i])
+                    ->update([
+                        'inventory_quantity'=>$before_inventory_quantity+$request->soluong[$i],
+                    ]);
+            }
+            return Excel::download(new PhieuNhapHangExport, 'PhieuNhapHang.xlsx');
+        } else {
+            Alert::error('Thất bại', 'Vui lòng nhập đầy đủ thông tin');
+            return redirect()->route('import_goods');
+        }
     }
 }

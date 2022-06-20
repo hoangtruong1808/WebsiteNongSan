@@ -12,17 +12,13 @@ use DB;
 
 class ChatbotController extends Controller
 {
+    private $product;
     public function handle()
     {
         $botman = app('botman');
 
         $botman->hears('{message}', function($botman, $message) {
-
-            if ($message == 'hi') {
-                $this->askName($botman);
-            }else{
-                $botman->reply("write 'hi' for testing...");
-            }
+            $this->script($message, $botman);
 
         });
 
@@ -32,6 +28,22 @@ class ChatbotController extends Controller
     /**
      * Place your BotMan logic here.
      */
+    public function script($message, $botman){
+        //chứa sản phẩm
+        $this->product = DB::table('product')
+                ->where('is_deleted', 0)
+                ->get();
+        foreach($this->product as $key=>$value){
+            if (strtolower($value->name) == strtolower($message))
+            {
+                var_dump($value->id);
+                die;
+            }else{
+                $botman->reply("write 'hi' for testing...");
+            }
+
+        }
+    }
     public function askName($botman)
     {
         $botman->ask('Hello! What is your Name?', function(Answer $answer) {
@@ -40,5 +52,15 @@ class ChatbotController extends Controller
 
             $this->say('Nice to meet you '.$name);
         });
+    }
+
+    public function containMessage($string1, $string2){
+        if (strlen(strstr($string1, $string2)) > 0)
+        {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }

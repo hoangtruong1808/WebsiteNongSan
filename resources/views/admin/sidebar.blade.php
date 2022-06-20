@@ -2,7 +2,7 @@
       <!-- Brand Logo -->
       <a href="/admin" class="brand-link">
         <img src="{{ asset('logo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-        <span class="brand-text font-weight-light"><b>VEGEFOODS</b></span>
+        <span class="brand-text font-weight-light"><b>NÔNG SẢN VIỆT</b></span>
       </a>
 
       <!-- Sidebar -->
@@ -23,6 +23,7 @@
         <!-- Sidebar Menu -->
         <nav class="mt-2">
           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+              <hr  width="100%" size="12px" align="center" color="#6c757d" style="border-width: 2px; margin: 6px 0px; padding: 0px"/>
             <!-- Add icons to the links using the .nav-icon class
                 with font-awesome or any other icon font library -->
               <li class="nav-item">
@@ -43,6 +44,25 @@
                       </p>
                   </a>
               </li>
+              <li class="nav-item">
+                  <a href="{{ route('voucher_show')}}" class="nav-link">
+                      <i class="fas fa-barcode"></i>
+                      <p style="margin-left: 4px">
+                          Mã khuyến mãi
+                          <i class="right fas fa-angle-left"></i>
+                      </p>
+                  </a>
+              </li>
+              <hr  width="100%" size="12px" align="center" color="#6c757d" style="border-width: 2px; margin: 6px 0px; padding: 0px"/>
+              <li class="nav-item">
+                  <a href="{{ route('customer_show') }}" class="nav-link">
+                      <i class="fas fa-user"></i>
+                      <p style="margin-left: 4px">
+                          Khách hàng
+                          <i class="right fas fa-angle-left"></i>
+                      </p>
+                  </a>
+              </li>
             <li class="nav-item">
               <a href="{{ route('order_show')}}" class="nav-link">
                   <i class="fas fa-credit-card"></i>
@@ -52,6 +72,29 @@
                 </p>
               </a>
             </li>
+              <hr  width="100%" size="12px" align="center" color="#6c757d" style="border-width: 2px; margin: 6px 0px; padding: 0px"/>
+              <li class="nav-item">
+                  <a href="" class="nav-link">
+                      <i class="fas fa-warehouse"></i>
+                      <p>
+                          Kho hàng
+                          <i class="right fas fa-angle-left"></i>
+                      </p>
+                  </a>
+
+                  <ul class="nav nav-treeview">
+                      <li class="nav-item">
+                          <a href="{{ route('warehouse_show')}}" class="nav-link">
+                              <p>Danh sách</p>
+                          </a>
+                      </li>
+                      <li class="nav-item">
+                          <a href="{{ route('import_goods')}}" class="nav-link">
+                              <p>Nhập hàng</p>
+                          </a>
+                      </li>
+                  </ul>
+              </li>
               <li class="nav-item">
                   <a href="" class="nav-link">
                       <i class="fas fa-money-bill"></i>
@@ -64,42 +107,31 @@
                   <ul class="nav nav-treeview">
                       <li class="nav-item">
                           <a href="{{ route('turnover_based_on_product')}}" class="nav-link">
-                              <i class="far fa-circle nav-icon"></i>
                               <p>Theo sản phẩm</p>
                           </a>
                       </li>
                       <li class="nav-item">
                           <a href="{{ route('turnover_based_on_customer') }}" class="nav-link">
-                              <i class="far fa-circle nav-icon"></i>
                               <p>Theo khách hàng</p>
                           </a>
                       </li>
                       <li class="nav-item">
                           <a href="{{ route('turnover_based_on_date') }}" class="nav-link">
-                              <i class="far fa-circle nav-icon"></i>
                               <p>Theo thời gian</p>
                           </a>
                       </li>
                   </ul>
               </li>
               <li class="nav-item">
-                  <a href="{{ route('warehouse_show')}}" class="nav-link">
-                      <i class="fas fa-warehouse"></i>
+                  <a href="{{ route('supplier_show') }}" class="nav-link">
+                      <i class="fas fa-address-book"></i>
                       <p style="margin-left: 4px">
-                          Kho hàng
+                          Nhà cung cấp
                           <i class="right fas fa-angle-left"></i>
                       </p>
                   </a>
               </li>
-            <li class="nav-item">
-              <a href="{{ route('customer_show') }}" class="nav-link">
-                  <i class="fas fa-user"></i>
-                <p style="margin-left: 4px">
-                  Khách hàng
-                    <i class="right fas fa-angle-left"></i>
-                </p>
-              </a>
-            </li>
+              <hr  width="100%" size="12px" align="center" color="#6c757d" style="border-width: 2px; margin: 6px 0px; padding: 0px"/>
 {{--            <li class="nav-item">--}}
 {{--              <a href="{{ route('message_show') }}" class="nav-link">--}}
 {{--                  <i class="fas fa-bars"></i>--}}
@@ -110,15 +142,6 @@
 {{--              </a>--}}
 {{--            </li>--}}
               <li class="nav-item">
-                  <a href="{{ route('voucher_show')}}" class="nav-link">
-                      <i class="fas fa-barcode"></i>
-                      <p style="margin-left: 4px">
-                          Mã khuyến mãi
-                          <i class="right fas fa-angle-left"></i>
-                      </p>
-                  </a>
-              </li>
-              <li class="nav-item">
                   <a href="{{ route('staff_show')}}" class="nav-link">
                       <i class="fas fa-house-user"></i>
                       <p style="margin-left: 4px">
@@ -127,6 +150,7 @@
                       </p>
                   </a>
               </li>
+              <hr  width="100%" size="12px" align="center" color="#6c757d" style="border-width: 2px; margin: 6px 0px; padding: 0px"/>
 
           </ul>
         </nav>

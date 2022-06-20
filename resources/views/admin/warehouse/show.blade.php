@@ -6,12 +6,11 @@
         <div class="card card-primary" style="margin: 20px 30px 0px 30px">
             <div class="card-header" style="background-color: #298A08; " >
                 <div class="row">
-                    <div class="col-sm-10">
+                    <div class="col-sm-11">
                         <h3 class="card-title" style="padding-top: 5px">{{ $title }}</h3>
                     </div>
-                    <div class="col-sm-2">
+                    <div class="col-sm-1">
                         <a class="btn btn-default" href="" data-toggle="modal" data-target="#filter-data"  style="font-size: 16px ;margin-right: 10px; color: grey"><i class="fas fa-filter"></i></a>
-                        <a class="btn btn-default" href="{{route('import_goods')}}"  style="font-size: 16px ;margin-right: 10px; color: grey" title="Nhập hàng">Nhập hàng</a>
                     </div>
                 </div>
             </div>

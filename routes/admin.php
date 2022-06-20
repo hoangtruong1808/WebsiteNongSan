@@ -158,6 +158,8 @@ Route::prefix('/admin')->group(function(){
 
         Route::get('/import_goods',[App\Http\Controllers\Admin\WarehouseController::class, 'import_goods'])->name('import_goods');
 
+        Route::post('/import_goods_store',[App\Http\Controllers\Admin\WarehouseController::class, 'import_goods_store'])->name('import_goods_store');
+
     });
 
     Route::prefix('/turnover')->group(function(){
@@ -173,6 +175,22 @@ Route::prefix('/admin')->group(function(){
         Route::get('/customer',[App\Http\Controllers\Admin\TurnoverController::class, 'based_on_customer'])->name('turnover_based_on_customer');
 
         Route::get('/customer-chart',[App\Http\Controllers\Admin\TurnoverController::class, 'customer_chart'])->name('turnover_customer_chart');
+
+    });
+
+    Route::prefix('/supplier')->group(function(){
+
+        Route::get('/create',[App\Http\Controllers\Admin\SupplierController::class, 'create'])->name('supplier_create');
+
+        Route::post('/store',[App\Http\Controllers\Admin\SupplierController::class, 'store'])->name('supplier_store');
+
+        Route::get('/show',[App\Http\Controllers\Admin\SupplierController::class, 'show'])->name('supplier_show');
+
+        Route::get('/edit/{supplier_id}',[App\Http\Controllers\Admin\SupplierController::class, 'edit'])->name('supplier_edit');
+
+        Route::post('/update/{supplier_id}',[App\Http\Controllers\Admin\SupplierController::class, 'update'])->name('supplier_update');
+
+        Route::post('/destroy',[App\Http\Controllers\Admin\SupplierController::class, 'destroy'])->name('supplier_destroy');
 
     });
 });
