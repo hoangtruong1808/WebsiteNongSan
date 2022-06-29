@@ -46,11 +46,6 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="donggoi">Đóng gói</label>
-                                <input type="form" name="donggoi" class="form-control" id="donggoi" placeholder="Nhập cách đóng gói">
-                            </div>
-
-                            <div class="form-group">
                                 <label for="hansudung">Hạn sử dụng</label>
                                 <input type="form" name="hansudung" class="form-control" id="hansudung" placeholder="Nhập hạn sử dụng">
                             </div>
@@ -73,12 +68,7 @@
 
                             <div class="form-group">
                                 <label>Đơn vị</label>
-                                <select class="form-control" name="unit">
-                                    <option>combo</option>
-                                    <option>kg</option>
-                                    <option>gram</option>
-                                    <option>con</option>
-                                </select>
+                                <input type="form" name="unit" class="form-control" id="unit" placeholder="Nhập đơn vị">
                             </div>
 
                             <div class="form-group">

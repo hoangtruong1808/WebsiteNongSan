@@ -5,6 +5,7 @@
                 <div class="container">
                     <div class="row">
                     <div class="col-md-12 ftco-animate">
+                        <a href="http://localhost/san-pham?menu_id=6" style="text-decoration: underline;margin-bottom: 100px"><i class="fas fa-backward"></i> Tiếp tục mua hàng</a>
                         <div class="cart-list">
                             <table class="table">
                                 <thead class="thead-primary">
@@ -28,7 +29,7 @@
                                     <td class="image-prod"><div class="img" style="background-image:url({{ asset('/storage/product/'.$key->options->thumb) }});"></div></td>
 
                                     <td class="product-name">
-                                        <h3>{{ $key->name }}</h3>
+                                        <h3>{{ $key->name .' '. $key->unit}}</h3>
 
                                     </td>
 
@@ -61,10 +62,12 @@
                 <div class="row justify-content-end">
                     <div class="col-lg-4 mt-5 cart-wrap ftco-animate">
                         <div class="cart-total mb-3">
+                            @if(isset($_SESSION["id"]))
                             <h3>Nhập mã giảm giá</h3>
                             <p class="d-flex">
                                 <input id="voucher" name="voucher" class="voucher">
                             </p>
+                                @endif
                         </div>
                     </div>
                     <div class="col-lg-4 mt-5 cart-wrap ftco-animate">
@@ -74,7 +77,7 @@
                             <h3>Tổng giỏ hàng</h3>
                             <p class="d-flex">
                                 <span>Tổng tiền</span>
-                                <span>{{ Cart::initial(0,'.', ',') }} vnđ</span>
+                                <span>{{ Cart::initial(0,'.', ',') }} VNĐ</span>
                             </p>
                             <p class="d-flex">
                                 <span>Phí giao hàng</span>
@@ -83,7 +86,7 @@
                             <hr>
                             <p class="d-flex total-price">
                                 <span>Thành tiền</span>
-                                <span>{{ Cart::initial(0,'.', ',') }} vnđ</span>
+                                <span>{{ Cart::initial(0,'.', ',') }} VNĐ</span>
                             </p>
                         </div>
                             <p><a class="btn btn-primary py-3 px-4 btn-hover" id="checkout-btn">Thanh toán</a></p>

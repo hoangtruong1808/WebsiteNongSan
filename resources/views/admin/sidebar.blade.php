@@ -1,4 +1,6 @@
-  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+<style>
+</style>
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
       <a href="/admin" class="brand-link">
         <img src="{{ asset('logo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
@@ -27,7 +29,7 @@
             <!-- Add icons to the links using the .nav-icon class
                 with font-awesome or any other icon font library -->
               <li class="nav-item">
-                  <a href="{{ route('menu_show')}}" class="nav-link">
+                  <a href="{{ route('menu_show')}}" class="nav-link {{($controller == 'menu')?'active':''}}">
                       <i class="fas fa-bars"></i>
                       <p style="margin-left: 4px">
                           Danh mục
@@ -36,7 +38,7 @@
                   </a>
               </li>
               <li class="nav-item">
-                  <a href="{{ route('product_show')}}" class="nav-link">
+                  <a href="{{ route('product_show')}}" class="nav-link {{($controller == 'product')?'active':''}}">
                       <i class="fas fa-carrot"></i>
                       <p style="margin-left: 4px">
                           Sản phẩm
@@ -45,7 +47,7 @@
                   </a>
               </li>
               <li class="nav-item">
-                  <a href="{{ route('voucher_show')}}" class="nav-link">
+                  <a href="{{ route('voucher_show')}}" class="nav-link {{($controller == 'voucher')?'active':''}}">
                       <i class="fas fa-barcode"></i>
                       <p style="margin-left: 4px">
                           Mã khuyến mãi
@@ -55,7 +57,7 @@
               </li>
               <hr  width="100%" size="12px" align="center" color="#6c757d" style="border-width: 2px; margin: 6px 0px; padding: 0px"/>
               <li class="nav-item">
-                  <a href="{{ route('customer_show') }}" class="nav-link">
+                  <a href="{{ route('customer_show') }}" class="nav-link {{($controller == 'customer')?'active':''}} ">
                       <i class="fas fa-user"></i>
                       <p style="margin-left: 4px">
                           Khách hàng
@@ -64,7 +66,7 @@
                   </a>
               </li>
             <li class="nav-item">
-              <a href="{{ route('order_show')}}" class="nav-link">
+              <a href="{{ route('order_show')}}" class="nav-link {{($controller == 'order')?'active':''}}">
                   <i class="fas fa-credit-card"></i>
                 <p style="margin-left: 4px">
                   Đơn đặt hàng
@@ -74,7 +76,7 @@
             </li>
               <hr  width="100%" size="12px" align="center" color="#6c757d" style="border-width: 2px; margin: 6px 0px; padding: 0px"/>
               <li class="nav-item">
-                  <a href="" class="nav-link">
+                  <a href="" class="nav-link {{($controller == 'warehouse')?'active':''}}">
                       <i class="fas fa-warehouse"></i>
                       <p>
                           Kho hàng
@@ -96,7 +98,7 @@
                   </ul>
               </li>
               <li class="nav-item">
-                  <a href="" class="nav-link">
+                  <a href="" class="nav-link" {{($controller == 'turnover')?'active':''}}>
                       <i class="fas fa-money-bill"></i>
                       <p>
                           Thống kê doanh thu
@@ -123,7 +125,7 @@
                   </ul>
               </li>
               <li class="nav-item">
-                  <a href="{{ route('supplier_show') }}" class="nav-link">
+                  <a href="{{ route('supplier_show') }}" class="nav-link {{($controller == 'supplier')?'active':''}}">
                       <i class="fas fa-address-book"></i>
                       <p style="margin-left: 4px">
                           Nhà cung cấp
@@ -142,7 +144,7 @@
 {{--              </a>--}}
 {{--            </li>--}}
               <li class="nav-item">
-                  <a href="{{ route('staff_show')}}" class="nav-link">
+                  <a href="{{ route('staff_show')}}" class="nav-link {{($controller == 'staff')?'active':''}}">
                       <i class="fas fa-house-user"></i>
                       <p style="margin-left: 4px">
                           Nhân viên

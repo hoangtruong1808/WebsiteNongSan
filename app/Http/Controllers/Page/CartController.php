@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Session;
 use Response;
 use DB;
+use Alert;
 
 class CartController extends Controller
 {
@@ -29,6 +30,7 @@ class CartController extends Controller
             'quantity'=>$request->quantity,
             'price'=>$request->price,
             'thumb'=>$request->thumb,
+
         ];
         Cart::add($data['id'], $data['name'], $data['quantity'], $data['price'], $data['id'], ['thumb'=>$data['thumb']]);
         //Cart::destroy();
@@ -69,17 +71,25 @@ class CartController extends Controller
             exit();
         }
         if (!empty($request->voucher_code)){
-            $user_id = $_SESSION["id"];
-            $customer_type = DB::table('customer')
-                ->where('id', $user_id)
-                ->first()
-                ->customer_type;
-            $account_voucher = DB::table('voucher')
-                ->whereRaw("is_deleted = 0 and active = 1 and quantity > 0 and (customer_type = 0 OR customer_id =1 OR customer_type = 2)")
-                ->get();
             $check_voucher = 0;
+            $account_voucher = DB::table('voucher')
+                ->whereRaw("is_deleted = 0 and active = 1 and quantity > 0 and (voucher_type = 1 or (voucher_type = 2 and customer_id=".$_SESSION['id']."))")
+                ->orderBy('ID', 'desc')
+                ->get();
+            $use_voucher = DB::table('use_voucher')
+                ->where('customer_id', $_SESSION['id'])
+                ->get();
+
+            foreach($account_voucher as $voucher_key=>$voucher_value){
+                foreach($use_voucher as $use_key=>$use_value){
+                    if($use_value->voucher_id == $voucher_value->ID){
+                        $account_voucher[$voucher_key]->active= 1000;
+                    }
+                }
+            }
+
             foreach($account_voucher as $key=>$value){
-                if ($value->code == $request->voucher_code){
+                if ($value->code == $request->voucher_code && $value->active==1){
                     $check_voucher = 1;
                 }
             }

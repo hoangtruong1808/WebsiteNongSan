@@ -28,23 +28,23 @@
 							</p>
 					</div>
 
-    				<p class="price"><span>{{ number_format($product->price) }} vnđ / {{ $product->unit }}</span></p>--}}
+    				<p class="price"><span>{{ number_format($product->price) }} VNĐ / {{ $product->unit }}</span></p>--}}
     				<p>{{ $product->description }}</p>
                         @csrf()
-                        <input  name='name' type='hidden' id='product_name' value='{{$product->name}}'/>
+                        <input  name='name' type='hidden' id='product_name' value='{{$product->name . ' '. $product->unit}}'/>
 						<input  name='id' type='hidden' id='product_id' value='{{$product->id}}'/>
 						<input  name='price' type='hidden' id='product_price' value='{{$product->price}}'/>
 						<input  name='thumb' type='hidden' id='product_thumb' value='{{$product->thumb}}'/>
 						<div class="table-price" style="margin-bottom: 15px; padding-top: 15px; border-top: 1.5px solid #A4A4A4">
 							<table style="text-align: center">
 								<tr>
-									<th style="width: 280px">Phân loại</th>
+									<th style="width: 280px">Đơn vị</th>
 									<th style="width: 200px">Giá</th>
 									<th style="width: 300px">Số lượng</th>
 									<th style="width: 300px">Thành tiền</th>
 								</tr>
 								<tr>
-									<td>1kg</td>
+									<td>{{$product->unit}}</td>
 									<td>{{ number_format($product->price) }} VNĐ</td>
 									<td>
 										<input type="button" value="-" id="btn-minus"/>
@@ -94,30 +94,36 @@
 						<div class="tab-content">
 							<div class="tab-pane fade show active  py-3" id="home" role="tapanel" aria-labelledby="home-tab">
 								<table class="table-product_detail">
+                                    @if(isset($product->thanhphan))
 									<tr>
 										<td style="width: 200px"><b>Thành phần</b></td>
 										<td>{{ $product->thanhphan }}</td>
 									</tr>
+                                    @endif
+                                    @if(isset($product->muavu))
 									<tr>
 										<td><b>Mùa vụ</b></td>
 										<td>{{ $product->muavu }}</td>
 									</tr>
-									<tr>
-										<td><b>Đóng gói</b></td>
-										<td>{{ $product->donggoi }}</td>
-									</tr>
+                                    @endif
+                                     @if(isset($product->hansudung))
 									<tr>
 										<td><b>HSD</b></td>
 										<td>{{ $product->hansudung }}</td>
 									</tr>
+                                        @endif
+                                    @if(isset($product->xuatsu))
 									<tr>
 										<td><b>Xuất sứ</b></td>
 										<td>{{ $product->xuatsu }}</td>
 									</tr>
+                                        @endif
+                                    @if(isset($product->giaohang))
 									<tr>
 										<td><b>Giao nhận hàng</b></td>
 										<td>{{ $product->giaohang }}</td>
 									</tr>
+                                    @endif
 								</table>
 							</div>
 							<div class="tab-pane fade comment-product" id="profile" role="tabpanel" aria-labelledby="profile-tab">
@@ -167,14 +173,14 @@
 			soluong = quantity;
 			money = soluong * {{$product->price}};
 			$('#quantity').val(soluong);
-            $('#money').html(money/1000 +',000 vnđ');
+            $('#money').html(money/1000 +',000 VNĐ');
 		});
 		$('#btn-plus').click(function(){
 			quantity= quantity + 1;
 			soluong = quantity;
 			money = soluong * {{$product->price}};
 			$('#quantity').val(soluong);
-			$('#money').html(money/1000 +',000 vnđ');
+			$('#money').html(money/1000 +',000 VNĐ');
 		});
         $('#add-cart').click(function() {
             var name = $('#product_name').val();
@@ -271,7 +277,7 @@
                                 <h3><a href="#">{{ $item->name }}</a></h3>
                                 <div class="d-flex">
                                     <div class="pricing">
-                                        <p class="price"><span>{{ number_format($item->price) }} vnđ /{{ $item->unit }}</span></p>
+                                        <p class="price"><span>{{ number_format($item->price) }} VNĐ /{{ $item->unit }}</span></p>
                                     </div>
                                 </div>
                                 <div class="bottom-area d-flex px-3">

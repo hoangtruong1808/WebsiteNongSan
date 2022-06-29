@@ -85,4 +85,10 @@ Route::post('/vong-quay-may-man',[App\Http\Controllers\Page\AccountController::c
 
 Route::get('/test-chatbot',[App\Http\Controllers\HomeController::class, 'test_chatbot'])->name('test_chatbot');
 
+Route::get('/quen-mat-khau',[App\Http\Controllers\AccountController::class, 'forget_password'])->name('forget_password');
+
+Route::post('/quen-mat-khau',[App\Http\Controllers\AccountController::class, 'reset_password_exec'])->name('reset_password_exec');
+
+Route::post('/check-reset-password-code',[App\Http\Controllers\AccountController::class, 'check_reset_password_code'])->name('check_reset_password_code');
+
 Route::match(['get', 'post'], '/botman', [App\Http\Controllers\Page\ChatbotController::class, 'handle']);

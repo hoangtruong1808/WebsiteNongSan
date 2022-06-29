@@ -32,6 +32,7 @@ class StaffController extends Controller
         $this->unread_count = $message = DB::table('message')
             ->where('message.status', 0)
             ->count();
+        $this->controller = 'staff';
     }
     public function index()
     {
@@ -44,7 +45,8 @@ class StaffController extends Controller
             ->with(['title'=>'Tạo nhân viên mới',
                 'unread'=>$this->unread,
                 'unread_count'=>$this->unread_count,
-                'account'=>$this->current_account,]);
+                'account'=>$this->current_account,
+                'controller'=>$this->controller,]);
     }
     /**
      * Show the form for creating a new resource.
@@ -126,6 +128,7 @@ class StaffController extends Controller
                 'unread'=>$this->unread,
                 'unread_count'=>$this->unread_count,
                 'account'=>$this->current_account,
+                'controller'=>$this->controller,
             ]);
     }
 
@@ -146,7 +149,8 @@ class StaffController extends Controller
                 'staff'=>$staff,
                 'unread'=>$this->unread,
                 'unread_count'=>$this->unread_count,
-                'account'=>$this->current_account,]);
+                'account'=>$this->current_account,
+                'controller'=>$this->controller,]);
     }
 
     /**
@@ -262,6 +266,7 @@ class StaffController extends Controller
                 'unread'=>$this->unread,
                 'unread_count'=>$this->unread_count,
                 'account'=>$this->current_account,
+                'controller'=>$this->controller,
             ]);
     }
     public function lock_staff($staff_id){

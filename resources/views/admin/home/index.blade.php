@@ -1,6 +1,11 @@
 @extends('admin/main')
 
 @section('content')
+    <style>
+        .card-title{
+            font-weight: bold;
+        }
+    </style>
         <div class="content-wrapper">
 
             <div class="content-header">
@@ -121,14 +126,14 @@
                                             <th>Sản phẩm</th>
                                             <th>Giá</th>
                                             <th>Đã bán</th>
-                                            <th>Chi tiết</th>
+                                            <th>Doanh thu</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         @foreach ($data['best_seller'] as $key=>$value)
                                         <tr>
                                             <td>
-                                                {{$value->name}}
+                                                {{$value->product_name . ' '.$value->unit}}
                                             </td>
                                             <td>
                                                 {{number_format($value->price)}} VNĐ
@@ -137,9 +142,7 @@
                                                 {{ceil($value->sum)}}
                                             </td>
                                             <td>
-                                                <a href="#" class="text-muted">
-                                                    <i class="fas fa-search"></i>
-                                                </a>
+                                                {{number_format(ceil($value->sum * $value->price))}} VNĐ
                                             </td>
                                         </tr>
                                         @endforeach

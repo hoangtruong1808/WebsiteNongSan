@@ -48,10 +48,6 @@
                             <input type="form" name="quantity" class="form-control" id="quantity" placeholder="Nhập số lượng mã">
                         </div>
                         <div class="form-group">
-                            <label for="quantity_per_account">Số lượng mã cho mỗi tài khoản</label>
-                            <input type="form" name="quantity_per_account" class="form-control" id="quantity_per_account" placeholder="Nhập số lượng mã cho mỗi tài khoản">
-                        </div>
-                        <div class="form-group">
                             <label for="name">Thời gian áp dụng</label>
                             <div style=" display:block">
                                 <label for="date_start" style="font-weight: normal">Từ: </label>
@@ -63,14 +59,6 @@
                         <div class="form-group">
                             <label for="describe">Mô tả</label>
                             <textarea id="describe" name="describe" class="form-control"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="customer_type">Áp dụng với khách hàng </label>
-                            <select class="form-control" id="customer_type" name="customer_type">
-                                <option value="0">Tất cả khách hàng</option>
-                                <option value="1">Khách hàng vip</option>
-                                <option value="2">Khách hàng thường</option>
-                            </select>
                         </div>
 
 

@@ -75,8 +75,8 @@
                                 <span class="badge badge-success" style="font-size: 14px">Đang sử dụng</span>
                             @elseif ($item->active == 2)
                                 <span class="badge badge-danger" style="font-size: 14px">Hết hạn sử dụng</span>
-                            @elseif ($item->active == 3)
-                                <span class="badge badge-warning" style="font-size: 14px">Chưa được sử dụng</span>
+                            @elseif ($item->active == 1000)
+                                <span class="badge badge-warning" style="font-size: 14px">Đã sử dụng</span>
                             @endif
                         </div>
                     </td>

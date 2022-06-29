@@ -122,15 +122,15 @@
                     <td style="text-align: center">
                         {{strftime('%H:%M %d-%m-%Y', strtotime($item->created_at))}}
                     </td>
-                    <td style="text-align: center">
-                        <a class="btn btn-info" href="{{ route('order_detail_show', ['order_id'=> $item->id]) }}" title="Xem chi tiết" style="margin-right: 5px"> <i class="fas fa-eye"></i>
+                    <td>
+                        <a class="btn btn-info" href="{{ route('order_detail_show', ['order_id'=> $item->id]) }}" title="Xem chi tiết" style="margin-right: 5px; margin-left: 20%"> <i class="fas fa-eye"></i>
                         </a>
                         <a class="btn btn-secondary" title="Cập nhật trạng thái" style="color:white; margin-right: 5px"  data-toggle="modal" data-target="#update-status-{{$item->id}}" ><i class="fas fa-pen"></i>
                         </a>
+                        @if ($item->status== "Đã nhận hàng")
                         <a class="btn btn-success" href="{{ route('export_excel', ['order_id'=> $item->id]) }}" title="In đơn hàng" style="margin-right: 5px"> <i class="fas fa-print"></i>
                         </a>
-                        <a class="btn btn-danger" href="" onclick="confirm('Bạn có chắc chắn xóa không?')" title="Xóa đơn hàng"> <i class="fas fa-trash-alt"></i>
-                        </a>
+                        @endif
                     </td>
                     <div class="modal fade" id="update-status-{{$item->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="margin-top: 100px">
                         <form action="{{route('update_status_order',['order_id'=>$item->id])}}" method="POST">

@@ -192,5 +192,6 @@ Route::prefix('/admin')->group(function(){
 
         Route::post('/destroy',[App\Http\Controllers\Admin\SupplierController::class, 'destroy'])->name('supplier_destroy');
 
+
     });
 });

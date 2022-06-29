@@ -97,7 +97,6 @@
                     <tr style="text-align: center" >
                         <th>STT</th>
                         <th>Tên</th>
-                        <th style="width:300px">Thành phần</th>
                         <th>Xuất sứ</th>
                         <th>Giá</th>
                         <th>Kích hoạt</th>
@@ -109,10 +108,9 @@
                     @foreach($product as $item)
                     <tr id="row{{$item->id}}">
                         <td style="text-align: center" >{{ $stt++ }}</td>
-                        <td>{{ $item->name }}</td>
-                        <td>{{ $item->thanhphan }}</td>
+                        <td>{{ $item->name }} {{ $item->unit}}</td>
                         <td>{{ $item->xuatsu }}</td>
-                        <td>{{ number_format($item->price)}}đ/{{ $item->unit}}</td>
+                        <td>{{ number_format($item->price)}} VNĐ</td>
                         <td style="text-align: center" >
                             @if ($item->active == 1)
                                 <span class="badge badge-success" style="font-size: 14px">Sử dụng</span>
@@ -177,7 +175,7 @@
                         success:function(data) {
                             if (typeof(data.error_input) != "undefined" && data.error_input_export !== null)
                             {
-                                swal("Thành công", "Xóa sản phẩm thất bại!", "error");
+                                swal("Thất bại", "Xóa sản phẩm thất bại!", "error");
                             }
                             else {
                                 $(".xoa-modal").modal('hide');

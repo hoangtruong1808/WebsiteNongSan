@@ -32,11 +32,10 @@
         <tr>
             <th>STT</th>
             <th>Sản phẩm</th>
-            <th>Số lượng</th>
-            <th>Đơn vị</th>
+            <th colspan='2'>Số lượng</th>
             <th>Đơn giá(VNĐ)</th>
             <th>Thành tiền</th>
-        </tr> 
+        </tr>
     </thead>
     <tbody>
         <?php $stt=1 ?>
@@ -44,8 +43,7 @@
         <tr>
             <td>{{ $stt++ }}</td>
             <td>{{ $item->name }}</td>
-            <td>{{ $item->quantity }}</td>
-            <td>kg</td>
+            <td colspan='2'>{{ $item->quantity }}</td>
             <td>{{ number_format($item->price) }} VNĐ</td>
             <td>{{ number_format($item->quantity*$item->price) }} VNĐ</td>
         </tr>
@@ -65,4 +63,4 @@
             <td colspan='3' style="text-align: center"><i>(ký, họ tên)</i></td>
         </tr>
     </tbody>
-</table>        
+</table>

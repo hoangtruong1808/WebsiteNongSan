@@ -31,6 +31,7 @@ class CustomerController extends Controller
         $this->unread_count = $message = DB::table('message')
                         ->where('message.status', 0)
                         ->count();
+        $this->controller = 'customer';
     }
     public function customer_show()
     {
@@ -74,6 +75,7 @@ class CustomerController extends Controller
                     'unread'=>$this->unread,
                     'unread_count'=>$this->unread_count,
                     'account'=>$this->current_account,
+                    'controller'=>$this->controller,
                 ]);
     }
     public function customer_detail($customer_id)
@@ -95,6 +97,7 @@ class CustomerController extends Controller
                     'unread'=>$this->unread,
                     'unread_count'=>$this->unread_count,
                     'account'=>$this->current_account,
+                    'controller'=>$this->controller,
                 ]);
     }
     public function lock_customer($customer_id){
@@ -103,7 +106,7 @@ class CustomerController extends Controller
                 ->update([
                     'is_deleted'=>1
                 ]);
-        Alert::success('Thành công', 'Khóa tài khoản thành công thành công');
+        Alert::success('Thành công', 'Khóa tài khoản thành công');
         return redirect()->route('customer_show');
     }
     public function unlock_customer($customer_id){
@@ -112,7 +115,7 @@ class CustomerController extends Controller
             ->update([
                 'is_deleted'=>0
             ]);
-        Alert::success('Thành công', 'Mở khóa tài khoản thành công thành công');
+        Alert::success('Thành công', 'Mở khóa tài khoản thành công');
         return redirect()->route('customer_show');
     }
     public function filter(Request $request){
@@ -171,6 +174,7 @@ class CustomerController extends Controller
                 'unread'=>$this->unread,
                 'unread_count'=>$this->unread_count,
                 'account'=>$this->current_account,
+                'controller'=>$this->controller,
             ]);
     }
 }

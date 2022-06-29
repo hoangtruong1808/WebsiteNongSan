@@ -36,7 +36,7 @@ class WarehouseController extends Controller
         $this->unread_count = $message = DB::table('message')
                         ->where('message.status', 0)
                         ->count();
-
+        $this->controller = 'warehouse';
     }
     public function index()
     {
@@ -62,6 +62,7 @@ class WarehouseController extends Controller
                     'unread'=>$this->unread,
                     'unread_count'=>$this->unread_count,
                     'account'=>$this->current_account,
+                    'controller'=>$this->controller,
                 ]);
     }
 
@@ -148,6 +149,7 @@ class WarehouseController extends Controller
                 'unread'=>$this->unread,
                 'unread_count'=>$this->unread_count,
                 'account'=>$this->current_account,
+                'controller'=>$this->controller,
             ]);
     }
     public function import_goods(){
@@ -170,6 +172,7 @@ class WarehouseController extends Controller
                 'staff'=>$staff,
                 'supplier'=>$supplier,
                 'product'=>$product,
+                'controller'=>$this->controller,
             ]);
     }
     public function import_goods_store(Request $request)
@@ -210,6 +213,7 @@ class WarehouseController extends Controller
                         'inventory_quantity'=>$before_inventory_quantity+$request->soluong[$i],
                     ]);
             }
+
             return Excel::download(new PhieuNhapHangExport, 'PhieuNhapHang.xlsx');
         } else {
             Alert::error('Thất bại', 'Vui lòng nhập đầy đủ thông tin');

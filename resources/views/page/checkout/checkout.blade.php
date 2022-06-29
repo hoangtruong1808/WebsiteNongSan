@@ -97,11 +97,11 @@
                             <h3 class="billing-heading mb-4">Tổng giỏ hàng</h3>
                             <p class="d-flex">
                                 <span>Tổng tiền</span>
-                                <span>{{ Cart::initial(0,'.', ',') }} vnđ</span>
+                                <span>{{ Cart::initial(0,'.', ',') }} VNĐ</span>
                             </p>
                             <p class="d-flex">
                                 <span>Giảm giá</span>
-                                <span>{{Cart::discount(0,'.', ',')}} vnđ</span>
+                                <span>{{Cart::discount(0,'.', ',')}} VNĐ</span>
                             </p>
                             <p class="d-flex">
                                 <span>Phí giao hàng </span>
@@ -110,7 +110,7 @@
                             <hr>
                             <p class="d-flex total-price">
                                 <span>Thành tiền</span>
-                                <span>{{ Cart::subtotal(0,'.', ',') }} vnđ</span>
+                                <span>{{ Cart::subtotal(0,'.', ',') }} VNĐ</span>
                             </p>
                         </div>
                     </div>

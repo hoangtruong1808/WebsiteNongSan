@@ -103,15 +103,22 @@ class AccountController extends Controller
     }
     public function show_voucher()
     {
-        $user_id = $_SESSION["id"];
-        $customer_type = DB::table('customer')
-                    ->where('id', $user_id)
-                    ->first()
-                    ->customer_type;
         $account_voucher = DB::table('voucher')
-            ->whereRaw("is_deleted = 0 and active = 1 and quantity > 0 and (customer_type = 0 OR customer_id =1 OR customer_type = 2)")
+            ->whereRaw("is_deleted = 0 and active = 1 and quantity > 0 and (voucher_type = 1 or (voucher_type = 2 and customer_id=".$_SESSION['id']."))")
             ->orderBy('ID', 'desc')
             ->paginate(10);
+        $use_voucher = DB::table('use_voucher')
+            ->where('customer_id', $_SESSION['id'])
+            ->get();
+
+        foreach($account_voucher as $voucher_key=>$voucher_value){
+            foreach($use_voucher as $use_key=>$use_value){
+                if($use_value->voucher_id == $voucher_value->ID){
+                    $account_voucher[$voucher_key]->active= 1000;
+                }
+            }
+        }
+
         return view('page/account/show_voucher')
         ->with([
                 'title'=>'Danh sách mã khuyến mãi',
@@ -172,7 +179,6 @@ class AccountController extends Controller
             'voucher_type'=>2,
             'created_at'=>date("Y-m-d"),
             'customer_id'=>$_SESSION["id"],
-            'customer_type'=>NULL,
         ]);
         DB::table('rotate')->insert([
             'customer_id'=>$_SESSION["id"],
@@ -190,5 +196,14 @@ class AccountController extends Controller
                     'rotate_quantity' => $rotate_quantity - 1,
                 ]);
         }
+    }
+    public function forget_password(){
+//        return view('page/account/forget_password');
+    }
+    public function reset_password_exec(){
+
+    }
+    public function check_reset_password_code(){
+
     }
 }

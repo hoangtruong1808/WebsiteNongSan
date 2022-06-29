@@ -32,6 +32,7 @@ class ProductController extends Controller
         $this->unread_count = $message = DB::table('message')
                         ->where('message.status', 0)
                         ->count();
+        $this->controller = 'product';
     }
     /**
      * Display a listing of the resource.
@@ -59,6 +60,7 @@ class ProductController extends Controller
                 'unread'=>$this->unread,
                 'unread_count'=>$this->unread_count,
                 'account'=>$this->current_account,
+                'controller'=>$this->controller,
             ]);
     }
 
@@ -151,6 +153,7 @@ class ProductController extends Controller
                     'unread_count'=>$this->unread_count,
                     'menu'=>$menu,
                     'account'=>$this->current_account,
+                    'controller'=>$this->controller,
                 ]);
     }
 
@@ -176,6 +179,7 @@ class ProductController extends Controller
                 'unread'=>$this->unread,
                 'unread_count'=>$this->unread_count,
                 'account'=>$this->current_account,
+                'controller'=>$this->controller,
             ]);
     }
 
@@ -267,7 +271,8 @@ class ProductController extends Controller
     public function export_qrcode($product_id){
         return view('admin/product/export_qrcode')
             ->with(['title'=>'Cập nhật sản phẩm',
-            'product_id'=>$product_id]);
+            'product_id'=>$product_id,
+            'controller'=>$this->controller,]);
     }
     public function filter(Request $request){
         $query = "";
@@ -302,6 +307,7 @@ class ProductController extends Controller
                 'unread'=>$this->unread,
                 'unread_count'=>$this->unread_count,
                 'account'=>$this->current_account,
+                'controller'=>$this->controller,
             ]);
     }
 }

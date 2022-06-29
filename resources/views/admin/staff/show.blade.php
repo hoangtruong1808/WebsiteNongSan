@@ -124,7 +124,7 @@
                                 <span class="badge badge-success">Hoạt động</span>
                             @endif
                         </td>
-                        <td style="text-align: center">
+                        <td style="text-align: left">
                             <a class="btn btn-info" href="{{ route('staff_edit', ['staff_id'=>$item->id]) }}" title="Cập nhật" style="margin-right: 5px"> <i class="fas fa-pen"></i>
                             </a>
                             @if ($item->id != $_SESSION['admin_id'])

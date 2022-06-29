@@ -45,7 +45,7 @@
             <td>{{ $item->name }}</td>
             <td>{{ $item->quantity }}</td>
             <td colspan='2'>{{ number_format($item->unit_price) }} VNĐ</td>
-            <td>{{ number_format($item->price) }} VNĐ</td>
+            <td>{{ number_format($item->quantity * $item->unit_price) }} VNĐ</td>
         </tr>
         @endforeach
         <tr>

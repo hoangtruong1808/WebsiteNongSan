@@ -37,6 +37,7 @@ class HomeController extends Controller
         $this->unread_count = $message = DB::table('message')
             ->where('message.status', 0)
             ->count();
+        $this->controller = 'home';
     }
     public function index()
     {
@@ -49,11 +50,12 @@ class HomeController extends Controller
         $data['staff_count'] =  DB::table('staff')->where('is_deleted', 0)->count();
 
         $best_seller = DB::table('order_detail')
-                ->selectRaw('order_detail.*, sum(order_detail.quantity) as sum')
+                ->selectRaw('order_detail.*, sum(order_detail.quantity) as sum, product.unit, product.name as product_name' )
                 ->join('order', 'order.id', '=', 'order_detail.order_id')
+                ->join('product', 'product.id', '=', 'order_detail.product_id')
                 ->groupBy('order_detail.product_id')
                 ->where('order.status', 'Đã nhận hàng')
-                ->orderByRaw('sum(quantity) DESC')
+                ->orderByRaw('sum(quantity)*order_detail.price DESC')
                 ->limit('4')
                 ->get();
         $data['best_seller'] = $best_seller;
@@ -98,6 +100,7 @@ class HomeController extends Controller
                 'unread_count'=>$this->unread_count,
                 'data'=>$data,
                 'data_date'=>$data_date_chart,
+                'controller'=>$this->controller,
             ]);
     }
     public function showAccount(){
@@ -107,6 +110,7 @@ class HomeController extends Controller
                 'unread'=>$this->unread,
                 'account'=>$this->current_account,
                 'unread_count'=>$this->unread_count,
+                'controller'=>$this->controller,
             ]);
     }
 
@@ -171,6 +175,7 @@ class HomeController extends Controller
                 'unread'=>$this->unread,
                 'account'=>$this->current_account,
                 'unread_count'=>$this->unread_count,
+                'controller'=>$this->controller,
             ]);
     }
     public function execChangePassword(Request $request) {

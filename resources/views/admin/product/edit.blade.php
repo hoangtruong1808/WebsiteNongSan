@@ -45,11 +45,6 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="donggoi">Đóng gói</label>
-                                <input type="form" name="donggoi" class="form-control" value="{{ $product->donggoi }}" id="donggoi" placeholder="Nhập cách đóng gói" >
-                            </div>
-
-                            <div class="form-group">
                                 <label for="hansudung">Hạn sử dụng</label>
                                 <input type="form" name="hansudung" class="form-control" value="{{ $product->hansudung }}" id="hansudung" placeholder="Nhập hạn sử dụng"  >
                             </div>
@@ -72,12 +67,7 @@
 
                         <div class="form-group">
                             <label>Đơn vị</label>
-                            <select class="form-control" name="unit">
-                                <option {{ ($product->unit=='combo') ? 'selected="selected"': ''}}>combo</option>
-                                <option {{ ($product->unit=='kg') ? 'selected="selected"': ''}}>kg</option>
-                                <option {{ ($product->unit=='gram') ? 'selected="selected"': ''}}>gram</option>
-                                <option {{ ($product->unit=='con') ? 'selected="selected"': ''}}>con</option>
-                            </select>
+                            <input type="form" name="unit" class="form-control" value={{$product->unit}} id="unit" placeholder="Nhập đơn vị">
                         </div>
 
                         <div class="form-group">

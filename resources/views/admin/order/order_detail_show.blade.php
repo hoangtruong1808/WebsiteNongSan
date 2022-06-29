@@ -13,13 +13,13 @@
             <table style="text-align: center" class="table table-bordered" >
                 <tr>
                     <th>Khách hàng</th>
-                    <th>Tổng tiền</th>
+                    <th>Tổng đơn hàng</th>
                     <th>Trạng thái</th>
                     <th>Thời gian đặt</th>
                 </tr>
                 <tr>
                     <td><a href="{{ route('customer_detail', ['customer_id'=>$order->customer_id]) }}">{{ $order->name }}</a></td>
-                    <td>{{ number_format($order->total)}} vnđ</td>
+                    <td>{{ number_format($order->total)}} VNĐ</td>
                     <td>{{ $order->status }}</td>
                     <td>{{strftime('%H:%M %d-%m-%Y', strtotime($order->created_at))}}</td>
                 </tr>
@@ -38,7 +38,7 @@
                     <td>{{ $a++ }}</td>
                     <td>{{ $key->name}}</td>
                     <td>{{ $key->quantity }} kg</td>
-                    <td>{{ number_format($key->price)}} vnđ</td>
+                    <td>{{ number_format($key->price)}} VNĐ</td>
                 </tr>
                 @endforeach
             </table>

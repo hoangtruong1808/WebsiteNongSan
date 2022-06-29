@@ -61,7 +61,7 @@
                                     <select class="form-control input-lg select2 select2-hidden-accessible area" style="width: 100%;" tabindex="-1" aria-hidden="true" name="sanpham[]">
                                         <option value="" selected disabled hidden>Chọn sản phẩm</option>
                                         @foreach($product as $value)
-                                        <option value="{{ $value->id }}">{{$value->name}}</option>
+                                        <option value="{{ $value->id }}">{{$value->name . ' ' . $value->unit}}</option>
                                         @endforeach
                                      </select>
                                 </td>

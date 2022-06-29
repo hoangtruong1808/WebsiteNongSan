@@ -4,7 +4,7 @@
             <table style="text-align: center" class="table table-bordered" >
                 <tr>
                     <th>STT</th>
-                    <th>Tên đơn vị</th>
+                    <th>Đơn vị</th>
                     <th>Phương thức</th>
                     <th>Sản phẩm</th>
                     <th>Nhóm</th>
@@ -25,7 +25,7 @@
                 if (isset($_GET['page']))
                 {
                     $page = $_GET['page'];
-                } 
+                }
                 else $page = 1;
                 $a = ( $page-1)*10+1; ?>
                 @foreach($post as $item)
@@ -42,19 +42,19 @@
                         Đã duyệt
                         @else
                         <a href="{{ route('post_approve',['post_id' => $item->id]) }}" style="color:blue"><i class="fas fa-check"></i>
-                        </a> 
-                        @endif                 
+                        </a>
+                        @endif
                     </td>
                     <td>
                         @if ($item->status== "Không được duyệt")
                         Không duyệt
                         @else
                         <a href="{{ route('post_cancel', ['post_id' => $item->id]) }}" style="color:red"> <i class="fas fa-backspace"></i>
-                        </a> 
-                        @endif                   
+                        </a>
+                        @endif
                     </td>
                 </tr>
                 @endforeach
-            </table> 
+            </table>
             {{ $post->links('pagination::bootstrap-4') }}
 @stop

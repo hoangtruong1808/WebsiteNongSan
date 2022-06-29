@@ -86,7 +86,7 @@
                         <td>{{ $i++ }}</td>
                         <td><img src="{{asset('storage/product/'.$item->thumb)}}" width="60" height="60"></td>
                         <td style="text-align: left">
-                            <div>{{ $item->name }}</div>
+                            <div>{{ $item->name .' '.$item->unit }}</div>
                             <div>Giá: {{ number_format($item->price) }} VNĐ</div>
                             <div>Mã sản phẩm: {{ $item->product_id }}</div>
                         </td>
@@ -122,6 +122,7 @@
             });
             $('.btn-plus').click(function () {
                 var id = $(this).attr('data-id');
+                console.log(id);
                 quantity = Number($('#quantity_'+id).val());
                 quantity = quantity + 1;
                 $('#quantity_'+id).val(quantity);

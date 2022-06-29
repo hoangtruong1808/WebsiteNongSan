@@ -33,6 +33,7 @@ class MenuController extends Controller
         $this->unread_count = $message = DB::table('message')
                         ->where('message.status', 0)
                         ->count();
+        $this->controller = 'menu';
 
     }
     public function index()
@@ -46,7 +47,8 @@ class MenuController extends Controller
                 ->with(['title'=>'Tạo danh mục',
                 'unread'=>$this->unread,
                 'unread_count'=>$this->unread_count,
-                'account'=>$this->current_account,]);
+                'account'=>$this->current_account,
+                'controller'=>$this->controller,]);
     }
     /**
      * Show the form for creating a new resource.
@@ -98,6 +100,7 @@ class MenuController extends Controller
                     'unread'=>$this->unread,
                     'unread_count'=>$this->unread_count,
                     'account'=>$this->current_account,
+                     'controller'=>$this->controller,
                 ]);
     }
 
@@ -118,7 +121,9 @@ class MenuController extends Controller
                 'menu'=>$menu,
                 'unread'=>$this->unread,
                 'unread_count'=>$this->unread_count,
-                'account'=>$this->current_account,]);
+                'account'=>$this->current_account,
+                'controller'=>$this->controller,
+            ]);
     }
 
     /**
@@ -174,7 +179,7 @@ class MenuController extends Controller
         $query = "";
         foreach ($request->all() as $key=>$value){
             if (isset($value)){
-                $query.= "$key = '$value' and ";
+                $query.= "$key LIKE '%$value%' and ";
             }
         }
         $query = chop($query,"and ");
@@ -191,6 +196,7 @@ class MenuController extends Controller
                 'unread'=>$this->unread,
                 'unread_count'=>$this->unread_count,
                 'account'=>$this->current_account,
+                'controller'=>$this->controller,
             ]);
     }
 

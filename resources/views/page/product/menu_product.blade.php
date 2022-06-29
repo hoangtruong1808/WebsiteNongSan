@@ -210,10 +210,10 @@
                 string+=                '<div class="overlay"></div>';
                 string+=                '</a>';
                 string+=                '<div class="text py-3 pb-4 px-3 text-center">';
-                string+=                '<h3><a href="#">'+product.name+'</a></h3>';
+                string+=                '<h3><a href="#">'+product.name+' '+product.unit+'</a></h3>';
                 string+=                '<div class="d-flex">';
                 string+=                '<div class="pricing">';
-                string+=                '<p class="price"><span>'+product.price+ ' vnđ /'+product.unit+'</span></p>';
+                string+=                '<p class="price"><span>'+product.price+ ' VNĐ </span></p>';
                 string+='</div>';
                 //start
                 string+='<div class="bottom-area d-flex px-3">';

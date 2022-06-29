@@ -50,7 +50,7 @@ class VoucherController extends Controller
             ->update([
                 'active'=>1,
             ]);
-
+        $this->controller = 'voucher';
     }
     public function index()
     {
@@ -63,7 +63,8 @@ class VoucherController extends Controller
             ->with(['title'=>'Tạo mã khuyến mãi',
                 'unread'=>$this->unread,
                 'unread_count'=>$this->unread_count,
-                'account'=>$this->current_account,]);
+                'account'=>$this->current_account,
+                'controller'=>$this->controller,]);
     }
     /**
      * Show the form for creating a new resource.
@@ -122,7 +123,6 @@ class VoucherController extends Controller
                 'date_start'=>$request->date_start,
                 'date_end'=>$request->date_end,
                 'describe'=>$request->describe,
-                'customer_type'=>$request->customer_type,
                 'created_at'=>date("Y-m-d"),
             ]);
             Alert::success('Thành công', 'Cập nhật mã khuyến mãi thành công');
@@ -153,6 +153,7 @@ class VoucherController extends Controller
                 'unread'=>$this->unread,
                 'unread_count'=>$this->unread_count,
                 'account'=>$this->current_account,
+                'controller'=>$this->controller,
             ]);
     }
 
@@ -173,7 +174,8 @@ class VoucherController extends Controller
                 'voucher'=>$voucher,
                 'unread'=>$this->unread,
                 'unread_count'=>$this->unread_count,
-                'account'=>$this->current_account,]);
+                'account'=>$this->current_account,
+                'controller'=>$this->controller,]);
     }
 
     /**
@@ -235,7 +237,6 @@ class VoucherController extends Controller
                 'date_start'=>$request->date_start,
                 'date_end'=>$request->date_end,
                 'describe'=>$request->describe,
-                'customer_type'=>$request->customer_type,
                 'created_at'=>date("Y-m-d"),
             ]);
             Alert::success('Thành công', 'Thêm mã khuyến mãi thành công');
@@ -306,6 +307,7 @@ class VoucherController extends Controller
                 'unread'=>$this->unread,
                 'unread_count'=>$this->unread_count,
                 'account'=>$this->current_account,
+                'controller'=>$this->controller,
             ]);
     }
 }

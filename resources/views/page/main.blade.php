@@ -24,12 +24,12 @@
     @else
         customer_name = 'bạn'
     @endif
-    console.log()
+        frameEndpoint: '/en/botman'
     var botmanWidget = {
         title: 'Chatbot tư vấn',
         aboutText: '',
         placeholderText: 'Nhập tin nhắn',
-        introMessage: "Xin chào "+customer_name+"!. Mình có thể hỗ trợ gì cho bạn?",
+        introMessage: "Xin chào "+customer_name+"!. Chào mừng bạn đến với cửa hàng Nông Sản Việt. Mình có thể hỗ trợ gì cho bạn?",
         mainColor: "#82ae46",
         bubbleBackground: "#82ae46",
         headerTextColor: 'white',

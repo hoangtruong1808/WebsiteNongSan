@@ -126,6 +126,7 @@ class CheckoutController extends Controller
                     'rotate_quantity'=>1,
                 ]);
                 $_SESSION['id']= $customer_id;
+                $_SESSION['customer_name']= $request->name;
                 return Response::json(array(
                     'success' => true,
                 ));

@@ -43,7 +43,7 @@
                 <tr>
                     <td>{{ $a++ }}</td>
                     <td>{{strftime('%H:%M %d-%m-%Y', strtotime($key->created_at))}}</td>
-                    <td>{{ number_format($key->total) }} vnđ</td>
+                    <td>{{ number_format($key->total) }} VNĐ</td>
                     <td style="font-size: 16px">
                         @if ($key->status== "Đang xử lý")
                             <span class="badge badge-info"><i class="fas fa-clock"></i> {{ $key->status }}</span>

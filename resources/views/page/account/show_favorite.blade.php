@@ -40,8 +40,8 @@
 
                     <td class="image-prod"><div class="img" style="background-image:url({{ asset('/storage/product/'.$item->thumb) }});"></div></td>
 
-                    <td><a href="/san-pham/{{ $item->id }}">{{ $item->name }}</a></td>
-                    <td>{{ number_format($item->price) }} VNĐ / {{$item->unit}}</td>
+                    <td><a href="/san-pham/{{ $item->id }}">{{ $item->name }} {{$item->unit}}</a></td>
+                    <td>{{ number_format($item->price) }} VNĐ</td>
                     <td>
                         <a class="heart add-to-favorite d-flex justify-content-center align-items-center" id="add-to-favorite-{{$item->id}}" data-type="remove-favorite" data-id="{{$item->id}}" title="Bỏ yêu thích" style="color: red; font-size: 22px; cursor: pointer">
                             <span><i class="fas fa-heart"></i></span>

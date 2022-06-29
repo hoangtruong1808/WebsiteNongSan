@@ -152,7 +152,6 @@ class ProductController extends Controller
                 ->where('product.id', $product_id)
                 ->join('warehouse', 'product.id', '=', 'warehouse.product_id')
                 ->first();
-
         $related_product = DB::table('product')
                         ->where('active',1)
                         ->where('menu_id', $product->menu_id)

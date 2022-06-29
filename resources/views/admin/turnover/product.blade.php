@@ -33,7 +33,7 @@
                 @foreach($turnover_product as $item)
                     <tr id="row{{$item->id}}">
                         <td style="text-align: center" >{{ $stt++ }}</td>
-                        <td>{{ $item->name }}</td>
+                        <td>{{ $item->name . ' '. $item->unit}}</td>
                         <td style="text-align: center">{{ number_format($item->price)}} VNĐ</td>
                         <td style="text-align: center">{{ ceil($item->sum) }}</td>
                         <td style="text-align: center">{{ number_format($item->price*ceil($item->sum)) }} VNĐ</td>

@@ -63,7 +63,7 @@ class HoaDonExport implements FromView, ShouldAutoSize, WithEvents, WithColumnWi
             AfterSheet::class => function(AfterSheet $event) {
                 $event->sheet->getStyle('A2:F2')->applyFromArray([
                     'font' => [
-                        'bold' => true, 
+                        'bold' => true,
                         'size' => 17,
                         'name' => 'Cambria',
                     ],
@@ -78,7 +78,7 @@ class HoaDonExport implements FromView, ShouldAutoSize, WithEvents, WithColumnWi
                 ]);
                 $event->sheet->getStyle('A5:F5')->applyFromArray([
                     'font' => [
-                        'bold' => true, 
+                        'bold' => true,
                         'size' => 15,
                         'name' => 'Cambria',
                     ],
@@ -111,7 +111,7 @@ class HoaDonExport implements FromView, ShouldAutoSize, WithEvents, WithColumnWi
                 ]);
                 $event->sheet->getStyle('A12:F12')->applyFromArray([
                     'font' => [
-                        'bold' => true, 
+                        'bold' => true,
                         'size' => 12,
                         'name' => 'Cambria',
                     ],
@@ -129,7 +129,7 @@ class HoaDonExport implements FromView, ShouldAutoSize, WithEvents, WithColumnWi
                 ]);
                 $event->sheet->getStyle('A12:F12')->applyFromArray([
                     'font' => [
-                        'bold' => true, 
+                        'bold' => true,
                         'size' => 12,
                         'name' => 'Cambria',
                     ],
@@ -197,19 +197,19 @@ class HoaDonExport implements FromView, ShouldAutoSize, WithEvents, WithColumnWi
                 $event->sheet->getDelegate()->getRowDimension('17')->setRowHeight(23);
                 $event->sheet->getDelegate()->getRowDimension('18')->setRowHeight(23);
             },
-            
+
         ];
     }
 
     public function columnWidths(): array
     {
         return [
-            'A' => 5, 
+            'A' => 5,
             'B' => 30,
             'C' => 14,
-            'D' => 20,    
-            'E' => 20,   
-            'F' => 20,  
+            'D' => 1,
+            'E' => 20,
+            'F' => 20,
         ];
     }
 }

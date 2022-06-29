@@ -32,6 +32,7 @@ class SupplierController extends Controller
         $this->unread_count = $message = DB::table('message')
                         ->where('message.status', 0)
                         ->count();
+        $this->controller = 'supplier';
     }
     /**
      * Display a listing of the resource.
@@ -55,6 +56,7 @@ class SupplierController extends Controller
                 'unread'=>$this->unread,
                 'unread_count'=>$this->unread_count,
                 'account'=>$this->current_account,
+                'controller'=>$this->controller,
             ]);
     }
 
@@ -117,6 +119,7 @@ class SupplierController extends Controller
                     'unread'=>$this->unread,
                     'unread_count'=>$this->unread_count,
                     'account'=>$this->current_account,
+                    'controller'=>$this->controller,
                 ]);
     }
 
@@ -139,6 +142,7 @@ class SupplierController extends Controller
                 'unread'=>$this->unread,
                 'unread_count'=>$this->unread_count,
                 'account'=>$this->current_account,
+                'controller'=>$this->controller,
             ]);
     }
 

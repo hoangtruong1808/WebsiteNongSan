@@ -13,7 +13,7 @@
             border-radius: 30px;
             font-family: sans-serif;
             padding: 0px;
-            font-size: 14px;
+            font-size: 17px;
         }
 
         p.thought {
@@ -151,7 +151,7 @@
                 }
             }
             else{
-                swal("Không thành công", "Bạn không còn lượt quay", "success");
+                swal("Không thành công", "Bạn không còn lượt quay", "error");
             }
             // Ensure that spinning can't be clicked again while already running.
         }

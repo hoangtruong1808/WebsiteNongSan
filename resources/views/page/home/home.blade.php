@@ -67,31 +67,39 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="category-wrap ftco-animate img mb-4 d-flex align-items-end" style="background-image: url({{ asset('page_template/images/category-1.jpg') }});">
-                                        <div class="text px-3 py-1">
-                                            <h2 class="mb-0"><a href="#">Trái cây</a></h2>
+                                    <a href="/san-pham?menu_id=7">
+                                        <div class="category-wrap ftco-animate img mb-4 d-flex align-items-end" style="background-image: url({{ asset('page_template/images/category-1.jpg') }});">
+                                            <div class="text px-3 py-1">
+                                                <h2 class="mb-0"><a href="/san-pham?menu_id=7">Trái cây</a></h2>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="category-wrap ftco-animate img d-flex align-items-end" style="background-image: url({{ asset('page_template/images/category-2.jpg') }});">
-                                        <div class="text px-3 py-1">
-                                            <h2 class="mb-0"><a href="#">Rau củ</a></h2>
+                                    </a>
+                                    <a href="/san-pham?menu_id=6">
+                                        <div class="category-wrap ftco-animate img d-flex align-items-end" style="background-image: url({{ asset('page_template/images/category-2.jpg') }});">
+                                            <div class="text px-3 py-1">
+                                                <h2 class="mb-0"><a href="/san-pham?menu_id=6">Rau củ</a></h2>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </a>
                                 </div>
                             </div>
                         </div>
 
                         <div class="col-md-4">
-                            <div class="category-wrap ftco-animate img mb-4 d-flex align-items-end" style="background-image: url({{ asset('page_template/images/category-3.png') }});">
-                                <div class="text px-3 py-1">
-                                    <h2 class="mb-0"><a href="#">Thủy - hải sản</a></h2>
+                            <a href="#">
+                                <div class="category-wrap ftco-animate img mb-4 d-flex align-items-end" style="background-image: url({{ asset('page_template/images/category-3.png') }});">
+                                    <div class="text px-3 py-1">
+                                        <h2 class="mb-0"><a href="/san-pham?menu_id=8">Thịt, cá, hải sản</a></h2>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="category-wrap ftco-animate img d-flex align-items-end" style="background-image: url({{ asset('page_template/images/category-4.jpg') }});">
-                                <div class="text px-3 py-1">
-                                    <h2 class="mb-0"><a href="#">Đồ khô</a></h2>
+                            </a>
+                            <a href="#">
+                                <div class="category-wrap ftco-animate img d-flex align-items-end" style="background-image: url({{ asset('page_template/images/category-4.jpg') }});">
+                                    <div class="text px-3 py-1">
+                                        <h2 class="mb-0"><a href="/san-pham?menu_id=9">Đồ khô</a></h2>
+                                    </div>
                                 </div>
-                            </div>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -115,10 +123,10 @@
                                 <div class="overlay"></div>
                             </a>
                             <div class="text py-3 pb-4 px-3 text-center">
-                                <h3><a href="{{ route('show_product_detail', ['product_id'=>$item->id]) }}">{{ $item->name }}</a></h3>
+                                <h3><a href="{{ route('show_product_detail', ['product_id'=>$item->id]) }}">{{ $item->name }} {{ $item->unit }}</a></h3>
                                 <div class="d-flex">
                                     <div class="pricing">
-                                        <p class="price"><span>{{ number_format($item->price) }} vnđ /{{ $item->unit }}</span></p>
+                                        <p class="price"><span>{{ number_format($item->price) }} VNĐ</span></p>
                                     </div>
                                 </div>
                                 <div class="bottom-area d-flex px-3">
@@ -164,10 +172,10 @@
                                     <div class="overlay"></div>
                                 </a>
                                 <div class="text py-3 pb-4 px-3 text-center">
-                                    <h3><a href="{{ route('show_product_detail', ['product_id'=>$item->id]) }}">{{ $item->name }}</a></h3>
+                                    <h3><a href="{{ route('show_product_detail', ['product_id'=>$item->id]) }}">{{ $item->name }} {{ $item->unit }}</a></h3>
                                     <div class="d-flex">
                                         <div class="pricing">
-                                            <p class="price"><span>{{ number_format($item->price) }} vnđ /{{ $item->unit }}</span></p>
+                                            <p class="price"><span>{{ number_format($item->price) }} VNĐ </span></p>
                                         </div>
                                     </div>
                                     <div class="d-flex">

@@ -34,6 +34,7 @@ class OrderController extends Controller
             $this->unread_count = $message = DB::table('message')
                             ->where('message.status', 0)
                             ->count();
+            $this->controller = 'order';
         }
         public function order_show()
         {
@@ -48,6 +49,7 @@ class OrderController extends Controller
                                 'unread'=>$this->unread,
                                 'unread_count'=>$this->unread_count,
                                 'account'=>$this->current_account,
+                                'controller'=>$this->controller,
                                 ]);
         }
 
@@ -75,6 +77,7 @@ class OrderController extends Controller
                                 'unread'=>$this->unread,
                                 'unread_count'=>$this->unread_count,
                                 'account'=>$this->current_account,
+                                'controller'=>$this->controller,
                             ]);
         }
         public function order_shipping_status($order_id)
@@ -224,6 +227,7 @@ class OrderController extends Controller
                 'unread'=>$this->unread,
                 'unread_count'=>$this->unread_count,
                 'account'=>$this->current_account,
+                'controller'=>$this->controller,
                 ]);
     }
     public function compareDate($date1, $date2){

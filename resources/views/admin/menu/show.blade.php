@@ -77,7 +77,7 @@
                 @foreach($menu as $item)
                     <tr id="row{{$item->id}}">
                         <td>{{ $i++ }}</td>
-                        <td>{{ $item->name }}</td>
+                        <td style="text-align: left">{{ $item->name }}</td>
                         <td style="text-align: left">{{ $item->description }}</td>
                         <td>
                             @if ($item->active == 1)
@@ -89,7 +89,7 @@
                         <td>
                             <a class="btn btn-info" href="{{ route('menu_edit',['menu_id' => $item->id]) }}" title="Cập nhật danh mục"> <i class="fas fa-edit"></i>
                             </a>
-                            <a class="btn btn-danger" href="" class="delete-button" data-toggle="modal" data-target="#delete-data" data-id="{{$item->id}}" style="margin-left: 5px" title="Xóa danh mục">
+                            <a class="btn btn-danger delete-button" href="" data-toggle="modal" data-target="#delete-data" data-id="{{$item->id}}" style="margin-left: 5px" title="Xóa danh mục">
                                 <i class="fas fa-trash-alt"></i>
                             </a>
                         </td>
@@ -126,7 +126,30 @@
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         $(".delete-button").click(function(){
             delete_select_id = $(this).data("id");
-            console.log(delete_select_id);
+        });
+        $(".delete").click(function(){
+            var delete_id = delete_select_id;
+
+            $.ajax({
+                method: "POST",
+                url: "{{route('menu_destroy')}}",
+                data:{
+                    _token: CSRF_TOKEN,
+                    "menu_id":delete_id,
+                },
+                success:function(data) {
+                    if (typeof(data.error_input) != "undefined" && data.error_input_export !== null)
+                    {
+                        swal("Thất bại", "Xóa danh mục thất bại!", "error");
+                    }
+                    else {
+                        $(".xoa-modal").modal('hide');
+                        $("#row" + delete_id).remove();
+                        $(".alert").remove();
+                        swal("Thành công", "Xóa danh mục thành công!", "success");
+                    }
+                }
+            });
         });
     </script>
 @stop
