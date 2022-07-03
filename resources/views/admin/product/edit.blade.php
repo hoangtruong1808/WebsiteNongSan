@@ -67,7 +67,7 @@
 
                         <div class="form-group">
                             <label>Đơn vị</label>
-                            <input type="form" name="unit" class="form-control" value={{$product->unit}} id="unit" placeholder="Nhập đơn vị">
+                            <input type="form" name="unit" class="form-control" value="{{$product->unit}}" id="unit" placeholder="Nhập đơn vị">
                         </div>
 
                         <div class="form-group">

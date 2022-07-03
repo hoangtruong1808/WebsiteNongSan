@@ -99,18 +99,21 @@
                                 <span>Tổng tiền</span>
                                 <span>{{ Cart::initial(0,'.', ',') }} VNĐ</span>
                             </p>
+                            @if (Cart::discount(0,'.', ',') != 0)
                             <p class="d-flex">
                                 <span>Giảm giá</span>
                                 <span>{{Cart::discount(0,'.', ',')}} VNĐ</span>
                             </p>
+                            @endif
+                            <hr>
                             <p class="d-flex">
                                 <span>Phí giao hàng </span>
-                                <span>Free</span>
+                                <span>30,000 VNĐ</span>
                             </p>
                             <hr>
                             <p class="d-flex total-price">
                                 <span>Thành tiền</span>
-                                <span>{{ Cart::subtotal(0,'.', ',') }} VNĐ</span>
+                                <span>{{ number_format(Cart::subtotal(0,'', '') +30000)  }} VNĐ</span>
                             </p>
                         </div>
                     </div>
@@ -132,7 +135,7 @@
                                 </div>
                             </div>
                             <div>
-                                <button class="btn btn-primary py-3 px-4">Đặt hàng</button>
+                                <button class="btn btn-primary py-3 px-4" id="btn-order">Đặt hàng</button>
                             </div>
                         </div>
                     </div>
@@ -142,4 +145,9 @@
             </div>
         </div>
         </section>
+        <script>
+            // $('#btn-order').on('click', function(){
+            //     $(this).prop('disabled', true);
+            // });
+        </script>
         @stop

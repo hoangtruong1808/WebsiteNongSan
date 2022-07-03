@@ -123,7 +123,7 @@
                                     <table class="table table-striped table-valign-middle">
                                         <thead>
                                         <tr>
-                                            <th>Sản phẩm</th>
+                                            <th width="200">Sản phẩm</th>
                                             <th>Giá</th>
                                             <th>Đã bán</th>
                                             <th>Doanh thu</th>
@@ -187,7 +187,7 @@
                                         </p>
                                         <p class="d-flex flex-column text-right">
                                              <span class="font-weight-bold">
-                                            <i class="fas fa-arrow-up" style="color: green;"></i> 12%
+                                            <i class="fas fa-arrow-up" style="color: green;"></i> 50%
                                             </span>
                                             <span class="text-muted">Số lượng đơn hàng</span>
                                         </p>
@@ -199,7 +199,7 @@
                                         </p>
                                         <p class="d-flex flex-column text-right">
                                             <span class="font-weight-bold">
-                                            <i class="fas fa-arrow-up" style="color: green;"></i> 0.8%
+                                            <i class="fas fa-arrow-up" style="color: green;"></i> 20%
                                             </span>
                                             <span class="text-muted">Số lượng khách hàng</span>
                                         </p>
@@ -211,7 +211,7 @@
                                         </p>
                                         <p class="d-flex flex-column text-right">
                                             <span class="font-weight-bold">
-                                            <i class="fas fa-arrow-up" style="color: green;"></i>  1%
+                                            <i class="fas fa-arrow-up" style="color: green;"></i>  70%
                                             </span>
                                             <span class="text-muted">Doanh thu</span>
                                         </p>

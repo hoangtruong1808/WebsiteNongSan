@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use DB;
 use Validator;
 use Alert;
+use Response;
 
 class ProductController extends Controller
 {
@@ -89,7 +90,7 @@ class ProductController extends Controller
                 'name' => 'required',
                 'description' => 'required',
                 'menu_id' => 'required|numeric',
-                'price' => 'required|numeric',
+                'price' => 'required|numeric|min:0',
                 'thumb' => 'required|image|mimes:jpg,png,jpeg,gif,svg',
             ], $messages);
 
@@ -208,7 +209,7 @@ class ProductController extends Controller
                 'name' => 'required',
                 'description' => 'required',
                 'menu_id' => 'required|numeric',
-                'price' => 'required|numeric',
+                'price' => 'required|numeric|min:0',
                 'thumb' => 'image|mimes:jpg,png,jpeg,gif,svg',
             ], $messages);
 
@@ -264,9 +265,20 @@ class ProductController extends Controller
      */
     public function destroy(Request $request)
     {
-        DB::table('product')->where('id', $request->product_id)->update([
-            'is_deleted'=>1,
-        ]);
+        $del_flg = DB::table('product')
+            ->where('id', $request->product_id)
+            ->whereRaw('(id IN (SELECT product_id FROM order_detail) or id IN (SELECT product_id FROM import_goods_detail))')
+            ->get();
+
+        if (count($del_flg) == 0){
+            DB::table('product')->where('id', $request->product_id)->update([
+                'is_deleted'=>1,
+            ]);
+        }
+        else {
+            $data['error'] = 'Xoá sản phẩm không thành công!';
+            return Response::json($data);
+        }
     }
     public function export_qrcode($product_id){
         return view('admin/product/export_qrcode')
@@ -301,7 +313,7 @@ class ProductController extends Controller
             ->whereRaw($query)
             ->get();
         return view('admin/product/show')
-            ->with(['title'=>'Danh sách danh mục',
+            ->with(['title'=>'Danh sách sản phẩm',
                 'product'=>$product,
                 'menu'=>$menu,
                 'unread'=>$this->unread,

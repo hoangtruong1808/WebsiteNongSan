@@ -61,15 +61,6 @@
                     <label for="describe">Mô tả</label>
                     <textarea id="describe" name="describe" class="form-control">{{ $voucher->describe }}</textarea>
                 </div>
-                <div class="form-group">
-                    <label for="customer_type">Áp dụng với khách hàng </label>
-                    <select class="form-control" id="customer_type" name="customer_type">
-                        <option value="0" {{($voucher->customer_type==0)?'selected="selected""':''}}>Tất cả khách hàng</option>
-                        <option value="1" {{($voucher->customer_type==1)?'selected="selected"':''}}>Khách hàng vip</option>
-                        <option value="2" {{($voucher->customer_type==2)?'selected="selected"':''}}>Khách hàng thường</option>
-                    </select>
-                </div>
-
 
                 <!-- /.card-body -->
             </div>

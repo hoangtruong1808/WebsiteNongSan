@@ -103,7 +103,7 @@
                         <th>SL còn</th>
                         <th>Thời gian KM</th>
                         <th>Tình trạng</th>
-                        <th>Thao tác</th>
+                        <th style="width:100px;">Thao tác</th>
                     </tr>
                 </thead>
                 <?php $i=1 ?>
@@ -115,20 +115,20 @@
                         <div>{{ $item->code }}</div>
                         <div><button class="copy-btn" data-code="{{ $item->code }}" title="Copy" style="border: 0.5px darkgrey solid"><i class="fas fa-copy"></i></button></div>
                     </td>
-                    <td>{{ $item->describe }}</td>
+                    <td style="text-align: left">{{ $item->describe }}</td>
                     <td>{{ number_format($item->value) }} {{ $item->unit }}</td>
-                    <td>
+                    <td style="text-align: left; width: 100px" >
                         @if(isset($item->order_min))
-                        <div>Từ: {{ number_format($item->order_min) }} VNĐ</div>
+                        <div>Từ: {{ number_format($item->order_min) }} </div>
                         @endif
                         @if(isset($item->order_max))
-                        <div>Đến: {{ number_format($item->order_max) }} VNĐ</div>
+                        <div>Đến: {{ number_format($item->order_max) }} </div>
                                 @endif
                     </td>
                     <td>
                         {{ $item->quantity }}
                     </td>
-                    <td>
+                    <td style="text-align: left">
                         @if(isset($item->date_start))
                         <div>Từ: {{strftime('%H:%M %d-%m-%Y', strtotime($item->date_start))}} </div>
                         @endif
@@ -215,9 +215,10 @@
                     "voucher_id":delete_id,
                 },
                 success:function(data) {
-                    if (typeof(data.error_input) != "undefined" && data.error_input_export !== null)
+                    if (data.error != null)
                     {
-                        swal("Thất bại", "Xóa mã giảm giá thất bại!", "error");
+                        swal("Thất bại", data.error, "error");
+                        $(".xoa-modal").modal('hide');
                     }
                     else {
                         $(".xoa-modal").modal('hide');

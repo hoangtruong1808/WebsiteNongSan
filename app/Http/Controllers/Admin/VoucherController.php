@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use DB;
 Use Alert;
 use Validator;
+use Response;
 
 class VoucherController extends Controller
 {
@@ -125,7 +126,7 @@ class VoucherController extends Controller
                 'describe'=>$request->describe,
                 'created_at'=>date("Y-m-d"),
             ]);
-            Alert::success('Thành công', 'Cập nhật mã khuyến mãi thành công');
+            Alert::success('Thành công', 'Thêm mã khuyến mãi thành công');
             return redirect()->route('voucher_show');
         }
         else{
@@ -239,7 +240,7 @@ class VoucherController extends Controller
                 'describe'=>$request->describe,
                 'created_at'=>date("Y-m-d"),
             ]);
-            Alert::success('Thành công', 'Thêm mã khuyến mãi thành công');
+            Alert::success('Thành công', 'Cập nhật mã khuyến mãi thành công');
             return redirect()->route('voucher_show');
         }
         else{
@@ -257,9 +258,20 @@ class VoucherController extends Controller
      */
     public function destroy(Request $request)
     {
-        DB::table('voucher')->where('ID', $request->voucher_id)->update([
-            'is_deleted'=>1,
-        ]);
+        $del_flg = DB::table('voucher')
+            ->where('ID', $request->voucher_id)
+            ->whereRaw('ID IN (SELECT voucher_id FROM use_voucher)')
+            ->get();
+
+        if (count($del_flg) == 0){
+            DB::table('voucher')->where('ID', $request->voucher_id)->update([
+                'is_deleted'=>1,
+            ]);
+        }
+        else {
+            $data['error'] = 'Xoá mã khuyến mãi không thành công!';
+            return Response::json($data);
+        }
     }
     public function compareDate($date1, $date2){
         $time1 = date_parse_from_format('Y-m-d H:i:s', $date1);

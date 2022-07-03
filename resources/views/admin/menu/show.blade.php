@@ -67,9 +67,9 @@
                     <tr>
                         <th>STT</th>
                         <th>Tên</th>
-                        <th style="width: 700px">Mô tả</th>
+                        <th style="width: 500px">Mô tả</th>
                         <th>Kích hoạt</th>
-                        <th>Thao tác</th>
+                        <th style="width: 150px">Thao tác</th>
                     </tr>
                 </thead>
                 <?php $i=1 ?>
@@ -77,7 +77,7 @@
                 @foreach($menu as $item)
                     <tr id="row{{$item->id}}">
                         <td>{{ $i++ }}</td>
-                        <td style="text-align: left">{{ $item->name }}</td>
+                        <td style="text-align: left">{{ $item->name }} <span class="badge badge-primary">{{$item->product_count}}</span></td>
                         <td style="text-align: left">{{ $item->description }}</td>
                         <td>
                             @if ($item->active == 1)
@@ -91,6 +91,8 @@
                             </a>
                             <a class="btn btn-danger delete-button" href="" data-toggle="modal" data-target="#delete-data" data-id="{{$item->id}}" style="margin-left: 5px" title="Xóa danh mục">
                                 <i class="fas fa-trash-alt"></i>
+                            </a>
+                            <a class="btn btn-info" href="/admin/product/filter?menu_id={{$item->id}}" title="Xem sản phẩm" style="margin-left: 5px"> <i class="fas fa-eye"></i>
                             </a>
                         </td>
                     </tr>
@@ -138,15 +140,15 @@
                     "menu_id":delete_id,
                 },
                 success:function(data) {
-                    if (typeof(data.error_input) != "undefined" && data.error_input_export !== null)
+                    if (data.error != null)
                     {
-                        swal("Thất bại", "Xóa danh mục thất bại!", "error");
+                        swal("Thất bại", data.error, "error");
+                        $(".xoa-modal").modal('hide');
                     }
                     else {
+                        swal("Thành công", "Xóa danh mục thành công!", "success");
                         $(".xoa-modal").modal('hide');
                         $("#row" + delete_id).remove();
-                        $(".alert").remove();
-                        swal("Thành công", "Xóa danh mục thành công!", "success");
                     }
                 }
             });

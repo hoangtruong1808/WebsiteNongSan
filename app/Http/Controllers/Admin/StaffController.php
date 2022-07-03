@@ -16,7 +16,7 @@ class StaffController extends Controller
     public function __construct()
     {
         session_start();
-        if (!isset($_SESSION['admin_id'])){
+        if (!isset($_SESSION['admin_id']) || $_SESSION['admin_id']!=1){
             header("Location: /admin/login");
             exit();
         }

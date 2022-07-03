@@ -143,6 +143,7 @@
 {{--                </p>--}}
 {{--              </a>--}}
 {{--            </li>--}}
+              @if ($_SESSION['admin_id']==1)
               <li class="nav-item">
                   <a href="{{ route('staff_show')}}" class="nav-link {{($controller == 'staff')?'active':''}}">
                       <i class="fas fa-house-user"></i>
@@ -153,6 +154,7 @@
                   </a>
               </li>
               <hr  width="100%" size="12px" align="center" color="#6c757d" style="border-width: 2px; margin: 6px 0px; padding: 0px"/>
+              @endif
 
           </ul>
         </nav>

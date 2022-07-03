@@ -9,6 +9,7 @@ use Excel;
 use App\Exports\HoaDonExport;
 use Session;
 Use Alert;
+use Mail;
 
 class OrderController extends Controller
 {
@@ -149,6 +150,17 @@ class OrderController extends Controller
                             'delivery_quantity' => $delivery_quantity + $value->quantity,
                             'wait_delivery_quantity' => $wait_delivery_quantity - $value->quantity,
                         ]);
+                    $to_name = "Cửa hàng Nông sản Việt";
+                    $to_email = DB::table('customer')
+                        ->where('id', $customer_id)
+                        ->first()
+                        ->email;
+                    $data = array("name"=>"Đơn hàng từ Nông sản Việt", "body"=>"noi dung body", 'shipping');
+                    Mail::send('admin/order/mail-notify',$data,function($message) use ($to_name,$to_email){
+                        $message->to('hoangtruong.test@outlook.com.vn')->subject('Thông tin đơn hàng');//send this mail with subject
+                        $message->from('hoangtruong.test@outlook.com.vn','Cửa hàng nông sản Việt');//send from this mail
+
+                    });
                 }
                 else if ($request->status == 'Đã nhận hàng'){
                     DB::table('warehouse')

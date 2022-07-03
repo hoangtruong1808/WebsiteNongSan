@@ -160,8 +160,9 @@ class TurnoverController extends Controller
             ->selectRaw('*, sum(order.total) as sum, MONTH(order.created_at) as month, YEAR(order.created_at) as year')
             ->groupBy('month')
             ->where('order.status', 'Đã nhận hàng')
-            ->orderByRaw('sum(order.total) DESC')
+            ->orderByRaw('MONTH(order.created_at) DESC')
             ->get();
+
         return view('admin/turnover/date')
             ->with(['title'=>'Thống kê theo sản phẩm',
                 'turnover_date'=>$turnover_date,
@@ -178,7 +179,7 @@ class TurnoverController extends Controller
             ->selectRaw('*, sum(order.total) as sum, MONTH(order.created_at) as month, YEAR(order.created_at) as year')
             ->groupBy('month')
             ->where('order.status', 'Đã nhận hàng')
-            ->orderByRaw('sum(order.total) DESC')
+            ->orderByRaw('MONTH(order.created_at) ASC')
             ->limit('7')
             ->get();
 

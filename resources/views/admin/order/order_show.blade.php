@@ -162,7 +162,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button class="btn btn-secondary" type="button" data-dismiss="modal">Hủy</button>
-                                        <input type="submit" class="btn btn-info filter" style="color:white" value="Cập nhật">
+                                        <input type="submit" class="btn btn-info update-btn" style="color:white" value="Cập nhật">
                                     </div>
                                 </div>
                             </div>
@@ -180,4 +180,6 @@
 
         </div>
     </div>
+    <script>
+    </script>
 @stop

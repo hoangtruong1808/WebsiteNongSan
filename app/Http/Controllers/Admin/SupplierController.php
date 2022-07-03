@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use DB;
 use Validator;
 use Alert;
+use Response;
 
 class SupplierController extends Controller
 {
@@ -198,9 +199,20 @@ class SupplierController extends Controller
      */
     public function destroy(Request $request)
     {
-        DB::table('supplier')->where('id', $request->supplier_id)->update([
-            'is_deleted'=>1,
-        ]);
+        $del_flg = DB::table('supplier')
+            ->where('id', $request->supplier_id)
+            ->whereRaw('id IN (SELECT supplier_id FROM import_goods)')
+            ->get();
+
+        if (count($del_flg) == 0) {
+            DB::table('supplier')->where('id', $request->supplier_id)->update([
+                'is_deleted' => 1,
+            ]);
+        }
+        else {
+            $data['error'] = 'Xoá nhà cung cấp không thành công!';
+            return Response::json($data);
+        }
     }
 
 }

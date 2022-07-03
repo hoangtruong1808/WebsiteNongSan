@@ -42,7 +42,7 @@
                                     </td>
 
                                     <td class="total" id="total">{{ number_format($key->price * $key->qty)  }} VNĐ</td>
-                                    <td><button class="btn btn-primary py-3 px-4 btn-hover" style="color: white ">Update</button></td>
+                                    <td><button class="btn btn-primary py-3 px-4 btn-hover" style="color: white ">Cập nhật</button></td>
                                 </tr><!-- END TR-->
                                 </form>
                                 @endforeach</tbody>
@@ -77,15 +77,6 @@
                             <h3>Tổng giỏ hàng</h3>
                             <p class="d-flex">
                                 <span>Tổng tiền</span>
-                                <span>{{ Cart::initial(0,'.', ',') }} VNĐ</span>
-                            </p>
-                            <p class="d-flex">
-                                <span>Phí giao hàng</span>
-                                <span>Free</span>
-                            </p>
-                            <hr>
-                            <p class="d-flex total-price">
-                                <span>Thành tiền</span>
                                 <span>{{ Cart::initial(0,'.', ',') }} VNĐ</span>
                             </p>
                         </div>

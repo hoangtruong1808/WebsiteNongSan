@@ -17,6 +17,8 @@ use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\AfterSheet;
 use Maatwebsite\Excel\Concerns\WithColumnWidths;
 use DB;
+use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
+
 
 class PhieuNhapHangExport implements FromView, ShouldAutoSize, WithEvents, WithColumnWidths
 {
@@ -119,7 +121,7 @@ class PhieuNhapHangExport implements FromView, ShouldAutoSize, WithEvents, WithC
                     'alignment' => ['horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER],
                     'fill' => [
                         'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
-                        'color' => ['argb' => "A9D0F5"]
+                        'color' => ['argb' => "99F0B5"]
                     ],
                     'borders' => [
                         'allBorders' => [
@@ -204,7 +206,9 @@ class PhieuNhapHangExport implements FromView, ShouldAutoSize, WithEvents, WithC
                 $event->sheet->getDelegate()->getRowDimension('14')->setRowHeight(23);
                 $event->sheet->getDelegate()->getRowDimension('15')->setRowHeight(23);
                 $event->sheet->getDelegate()->getRowDimension('17')->setRowHeight(23);
-                $event->sheet->getDelegate()->getRowDimension('18')->setRowHeight(23);
+                $event->sheet->getDelegate()->getRowDimension('18')->setRowHeight(40);
+
+                $this->setImage2Excel($event);
             },
 
         ];
@@ -213,12 +217,23 @@ class PhieuNhapHangExport implements FromView, ShouldAutoSize, WithEvents, WithC
     public function columnWidths(): array
     {
         return [
-            'A' => 5,
-            'B' => 30,
+            'A' => 17,
+            'B' => 34,
             'C' => 14,
             'D' => 20,
             'E' => 1,
             'F' => 20,
         ];
+    }
+
+    private function setImage2Excel($event){
+        $drawing = new Drawing();
+        $drawing->setName('Logo');
+        $drawing->setDescription('Logo');
+        $drawing->setCoordinates('A2');
+        $drawing->setPath(public_path().'\logo.png');
+        $drawing->setWidth('100');
+        $drawing->setHeight('100');
+        $drawing->setWorksheet($event->sheet->getDelegate());
     }
 }

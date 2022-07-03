@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use DB;
 Use Alert;
 use Validator;
+use Response;
 
 class MenuController extends Controller
 {
@@ -94,6 +95,13 @@ class MenuController extends Controller
         $menu = DB::table('menu')
                 ->where("is_deleted", 0)
                 ->get();
+        foreach ($menu as $key=>$menu_value){
+            $product_count = DB::table('product')
+                        ->where("is_deleted", 0)
+                        ->where("menu_id", $menu_value->id)
+                        ->count();
+            $menu[$key]->product_count = $product_count;
+        }
         return view('admin/menu/show')
             ->with(['title'=>'Danh sách danh mục',
                     'menu'=>$menu,
@@ -170,9 +178,19 @@ class MenuController extends Controller
      */
     public function destroy(Request $request)
     {
-        DB::table('menu')->where('id', $request->menu_id)->update([
-            'is_deleted'=>1,
-        ]);
+        $product_count = DB::table('product')
+            ->where("menu_id", $request->menu_id)
+            ->count();
+        if ($product_count == 0) {
+            DB::table('menu')->where('id', $request->menu_id)->update([
+                'is_deleted' => 1,
+            ]);
+        }
+        else {
+            $data['error'] = 'Danh mục đã có sản phẩm';
+            return Response::json($data);
+        }
+
     }
 
     public function filter(Request $request){

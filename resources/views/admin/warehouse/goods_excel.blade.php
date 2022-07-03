@@ -1,12 +1,15 @@
 <table>
     <thead>
         <tr>
+            <th colspan='2'>
         </tr>
         <tr>
-            <th colspan='6'>CỬA HÀNG BÁN NÔNG SẢN VIỆT</th>
+            <th></th>
+            <th colspan='5'>CỬA HÀNG BÁN NÔNG SẢN VIỆT</th>
         </tr>
         <tr>
-            <th colspan='6'>Chuyên bán nông sản tươi và sạch sẽ, đảm bảo an toàn vệ sinh</th>
+            <th></th>
+            <th colspan='5'>Chuyên bán nông sản tươi và sạch sẽ, đảm bảo an toàn vệ sinh</th>
         </tr>
         <tr>
         </tr>

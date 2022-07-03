@@ -64,10 +64,9 @@ class HomeController extends Controller
             ->selectRaw('*, sum(order.total) as sum, MONTH(order.created_at) as month, YEAR(order.created_at) as year')
             ->groupBy('month')
             ->where('order.status', 'Đã nhận hàng')
-            ->orderByRaw('sum(order.total) DESC')
+            ->orderByRaw('MONTH(order.created_at) ASC')
             ->limit('4')
             ->get();
-
         $data_date_chart =[];
         foreach ($turnover_date as $key=>$value){
             $data_date_chart['name'][] = 'Tháng '. $value->month . '/'.  $value->year;

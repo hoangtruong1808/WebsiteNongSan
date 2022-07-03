@@ -18,6 +18,7 @@ use Maatwebsite\Excel\Events\AfterSheet;
 use Maatwebsite\Excel\Concerns\WithColumnWidths;
 use Session;
 use DB;
+use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 
 class HoaDonExport implements FromView, ShouldAutoSize, WithEvents, WithColumnWidths
 {
@@ -61,7 +62,7 @@ class HoaDonExport implements FromView, ShouldAutoSize, WithEvents, WithColumnWi
         return [
             // Handle by a closure.
             AfterSheet::class => function(AfterSheet $event) {
-                $event->sheet->getStyle('A2:F2')->applyFromArray([
+                $event->sheet->getStyle('B2:F2')->applyFromArray([
                     'font' => [
                         'bold' => true,
                         'size' => 17,
@@ -69,7 +70,7 @@ class HoaDonExport implements FromView, ShouldAutoSize, WithEvents, WithColumnWi
                     ],
                     'alignment' => ['horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER],
                 ]);
-                $event->sheet->getStyle('A3:F3')->applyFromArray([
+                $event->sheet->getStyle('B3:F3')->applyFromArray([
                     'font' => [
                         'size' => 13,
                         'name' => 'Cambria',
@@ -118,7 +119,7 @@ class HoaDonExport implements FromView, ShouldAutoSize, WithEvents, WithColumnWi
                     'alignment' => ['horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER],
                     'fill' => [
                         'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
-                        'color' => ['argb' => "A9D0F5"]
+                        'color' => ['argb' => "99F0B5"]
                     ],
                     'borders' => [
                         'allBorders' => [
@@ -196,20 +197,32 @@ class HoaDonExport implements FromView, ShouldAutoSize, WithEvents, WithColumnWi
                 $event->sheet->getDelegate()->getRowDimension('15')->setRowHeight(23);
                 $event->sheet->getDelegate()->getRowDimension('17')->setRowHeight(23);
                 $event->sheet->getDelegate()->getRowDimension('18')->setRowHeight(23);
-            },
 
+                $this->setImage2Excel($event);
+            },
         ];
     }
 
     public function columnWidths(): array
     {
         return [
-            'A' => 5,
-            'B' => 30,
+            'A' => 17,
+            'B' => 34,
             'C' => 14,
             'D' => 1,
             'E' => 20,
             'F' => 20,
         ];
+    }
+
+    private function setImage2Excel($event){
+        $drawing = new Drawing();
+        $drawing->setName('Logo');
+        $drawing->setDescription('Logo');
+        $drawing->setCoordinates('A2');
+        $drawing->setPath(public_path().'\logo.png');
+        $drawing->setWidth('100');
+        $drawing->setHeight('100');
+        $drawing->setWorksheet($event->sheet->getDelegate());
     }
 }

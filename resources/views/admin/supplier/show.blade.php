@@ -86,14 +86,14 @@
                             "supplier_id":delete_id,
                         },
                         success:function(data) {
-                            if (typeof(data.error_input) != "undefined" && data.error_input_export !== null)
+                            if (data.error != null)
                             {
-                                swal("Thành công", "Xóa nhà cung cấp thất bại!", "error");
+                                swal("Thất bại", data.error, "error");
+                                $(".xoa-modal").modal('hide');
                             }
                             else {
                                 $(".xoa-modal").modal('hide');
                                 $("#row" + delete_id).remove();
-                                $(".alert").remove();
                                 swal("Thành công", "Xóa nhà cung cấp thành công!", "success");
                             }
                         }

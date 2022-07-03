@@ -188,7 +188,7 @@ class CheckoutController extends Controller
             'phone'=>'numeric',
             'payment_method'=>'required',
         ], $messages);
-
+        $discount_value = null;
         if ($validator->passes()) {
             $shipping_id = DB::table('shipping')->insertGetId([
                 'name'=>$request->name,
@@ -209,13 +209,20 @@ class CheckoutController extends Controller
             else {
                 $customer_id = 0;
             };
+            if (isset($_SESSION['voucher_id'])) {
+                $discount_value = DB::table('voucher')
+                    ->where('ID', $_SESSION['voucher_id'])
+                    ->first()
+                    ->value;
+            }
             $order_id = DB::table('order')->insertGetId([
                 'customer_id' => $customer_id,
                 'shipping_id' => $shipping_id,
                 'status' => 'Đang xử lý',
-                'total' => Cart::subtotal(0, "", ""),
+                'total' => Cart::subtotal(0, "", "") + 30000,
                 'created_at' => date('Y-m-d H:i:s'),
                 'payment_id' => $payment_id,
+                'discount' =>  $discount_value,
             ]);
             foreach (Cart::content() as $key) {
                 DB::table('order_detail')->insert([
@@ -284,7 +291,7 @@ class CheckoutController extends Controller
 
         Mail::send('page/checkout/mail',$data,function($message) use ($to_name,$to_email){
             $message->to('hoangtruong.test@outlook.com.vn')->subject('Thông tin đơn hàng');//send this mail with subject
-            $message->from('hoangtruong.test@outlook.com.vn','Cửa hàng nông sản');//send from this mail
+            $message->from('hoangtruong.test@outlook.com.vn','Cửa hàng nông sản Việt');//send from this mail
 
         });
         unset($_SESSION['checkout']);

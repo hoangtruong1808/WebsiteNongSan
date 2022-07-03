@@ -78,9 +78,22 @@
                         <td class="total" id="total" style="padding-bottom: 20px; padding-right: 50px;">{{ number_format($key->price * $key->qty)  }} VNĐ</td>
                     </tr><!-- END TR-->
             @endforeach
+                    @if (Cart::discount(0,'.', ',') != 0)
                     <tr>
-                        <td colspan="3" style="font-weight: bold; text-align: right">Tổng đơn hàng: </td>
-                        <td>{{ number_format(Cart::subtotal(0, "", "")) }} VNĐ</td>
+                        <td colspan="2"></td>
+                        <td style=" text-align: left">Giảm giá: </td>
+                        <td>{{Cart::discount(0,'.', ',')}} VNĐ</td>
+                    </tr>
+                    @endif
+                    <tr>
+                        <td colspan="2"></td>
+                        <td style=" text-align: left">Phí giao hàng: </td>
+                        <td>30,000 VNĐ</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"></td>
+                        <td style="font-weight: bold; text-align: left">Tổng đơn hàng: </td>
+                        <td>{{ number_format(Cart::subtotal(0, "", "")+30000) }} VNĐ</td>
                     </tr>
             </tbody>
         </table>

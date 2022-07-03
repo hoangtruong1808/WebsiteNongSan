@@ -129,7 +129,7 @@
                             </a>
                             @if ($item->id != $_SESSION['admin_id'])
                                 @if($item->is_deleted == 0)
-                                    <a class="btn btn-secondary" href="{{ route('lock_staff', ['staff_id'=>$item->id]) }}" onclick="confirm('Bạn có chắc chắn muốn khóa tài khoản này?')" title="Dừng hoạt động tài khoản"> <i class="fas fa-trash"></i>
+                                    <a class="btn btn-secondary" href="{{ route('lock_staff', ['staff_id'=>$item->id]) }}" onclick="confirm('Bạn có chắc chắn muốn khóa tài khoản này?')" title="Dừng hoạt động tài khoản"> <i class="fas fa-lock"></i>
                                     </a>
                                 @else($item->is_deleted == 1)
                                     <a class="btn" href="{{ route('unlock_staff', ['staff_id'=>$item->id]) }}" title="Khôi phục tài khoản"> <i class="fa fa-rotate-left"></i>

@@ -44,7 +44,7 @@
 									<th style="width: 300px">Thành tiền</th>
 								</tr>
 								<tr>
-									<td>{{$product->unit}}</td>
+									<td>{{ ucfirst($product->unit)}}</td>
 									<td>{{ number_format($product->price) }} VNĐ</td>
 									<td>
 										<input type="button" value="-" id="btn-minus"/>
@@ -106,12 +106,6 @@
 										<td>{{ $product->muavu }}</td>
 									</tr>
                                     @endif
-                                     @if(isset($product->hansudung))
-									<tr>
-										<td><b>HSD</b></td>
-										<td>{{ $product->hansudung }}</td>
-									</tr>
-                                        @endif
                                     @if(isset($product->xuatsu))
 									<tr>
 										<td><b>Xuất sứ</b></td>
@@ -234,7 +228,7 @@
                     if (data.success == true){
                         xhtml ='';
                         xhtml += '<div class="bg-white p-2" style="border-bottom: 1px solid lightgrey; margin-bottom: 20px ">';
-                        xhtml += '<div class="d-flex flex-row user-info"><img class="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40">'
+                        xhtml += '<div class="d-flex flex-row user-info"><img class="rounded-circle" src="{{asset('storage/avatar/default-avatar.png')}}" width="40">'
                         xhtml +=  '<div class="d-flex flex-column justify-content-start ml-2"><span class="d-block font-weight-bold name">'+data.data.name+'</span><span class="date text-black-50">'+data.data.date+'</span></div>'
                         xhtml += '</div>';
                         xhtml +=     '<div class="mt-2">';

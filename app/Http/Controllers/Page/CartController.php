@@ -33,6 +33,7 @@ class CartController extends Controller
 
         ];
         Cart::add($data['id'], $data['name'], $data['quantity'], $data['price'], $data['id'], ['thumb'=>$data['thumb']]);
+
         //Cart::destroy();
         return Response::json(array(
             'success' => true,
