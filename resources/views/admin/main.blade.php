@@ -15,7 +15,6 @@
       <!-- Content Wrapper. Contains page content -->
         <!-- Content Header (Page header) -->
         @yield('content')
-
       <footer class="main-footer">
         <div class="float-right d-none d-sm-block">
           <b>Website nông sản</b>

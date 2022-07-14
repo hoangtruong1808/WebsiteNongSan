@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Contracts\Validation\ValidatorAwareRule;
 use Illuminate\Http\Request;
 use DB;
 Use Alert;
@@ -37,6 +38,16 @@ class WarehouseController extends Controller
                         ->where('message.status', 0)
                         ->count();
         $this->controller = 'warehouse';
+        DB::table('warehouse_product')
+            ->whereRaw("expiry_date<CURRENT_TIMESTAMP")
+            ->update([
+                'quantity'=>0,
+            ]);
+        DB::table('warehouse_product')
+            ->whereRaw("quantity=0")
+            ->update([
+                'status'=>0,
+            ]);
     }
     public function index()
     {
@@ -55,6 +66,21 @@ class WarehouseController extends Controller
                 ->join('product', 'product.id', '=', 'warehouse.product_id')
                 ->where('product.is_deleted',0)
                 ->get();
+        foreach ($warehouse as $key=>$value){
+            $warehouse_product_expire = DB::table('warehouse_product')
+                ->where('product_id', $value->product_id)
+                ->where('quantity', '>' ,0)
+                ->whereRaw('DATEDIFF(expiry_date, now()) < 5')
+                ->whereRaw('DATEDIFF(expiry_date, now()) > 0')
+                ->orderBy('warehouse_product_id', 'ASC')
+                ->first();
+            if (isset($warehouse_product_expire)) {
+                $warehouse[$key]->expire_quantity = $warehouse_product_expire->quantity;;
+            }
+            else {
+                $warehouse[$key]->expire_quantity = 0;
+            }
+        }
 
         return view('admin/warehouse/show')
             ->with(['title'=>'Quản lý kho hàng',
@@ -142,6 +168,20 @@ class WarehouseController extends Controller
             ->where('product.is_deleted',0)
             ->whereRaw($query)
             ->get();
+        foreach ($warehouse as $key=>$value) {
+            $warehouse_product_expire = DB::table('warehouse_product')
+                ->where('product_id', $value->product_id)
+                ->where('quantity', '>', 0)
+                ->whereRaw('DATEDIFF(expiry_date, now()) < 5')
+                ->whereRaw('DATEDIFF(expiry_date, now()) > 0')
+                ->orderBy('warehouse_product_id', 'ASC')
+                ->first();
+            if (isset($warehouse_product_expire)) {
+                $warehouse[$key]->expire_quantity = $warehouse_product_expire->quantity;;
+            } else {
+                $warehouse[$key]->expire_quantity = 0;
+            }
+        }
 
         return view('admin/warehouse/show')
             ->with(['title'=>'Quản lý kho hàng',
@@ -152,6 +192,7 @@ class WarehouseController extends Controller
                 'controller'=>$this->controller,
             ]);
     }
+
     public function import_goods(){
 
         $supplier = DB::table('supplier')
@@ -186,7 +227,12 @@ class WarehouseController extends Controller
             for ($i = 0; $i < $product_quantity; $i++){
                 $total += $request->soluong[$i] * $request->dongia[$i];
                 if (!isset($request->sanpham[$i]) || !isset($request->soluong[$i]) || !isset($request->dongia[$i]) || !isset($request->supplier) || !isset($request->staff)){
-                    Alert::error('Thất bại', 'Vui lòng nhập đầy đủ thông tin');
+                    Alert::error('Thất bại', 'Vui lòng nhập đầy đủ thông tin!');
+                    return redirect()->route('import_goods');
+                    die;
+                }
+                if ($this->compareDate($request->produce_date[$i], $request->expiry_date[$i])){
+                    Alert::error('Thất bại', 'Hạn sử dụng sau ngày sản xuất!');
                     return redirect()->route('import_goods');
                     die;
                 }
@@ -208,6 +254,15 @@ class WarehouseController extends Controller
                     'unit_price'=>$request->dongia[$i],
                     'price'=>$request->soluong[$i] * $request->dongia[$i],
                 ]);
+
+                DB::table('warehouse_product')->insert([
+                    'import_goods_id'=>$import_goods_id,
+                    'product_id'=>$request->sanpham[$i],
+                    'quantity'=>$request->soluong[$i],
+                    'produce_date'=>$request->produce_date[$i],
+                    'expiry_date'=>$request->expiry_date[$i],
+                ]);
+
                 DB::table('warehouse')->where('product_id', $request->sanpham[$i])
                     ->update([
                         'inventory_quantity'=>$before_inventory_quantity+$request->soluong[$i],
@@ -219,5 +274,43 @@ class WarehouseController extends Controller
             Alert::error('Thất bại', 'Vui lòng nhập đầy đủ thông tin');
             return redirect()->route('import_goods');
         }
+    }
+    public function compareDate($date1, $date2){
+        $time1 = date_parse_from_format('Y-m-d H:i:s', $date1);
+        $time_stamp1 = mktime($time1['hour'],$time1['minute'],$time1['second'],$time1['month'],$time1['day'],$time1['year']);
+
+        $time2 = date_parse_from_format('Y-m-d H:i:s', $date2);
+        $time_stamp2 = mktime($time2['hour'],$time2['minute'],$time2['second'],$time2['month'],$time2['day'],$time2['year']);
+
+        $comparision = $time_stamp1 - $time_stamp2;
+        if ($comparision>=0){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    public function product_detail($product_id){
+        $warehouse_product_detail = DB::table('warehouse')
+            ->join('product', 'product.id', '=', 'warehouse.product_id')
+            ->where('product.id',$product_id)
+            ->where('product.is_deleted',0)
+            ->first();
+
+        $warehouse_product_detail_import = DB::table('warehouse_product')
+            ->select('warehouse_product.*', DB::raw('DATEDIFF(expiry_date, now()) AS day_diff'))
+            ->where('product_id',$product_id)
+            ->orderBy('warehouse_product_id','DESC')
+            ->get();
+
+        return view('admin/warehouse/product_detail')
+            ->with(['title'=>'Quản lý kho hàng',
+                'warehouse_product_detail'=>$warehouse_product_detail,
+                'warehouse_product_detail_import'=>$warehouse_product_detail_import,
+                'unread'=>$this->unread,
+                'unread_count'=>$this->unread_count,
+                'account'=>$this->current_account,
+                'controller'=>$this->controller,
+            ]);
     }
 }

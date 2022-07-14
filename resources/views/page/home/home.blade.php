@@ -126,7 +126,13 @@
                                 <h3><a href="{{ route('show_product_detail', ['product_id'=>$item->id]) }}">{{ $item->name }} {{ $item->unit }}</a></h3>
                                 <div class="d-flex">
                                     <div class="pricing">
-                                        <p class="price"><span>{{ number_format($item->price) }} VNĐ</span></p>
+                                        <p class="price">
+                                            @if (isset($item->discount))
+                                                <span>{{number_format(round($item->price*(100-$item->discount)/100, -3))}} VNĐ </span><span class="product_discount">-{{$item->discount}}%</span>
+                                            @else
+                                                <span>{{ number_format($item->price) }} VNĐ </span>
+                                        </p>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="bottom-area d-flex px-3">
@@ -175,7 +181,13 @@
                                     <h3><a href="{{ route('show_product_detail', ['product_id'=>$item->id]) }}">{{ $item->name }} {{ $item->unit }}</a></h3>
                                     <div class="d-flex">
                                         <div class="pricing">
-                                            <p class="price"><span>{{ number_format($item->price) }} VNĐ </span></p>
+                                            <p class="price">
+                                                @if (isset($item->discount))
+                                                <span>{{number_format(round($item->price*(100-$item->discount)/100, -3))}} VNĐ </span><span class="product_discount">-{{$item->discount}}%</span>
+                                                @else
+                                                <span>{{ number_format($item->price) }} VNĐ </span>
+                                                @endif
+                                            </p>
                                         </div>
                                     </div>
                                     <div class="d-flex">

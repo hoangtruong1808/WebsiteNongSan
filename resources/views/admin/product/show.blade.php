@@ -58,7 +58,7 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <li><label>Xuất sứ</label>
+                                    <li><label>Xuất xứ</label>
                                         <div class="form-group">
                                             <input type="form" name="xuatsu" class="form-control" id="xuatsu">
                                         </div>
@@ -97,7 +97,7 @@
                     <tr style="text-align: center" >
                         <th>STT</th>
                         <th>Tên</th>
-                        <th>Xuất sứ</th>
+                        <th>Xuất xứ</th>
                         <th>Giá</th>
                         <th>Kích hoạt</th>
                         <th style="width:150px">Thao tác</th>

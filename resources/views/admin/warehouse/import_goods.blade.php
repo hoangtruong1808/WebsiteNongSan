@@ -53,6 +53,8 @@
                             <th>Loại sản phẩm</th>
                             <th>Số lượng</th>
                             <th>Đơn giá(VNĐ) </th>
+                            <th>Ngày sản xuất</th>
+                            <th>Hạn sử dụng</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -70,6 +72,12 @@
                                 </td>
                                 <td>
                                     <input type="text" class="form-control" style="width: 150px" name="dongia[]">
+                                </td>
+                                <td>
+                                    <input type="date" name="produce_date[]" class="form-control" id="produce_date" max="{{date('Y-m-d')}}">
+                                </td>
+                                <td>
+                                    <input type="date" name="expiry_date[]" class="form-control" id="expiry_date" min="{{date('Y-m-d')}}">
                                 </td>
                             </tr>
 

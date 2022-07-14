@@ -233,7 +233,6 @@ class CheckoutController extends Controller
                     'quantity' => $key->qty,
 
                 ]);
-
                 $inventory_quantity =  DB::table('warehouse')
                     ->where('product_id', $key->id)
                     ->first()
@@ -242,6 +241,30 @@ class CheckoutController extends Controller
                     ->where('product_id', $key->id)
                     ->first()
                     ->wait_delivery_quantity;
+                $expiry_quantity_1 = DB::table('warehouse_product')
+                    ->where('product_id', $key->id)
+                    ->where('quantity', '>' ,0)
+                    ->orderBy('warehouse_product_id', 'ASC')
+                    ->first()
+                    ->quantity;
+                if ($expiry_quantity_1 > $key->qty){
+                    DB::table('warehouse_product')
+                        ->where('product_id', $key->id)
+                        ->where('quantity', '>' ,0)
+                        ->where('status', 1)
+                        ->update([
+                            'quantity' => $expiry_quantity_1 - $key->qty,
+                        ]);
+                }
+                else{
+                    DB::table('warehouse_product')
+                        ->where('product_id', $key->id)
+                        ->where('quantity', '>' ,0)
+                        ->where('status', 1)
+                        ->update([
+                            'quantity' => 0,
+                        ]);
+                }
                 DB::table('warehouse')
                     ->where('product_id', $key->id)
                     ->update([
@@ -283,8 +306,7 @@ class CheckoutController extends Controller
         }
 
         $to_name = "Cửa hàng Nông sản Việt";
-        $to_email = $_SESSION['checkout']['email'];//send to this email
-
+        $to_email = $_SESSION['checkout']['email'];//send to this emai
         $data = array("name"=>"Đơn hàng từ Nông sản Việt", "body"=>"noi dung body", 'check-out'); //body of mail.blade.php
 
         $data = $_SESSION['checkout'];

@@ -41,20 +41,9 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="muavu">Mùa vụ</label>
-                                <input type="form" name="muavu" class="form-control" id="muavu" placeholder="Nhập mùa vụ">
+                                <label for="xuatsu">Xuất xứ</label>
+                                <input type="form" name="xuatsu" class="form-control" id="xuatsu" placeholder="Nhập nơi xuất xứ">
                             </div>
-
-                            <div class="form-group">
-                                <label for="hansudung">Hạn sử dụng</label>
-                                <input type="form" name="hansudung" class="form-control" id="hansudung" placeholder="Nhập hạn sử dụng">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="xuatsu">Xuất sứ</label>
-                                <input type="form" name="xuatsu" class="form-control" id="xuatsu" placeholder="Nhập nơi xuất sứ">
-                            </div>
-
 
                             <div class="form-group">
                                 <label for="giaohang">Giao hàng</label>

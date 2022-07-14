@@ -68,6 +68,7 @@ class ChatbotController extends Controller
                             $product_list_data = DB::table('product')
                                 ->where('product.menu_id', $menu_id)
                                 ->where('product.is_deleted', 0)
+                                ->where('product.active', 1)
                                 ->whereRaw("product.name LIKE '%$value%'")
                                 ->get();
                             foreach ($product_list_data as $product){
@@ -90,7 +91,7 @@ class ChatbotController extends Controller
             $product_check = false;
             foreach ($this->product as $key=>$product_value){
                 if(strpos($message1, mb_strtolower($product_value->name)) !== false){
-                    $botman->reply("Thông tin chi tiết về sản phẩm <a href='/san-pham/$product_value->id' target='_blank'><b>$product_value->name</b></a> tại cửa hàng Nông sản Việt: <br> - Hiện tại cửa hàng đang bán sản phẩm với giá <b>".number_format($product_value->price)." VNĐ/$product_value->unit</b>. <br> - Thành phần $product_value->thanhphan với xuất sứ tại $product_value->xuatsu.");
+                    $botman->reply("Thông tin chi tiết về sản phẩm <a href='/san-pham/$product_value->id' target='_blank'><b>$product_value->name</b></a> tại cửa hàng Nông sản Việt: <br> - Hiện tại cửa hàng đang bán sản phẩm với giá <b>".number_format($product_value->price)." VNĐ/$product_value->unit</b>. <br> - Thành phần $product_value->thanhphan với xuất xứ tại $product_value->xuatsu.");
                     $attachment = new Image(asset('storage/product/'.$product_value->thumb));
                     $image_message = OutgoingMessage::create('')
                         ->withAttachment($attachment);
@@ -99,7 +100,7 @@ class ChatbotController extends Controller
                 }
             }
             if ($product_check) {
-                $botman->reply("Nếu quý khách muốn <b>thêm vào giỏ hàng</b>, vui lòng nhập cú pháp '<b>thêm giỏ hàng - tên sản phẩm - số lượng cần mua</b>'!.");
+                $botman->reply("Nếu quý khách muốn <b>thêm vào giỏ hàng</b>, vui lòng nhập cú pháp '<b>thêm giỏ hàng: tên sản phẩm - số lượng cần mua</b>'!.");
             }
         }
 
@@ -135,6 +136,8 @@ class ChatbotController extends Controller
                             }
                         }
                         else{
+                            var_dump($cart_message[1]);
+                            die;
                             $botman->reply("Mời nhập chính xác số lượng sản phẩm!");
                         }
                     }

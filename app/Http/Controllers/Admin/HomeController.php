@@ -38,6 +38,16 @@ class HomeController extends Controller
             ->where('message.status', 0)
             ->count();
         $this->controller = 'home';
+        DB::table('warehouse_product')
+            ->whereRaw("expiry_date<CURRENT_TIMESTAMP")
+            ->update([
+                'quantity'=>0,
+            ]);
+        DB::table('warehouse_product')
+            ->whereRaw("quantity=0")
+            ->update([
+                'status'=>0,
+            ]);
     }
     public function index()
     {
@@ -124,12 +134,13 @@ class HomeController extends Controller
                 'phone.required' => 'Số điện thoại bắt buộc nhập',
                 'phone.numeric' => 'Số điện thoại  nhập đúng định dạng',
                 'email.required' => 'Email bắt buộc nhập',
+                'email.email' => 'Email nhập đúng định dạng',
             ];
             //các loại định dạng bắt buộc khi nhập
             $validator = Validator::make($request->all(), [
                 'name' => 'required',
                 'address' => 'required',
-                'email' => 'required',
+                'email' => 'required|email',
                 'phone'=>'required',
                 'phone'=>'numeric',
             ], $messages);

@@ -1,7 +1,6 @@
 @extends('admin/main')
 
 @section('content')
-
     <div class="content-wrapper">
         <div class="card card-primary" style="margin: 20px 30px 0px 30px">
             <div class="card-header" style="background-color: #298A08; " >
@@ -146,8 +145,8 @@
                         $(".xoa-modal").modal('hide');
                     }
                     else {
-                        swal("Thành công", "Xóa danh mục thành công!", "success");
                         $(".xoa-modal").modal('hide');
+                        swal("Thành công", "Xóa danh mục thành công!", "success");
                         $("#row" + delete_id).remove();
                     }
                 }

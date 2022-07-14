@@ -72,10 +72,10 @@
                         <th>STT</th>
                         <th>Hình ảnh</th>
                         <th>Thông tin sản phẩm</th>
-                        <th>Chờ giao</th>
                         <th>Đang giao</th>
                         <th>Đã bán</th>
                         <th>Tồn kho</th>
+                        <th>Gần hết hạn</th>
                         <th>Thao tác</th>
                     </tr>
                 </thead>
@@ -85,15 +85,15 @@
                     <tr id="row{{$item->id}}">
                         <td>{{ $i++ }}</td>
                         <td><img src="{{asset('storage/product/'.$item->thumb)}}" width="60" height="60"></td>
-                        <td style="text-align: left">
+                        <td style="text-align: left; width:170px ">
                             <div>{{ $item->name .' '.$item->unit }}</div>
                             <div>Giá: {{ number_format($item->price) }} VNĐ</div>
                             <div>Mã sản phẩm: {{ $item->product_id }}</div>
                         </td>
-                        <td> <span class="badge badge-warning" style="font-size: 16px">{{ $item->wait_delivery_quantity }}</span></td>
                         <td> <span class="badge badge-info" style="font-size: 16px">{{ $item->delivery_quantity }}</span></td>
                         <td> <span class="badge badge-success" style="font-size: 16px">{{ $item->sold_quantity }}</span></td>
                         <td> <span class="badge badge-primary" id="inventory_quantity_{{ $item->warehouse_id }}" style="font-size: 16px">{{ $item->inventory_quantity }}</span></td>
+                        <td> <span class="badge badge-danger" id="expire_quantity_{{ $item->warehouse_id }}" style="font-size: 16px">{{ $item->expire_quantity }}</span></td>
                         <td>
                             <input type="button" value="-" class="btn-minus" data-id="{{ $item->warehouse_id }}"/>
                             <input id="quantity_{{$item->warehouse_id}}" name='quantity' type='text' style="width: 50px; text-align: center" value="0"/>
@@ -101,6 +101,8 @@
                             <button class="btn btn-secondary save-button" id="save-button_{{$item->warehouse_id}}"   data-id="{{$item->warehouse_id}}" data-inventory="{{$item->inventory_quantity}}" style="margin-left: 5px" title="Lưu cập nhật">
                                 <i class="fas fa-save"></i>
                             </button>
+                            <a class="btn btn-info" href="{{ route('warehouse_product_detail', ['product_id'=>$item->product_id]) }}" title="Xem chi tiết" style="margin-right: 5px"> <i class="fas fa-eye"></i>
+                            </a>
                         </td>
                     </tr>
                 @endforeach

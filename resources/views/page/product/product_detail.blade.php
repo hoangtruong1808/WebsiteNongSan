@@ -108,7 +108,7 @@
                                     @endif
                                     @if(isset($product->xuatsu))
 									<tr>
-										<td><b>Xuất sứ</b></td>
+										<td><b>Xuất xứ</b></td>
 										<td>{{ $product->xuatsu }}</td>
 									</tr>
                                         @endif

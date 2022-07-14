@@ -48,6 +48,7 @@ class HomeController extends Controller
                     $product[$key]->is_favorite = 0;
                 }
             }
+
             foreach($best_seller as $key=>$item)
             {
                 $favorite = [];
@@ -61,8 +62,37 @@ class HomeController extends Controller
                 else{
                     $best_seller[$key]->is_favorite = 0;
                 }
+                $discount = DB::table('discount')
+                    ->where('product_id', $item->id)
+                    ->where('is_deleted', 0)
+                    ->where('active', 1)
+                    ->first();
+                if (isset($discount)){
+                    $best_seller[$key]->discount = $discount->value;
+                }
             }
-
+        }
+        foreach($product as $key=>$item)
+        {
+            $discount = DB::table('discount')
+                ->where('product_id', $item->id)
+                ->where('is_deleted', 0)
+                ->where('active', 1)
+                ->first();
+            if (isset($discount)){
+                $product[$key]->discount = $discount->value;
+            }
+        }
+        foreach($best_seller as $key=>$item)
+        {
+            $discount = DB::table('discount')
+                ->where('product_id', $item->id)
+                ->where('is_deleted', 0)
+                ->where('active', 1)
+                ->first();
+            if (isset($discount)){
+                $best_seller[$key]->discount = $discount->value;
+            }
         }
         DB::table('voucher')
             ->whereRaw("date_end<CURRENT_TIMESTAMP  OR quantity=0")
@@ -82,7 +112,16 @@ class HomeController extends Controller
             ->update([
                 'active'=>1,
             ]);
-
+        DB::table('warehouse_product')
+            ->whereRaw("expiry_date<CURRENT_TIMESTAMP")
+            ->update([
+                'quantity'=>0,
+            ]);
+        DB::table('warehouse_product')
+            ->whereRaw("quantity=0")
+            ->update([
+                'status'=>0,
+            ]);
         return view('page/home/home')
         ->with(['title'=>'Trang chủ',
                 'product'=>$product,

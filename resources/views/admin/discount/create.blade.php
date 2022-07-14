@@ -1,6 +1,13 @@
     @extends('admin/main')
 
     @section('content')
+        <style>
+            .select2-container--default .select2-selection--single{
+                padding:6px;
+                height: 37px;
+                position: relative;
+            }
+        </style>
         <div class="content-wrapper">
             <div class="card card-primary" style="margin: 20px 30px 0px 30px">
                 <div class="card-header" style="background-color: #298A08; " >
@@ -13,59 +20,42 @@
 
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form action="{{ route('voucher_store') }}" method="post">
+                <form action="{{ route('discount_store') }}" method="post">
                     @csrf()
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="name">Mã khuyến mãi</label>
+                            <label for="name">Sản phẩm</label>
                             <div style=" display:block">
-                                <input type="text" id="code" name="code" style="width:10%; display:unset" class="form-control" readonly />
-                                <a class="btn btn-default" onclick="RandomID();"><i class="fa fa-rotate-left"></i></a>
+                                <select class="form-control input-lg select2 select2-hidden-accessible area" style="width: 100%;" tabindex="-1" aria-hidden="true" name="product_id">
+                                    <option value="" selected disabled hidden>Chọn sản phẩm</option>
+                                    @foreach($product as $value)
+                                        <option value="{{ $value->id }}">{{$value->name . ' ' . $value->unit}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="value">Mức giảm giá</label>
                             <div style=" display:block">
-                                <input type="form" name="value" class="form-control" id="value" placeholder="Nhập mức giảm giá" style="width:85%; display:unset" >
+                                <input type="form" name="value" class="form-control" id="value" placeholder="Nhập mức giảm giá (%)" style="width:85%; display:unset" >
                                 <select class="form-control"  style="display:unset; width:14%" id="unit" name="unit">
-                                    <option>Chọn đơn vị</option>
                                     <option value="%">%</option>
-                                    <option value="VNĐ">VNĐ</option>
                                 </select>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="name">Giá trị đơn hàng áp dụng</label>
-                            <div style=" display:block">
-                                <label for="order_min" style="font-weight: normal">Từ: </label>
-                                <input type="form" name="order_min" class="form-control"  style="width:35%; display:unset"  id="order_min">
-                                <label for="order_max" style="font-weight: normal; margin-left: 3%">Đến: </label>
-                                <input type="form" name="order_max" class="form-control"  style="width:35%; display:unset"  id="order_max">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="quantity">Số lượng mã</label>
-                            <input type="form" name="quantity" class="form-control" id="quantity" placeholder="Nhập số lượng mã">
                         </div>
                         <div class="form-group">
                             <label for="name">Thời gian áp dụng</label>
                             <div style=" display:block">
                                 <label for="date_start" style="font-weight: normal">Từ: </label>
-                                <input type="datetime-local" name="date_start" class="form-control" min="{{date("Y-m-d\TH:i")}}"  style="width:35%; display:unset"  id="date_start">
+                                <input type="datetime-local" name="date_start" class="form-control" min="{{date("Y-m-d\TH:i")}}" style="width:35%; display:unset"  id="date_start">
                                 <label for="date_end" style="font-weight: normal; margin-left: 3%">Đến: </label>
-                                <input type="datetime-local" name="date_end" class="form-control" min="{{date("Y-m-d\TH:i")}}"  style="width:35%; display:unset"  id="date_end">
+                                <input type="datetime-local" name="date_end" class="form-control"  min="{{date("Y-m-d\TH:i")}}" style="width:35%; display:unset"  id="date_end">
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="describe">Mô tả</label>
-                            <textarea id="describe" name="describe" class="form-control"></textarea>
-                        </div>
-
-
                     <!-- /.card-body -->
                     </div>
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-primary" style="background-color: #298A08">Tạo voucher</button>
+                        <button type="submit" class="btn btn-primary" style="background-color: #298A08">Tạo khuyến mãi</button>
                     </div>
                 </form>
             </div>
@@ -93,6 +83,7 @@
                 $("#code").val(password);
             }
             $(document).ready(function() {
+                $('.select2').select2();
                 $('#example').DataTable();
             } );
         </script>

@@ -125,6 +125,42 @@ Route::prefix('/admin')->group(function(){
 
     });
 
+    Route::prefix('/voucher')->group(function(){
+
+        Route::get('/create',[App\Http\Controllers\Admin\VoucherController::class, 'create'])->name('voucher_create');
+
+        Route::post('/store',[App\Http\Controllers\Admin\VoucherController::class, 'store'])->name('voucher_store');
+
+        Route::get('/show',[App\Http\Controllers\Admin\VoucherController::class, 'show'])->name('voucher_show');
+
+        Route::get('/edit/{voucher_id}',[App\Http\Controllers\Admin\VoucherController::class, 'edit'])->name('voucher_edit');
+
+        Route::post('/update/{voucher_id}',[App\Http\Controllers\Admin\VoucherController::class, 'update'])->name('voucher_update');
+
+        Route::post('/destroy',[App\Http\Controllers\Admin\VoucherController::class, 'destroy'])->name('voucher_destroy');
+
+        Route::get('/filter',[App\Http\Controllers\Admin\VoucherController::class, 'filter'])->name('voucher_filter');
+
+    });
+
+    Route::prefix('/discount')->group(function(){
+
+        Route::get('/create',[App\Http\Controllers\Admin\DiscountController::class, 'create'])->name('discount_create');
+
+        Route::post('/store',[App\Http\Controllers\Admin\DiscountController::class, 'store'])->name('discount_store');
+
+        Route::get('/show',[App\Http\Controllers\Admin\DiscountController::class, 'show'])->name('discount_show');
+
+        Route::get('/edit/{discount_id}',[App\Http\Controllers\Admin\DiscountController::class, 'edit'])->name('discount_edit');
+
+        Route::post('/update/{discount_id}',[App\Http\Controllers\Admin\DiscountController::class, 'update'])->name('discount_update');
+
+        Route::post('/destroy',[App\Http\Controllers\Admin\DiscountController::class, 'destroy'])->name('discount_destroy');
+
+        Route::get('/filter',[App\Http\Controllers\Admin\DiscountController::class, 'filter'])->name('discount_filter');
+
+    });
+
     Route::prefix('/staff')->group(function(){
 
         Route::get('/create',[App\Http\Controllers\Admin\StaffController::class, 'create'])->name('staff_create');
@@ -160,6 +196,7 @@ Route::prefix('/admin')->group(function(){
 
         Route::post('/import_goods_store',[App\Http\Controllers\Admin\WarehouseController::class, 'import_goods_store'])->name('import_goods_store');
 
+        Route::get('/product_detail/{product_id}',[App\Http\Controllers\Admin\WarehouseController::class, 'product_detail'])->name('warehouse_product_detail');
     });
 
     Route::prefix('/turnover')->group(function(){

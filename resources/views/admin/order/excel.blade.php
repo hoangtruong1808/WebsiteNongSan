@@ -22,7 +22,7 @@
         <tr>
         </tr>
         <tr>
-            <th colspan='6'>Họ tên người nhận hàng: {{$shipping->name}}</th>
+            <th colspan='6'>Họ tên khách hàng: {{$shipping->name}}</th>
         </tr>
         <tr>
             <th colspan='6'>Địa chỉ: {{$shipping->address}}</th>
@@ -52,8 +52,16 @@
         </tr>
         @endforeach
         <tr>
-            <td colspan='5' style="text-align: right">Tổng cộng</td>
-            <td>{{ number_format($order->total) }} VNĐ</td>
+            <td colspan='4' style="text-align: right">Khuyến mãi</td>
+            <td colspan='2' style="text-align: center">{{ number_format($order->voucher_value) }}  VNĐ</td>
+        </tr>
+        <tr>
+            <td colspan='4' style="text-align: right">Phí giao hàng</td>
+            <td colspan='2' style="text-align: center">30.000 VNĐ</td>
+        </tr>
+        <tr>
+            <td colspan='4' style="text-align: right"><b>Tổng cộng</b></td>
+            <td colspan='2' style="text-align: center"><b>{{ number_format($order->total) }} VNĐ</b></td>
         </tr>
         <tr>
         </tr>

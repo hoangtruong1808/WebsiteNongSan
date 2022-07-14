@@ -35,6 +35,16 @@ class HoaDonExport implements FromView, ShouldAutoSize, WithEvents, WithColumnWi
                 ->select('order.*', 'customer.name')
                 ->where('order.id', $this->order_id)
                 ->first();
+        $use_voucher = DB::table('use_voucher')
+                ->join('voucher', 'use_voucher.voucher_id', '=', 'voucher.ID')
+                ->where('use_voucher.order_id', $this->order_id)
+                ->first();
+        if ($use_voucher){
+            $order->voucher_value = $use_voucher->value;
+        }
+        else {
+            $order->voucher_value = 0;
+        }
         $order_detail = DB::table('order_detail')
                 ->where('order_id', $this->order_id)
                 ->get();
@@ -172,6 +182,33 @@ class HoaDonExport implements FromView, ShouldAutoSize, WithEvents, WithColumnWi
                         ],
                     ],
                 ]);
+                $hangtieptheo +=1;
+                $event->sheet->getStyle('A'.$hangtieptheo.':F'.$hangtieptheo)->applyFromArray([
+                    'font' => [
+                        'size' => 12,
+                        'name' => 'Cambria',
+                    ],
+                    'borders' => [
+                        'allBorders' => [
+                            'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                            'color' => ['argb' => '000000'],
+                        ],
+                    ],
+                ]);
+
+                $hangtieptheo +=1;
+                $event->sheet->getStyle('A'.$hangtieptheo.':F'.$hangtieptheo)->applyFromArray([
+                    'font' => [
+                        'size' => 12,
+                        'name' => 'Cambria',
+                    ],
+                    'borders' => [
+                        'allBorders' => [
+                            'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                            'color' => ['argb' => '000000'],
+                        ],
+                    ],
+                ]);
                 $hangtieptheo +=2;
                 $event->sheet->getStyle('A'.$hangtieptheo.':F'.$hangtieptheo)->applyFromArray([
                     'font' => [
@@ -179,6 +216,7 @@ class HoaDonExport implements FromView, ShouldAutoSize, WithEvents, WithColumnWi
                         'name' => 'Cambria',
                     ],
                 ]);
+
                 $hangtieptheo +=1;
                 $event->sheet->getStyle('A'.$hangtieptheo.':F'.$hangtieptheo)->applyFromArray([
                     'font' => [
@@ -186,17 +224,33 @@ class HoaDonExport implements FromView, ShouldAutoSize, WithEvents, WithColumnWi
                         'name' => 'Cambria',
                     ],
                 ]);
+
                 $event->sheet->getDelegate()->getRowDimension('1')->setRowHeight(30);
                 $event->sheet->getDelegate()->getRowDimension('4')->setRowHeight(23);
-                $event->sheet->getDelegate()->getRowDimension('8')->setRowHeight(21);
-                $event->sheet->getDelegate()->getRowDimension('9')->setRowHeight(21);
-                $event->sheet->getDelegate()->getRowDimension('10')->setRowHeight(21);
+                $event->sheet->getDelegate()->getRowDimension('8')->setRowHeight(23);
+                $event->sheet->getDelegate()->getRowDimension('9')->setRowHeight(23);
+                $event->sheet->getDelegate()->getRowDimension('10')->setRowHeight(23);
                 $event->sheet->getDelegate()->getRowDimension('12')->setRowHeight(23);
                 $event->sheet->getDelegate()->getRowDimension('13')->setRowHeight(23);
                 $event->sheet->getDelegate()->getRowDimension('14')->setRowHeight(23);
                 $event->sheet->getDelegate()->getRowDimension('15')->setRowHeight(23);
+                $event->sheet->getDelegate()->getRowDimension('16')->setRowHeight(23);
                 $event->sheet->getDelegate()->getRowDimension('17')->setRowHeight(23);
                 $event->sheet->getDelegate()->getRowDimension('18')->setRowHeight(23);
+                $event->sheet->getDelegate()->getRowDimension('19')->setRowHeight(23);
+                $event->sheet->getDelegate()->getRowDimension('20')->setRowHeight(23);
+                $event->sheet->getDelegate()->getRowDimension('21')->setRowHeight(23);
+                $event->sheet->getDelegate()->getRowDimension('22')->setRowHeight(23);
+                $event->sheet->getDelegate()->getRowDimension('23')->setRowHeight(23);
+                $event->sheet->getDelegate()->getRowDimension('24')->setRowHeight(23);
+                $event->sheet->getDelegate()->getRowDimension('25')->setRowHeight(23);
+                $event->sheet->getDelegate()->getRowDimension('26')->setRowHeight(23);
+                $event->sheet->getDelegate()->getRowDimension('27')->setRowHeight(23);
+                $event->sheet->getDelegate()->getRowDimension('28')->setRowHeight(23);
+                $event->sheet->getDelegate()->getRowDimension('29')->setRowHeight(23);
+                $event->sheet->getDelegate()->getRowDimension('30')->setRowHeight(23);
+                $event->sheet->getDelegate()->getRowDimension('31')->setRowHeight(23);
+
 
                 $this->setImage2Excel($event);
             },

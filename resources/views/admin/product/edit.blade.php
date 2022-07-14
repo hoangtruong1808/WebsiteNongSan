@@ -40,18 +40,8 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="muavu">Mùa vụ</label>
-                                <input type="form" name="muavu" class="form-control" value="{{ $product->muavu }}" id="muavu" placeholder="Nhập mùa vụ" >
-                            </div>
-
-                            <div class="form-group">
-                                <label for="hansudung">Hạn sử dụng</label>
-                                <input type="form" name="hansudung" class="form-control" value="{{ $product->hansudung }}" id="hansudung" placeholder="Nhập hạn sử dụng"  >
-                            </div>
-
-                            <div class="form-group">
-                                <label for="xuatsu">Xuất sứ</label>
-                                <input type="form" name="xuatsu" class="form-control" value="{{ $product->xuatsu }}" id="xuatsu" placeholder="Nhập nơi xuất sứ"  >
+                                <label for="xuatsu">Xuất xứ</label>
+                                <input type="form" name="xuatsu" class="form-control" value="{{ $product->xuatsu }}" id="xuatsu" placeholder="Nhập nơi xuất xứ"  >
                             </div>
 
 

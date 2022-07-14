@@ -60,6 +60,7 @@ class ProductController extends Controller
             $products = DB::table('product')
                 ->orderBy('id', 'desc')
                 ->where('menu_id', $menu_id)
+                ->where('active',1)
                 ->where('is_deleted', 0)
                 ->paginate(12);
         }
@@ -75,12 +76,14 @@ class ProductController extends Controller
             $products = DB::table('product')
                 ->orderBy('id', 'desc')
                 ->whereRaw($query)
+                ->where('active',1)
                 ->where('is_deleted', 0)
                 ->paginate(12);
         }
         else{
             $products = DB::table('product')
                 ->orderBy('id', 'desc')
+                ->where('active',1)
                 ->where('is_deleted', 0)
                 ->paginate(12);
         }
@@ -100,6 +103,17 @@ class ProductController extends Controller
                 }
             }
         }
+        foreach($products as $key=>$item)
+        {
+            $discount = DB::table('discount')
+                ->where('product_id', $item->id)
+                ->where('is_deleted', 0)
+                ->where('active', 1)
+                ->first();
+            if (isset($discount)){
+                $products[$key]->discount = $discount->value;
+            }
+        }
         $product_count = $products->count();
         $page_number = floor($product_count/12) +1;
 
@@ -107,9 +121,16 @@ class ProductController extends Controller
         {
             $product[$key]['id'] = $value->id;
             $product[$key]['name'] = $value->name;
-            $product[$key]['price'] = number_format($value->price);
+
             $product[$key]['unit'] = $value->unit;
             $product[$key]['thumb'] = $value->thumb;
+            if(isset($value->discount)) {
+                $product[$key]['discount'] = $value->discount;
+                $product[$key]['price'] = number_format(round($value->price*(100-$value->discount)/100, -3));
+            }
+            else {
+                $product[$key]['price'] = number_format($value->price);
+            }
             if (isset($_SESSION['id'])) {
                 $product[$key]['is_favorite'] = $value->is_favorite;
             }
@@ -185,6 +206,15 @@ class ProductController extends Controller
             }
 
 
+        }
+        $discount = DB::table('discount')
+            ->where('product_id', $product->id)
+            ->where('is_deleted', 0)
+            ->where('active', 1)
+            ->first();
+        if (isset($discount)){
+            $product->discount = $discount->value;
+            $product->price = round($product->price*(100-$product->discount)/100, -3);
         }
         $comment = DB::table('comment')
                 ->where('comment.product_id', $product_id)

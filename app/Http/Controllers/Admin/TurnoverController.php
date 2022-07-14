@@ -71,7 +71,7 @@ class TurnoverController extends Controller
                     'unread'=>$this->unread,
                     'unread_count'=>$this->unread_count,
                     'account'=>$this->current_account,
-                'controller'=>$this->controller,
+                    'controller'=>$this->controller,
                 ]);
     }
 
@@ -134,6 +134,7 @@ class TurnoverController extends Controller
             ->groupBy('order.customer_id')
             ->where('customer.is_deleted', 0)
             ->where('order.status', 'Đã nhận hàng')
+            ->whereNotIn('customer.id', [0])
             ->orderByRaw('sum(order.total) DESC')
             ->limit('7')
             ->get();

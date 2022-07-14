@@ -47,13 +47,26 @@
                   </a>
               </li>
               <li class="nav-item">
-                  <a href="{{ route('voucher_show')}}" class="nav-link {{($controller == 'voucher')?'active':''}}">
+                  <a href="" class="nav-link {{($controller == 'voucher')?'active':''}}">
                       <i class="fas fa-barcode"></i>
-                      <p style="margin-left: 4px">
-                          Mã khuyến mãi
+                      <p>
+                          Ưu đãi
                           <i class="right fas fa-angle-left"></i>
                       </p>
                   </a>
+
+                  <ul class="nav nav-treeview">
+                      <li class="nav-item">
+                          <a href="{{ route('voucher_show')}}" class="nav-link">
+                              <p>Mã khuyến mãi</p>
+                          </a>
+                      </li>
+                      <li class="nav-item">
+                          <a href="{{ route('discount_show') }}" class="nav-link">
+                              <p>Giảm giá sản phẩm</p>
+                          </a>
+                      </li>
+                  </ul>
               </li>
               <hr  width="100%" size="12px" align="center" color="#6c757d" style="border-width: 2px; margin: 6px 0px; padding: 0px"/>
               <li class="nav-item">
@@ -98,7 +111,7 @@
                   </ul>
               </li>
               <li class="nav-item">
-                  <a href="" class="nav-link" {{($controller == 'turnover')?'active':''}}>
+                  <a href="" class="nav-link {{($controller == 'turnover')?'active':''}}">
                       <i class="fas fa-money-bill"></i>
                       <p>
                           Thống kê doanh thu
@@ -134,15 +147,6 @@
                   </a>
               </li>
               <hr  width="100%" size="12px" align="center" color="#6c757d" style="border-width: 2px; margin: 6px 0px; padding: 0px"/>
-{{--            <li class="nav-item">--}}
-{{--              <a href="{{ route('message_show') }}" class="nav-link">--}}
-{{--                  <i class="fas fa-bars"></i>--}}
-{{--                <p>--}}
-{{--                  Tin nhắn--}}
-{{--                  <i class="right fas fa-angle-left"></i>--}}
-{{--                </p>--}}
-{{--              </a>--}}
-{{--            </li>--}}
               @if ($_SESSION['admin_id']==1)
               <li class="nav-item">
                   <a href="{{ route('staff_show')}}" class="nav-link {{($controller == 'staff')?'active':''}}">

@@ -81,7 +81,7 @@ class VoucherController extends Controller
 //
 
         $messages = [
-            'code.required' => ' Mã giả giá bắt buộc nhập',
+            'code.required' => ' Mã giảm giá bắt buộc nhập',
             'value.required' => ' Giá trị giảm giá bắt buộc nhập',
             'value.numeric' => ' Giá trị giảm giá bắt buộc là số tiền',
             'value.max' => ' Giá trị giảm giá phải nhỏ hơn số tiền đơn hàng',
@@ -195,7 +195,7 @@ class VoucherController extends Controller
 //
 
         $messages = [
-            'code.required' => ' Mã giả giá bắt buộc nhập',
+            'code.required' => ' Mã giảm giá bắt buộc nhập',
             'value.required' => ' Giá trị giảm giá bắt buộc nhập',
             'value.numeric' => ' Giá trị giảm giá bắt buộc là số tiền',
             'value.max' => ' Giá trị giảm giá phải nhỏ hơn số tiền đơn hàng',

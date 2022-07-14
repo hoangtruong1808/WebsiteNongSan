@@ -14,6 +14,10 @@ class AccountController extends Controller
     public function __construct()
     {
         session_start();
+        if(!isset($_SESSION["id"])){
+            header("Location: /");
+            die;
+        }
     }
     public function show_account()
     {
@@ -35,13 +39,14 @@ class AccountController extends Controller
             'phone.required' => 'Số điện thoại bắt buộc nhập',
             'phone.numeric' => 'Số điện thoại  nhập đúng định dạng',
             'email.required' => 'Email bắt buộc nhập',
+            'email.email' => 'Email nhập đúng định dạng',
             'password.required' => 'Mật khẩu bắt buộc nhập',
         ];
         //các loại định dạng bắt buộc khi nhập
         $request->validate([
             'name' => 'required',
             'address' => 'required',
-            'email' => 'required',
+            'email' => 'required|email',
             'password' => 'required',
             'phone'=>'required',
             'phone'=>'numeric',
@@ -132,6 +137,7 @@ class AccountController extends Controller
             ->join('product', 'favorite.product_id', '=', 'product.id')
             ->where('favorite.customer_id', $_SESSION["id"])
             ->where('product.is_deleted', 0)
+            ->where('product.active',1)
             ->paginate(10);
 
         return view('page/account/show_favorite')

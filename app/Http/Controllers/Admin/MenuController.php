@@ -208,6 +208,13 @@ class MenuController extends Controller
             ->where("is_deleted", 0)
             ->whereRaw($query)
             ->get();
+        foreach ($menu as $key=>$menu_value){
+            $product_count = DB::table('product')
+                ->where("is_deleted", 0)
+                ->where("menu_id", $menu_value->id)
+                ->count();
+            $menu[$key]->product_count = $product_count;
+        }
         return view('admin/menu/show')
             ->with(['title'=>'Danh sách danh mục',
                 'menu'=>$menu,

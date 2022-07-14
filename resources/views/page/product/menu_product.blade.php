@@ -203,7 +203,6 @@
             });
             function LoadData(product){
                 var storage_url = 'storage/product/'+product.thumb;
-                console.log(product.is_favorite);
                 string=					'<div class="col-md-6 col-lg-3 ftco-animate fadeInUp ftco-animated">';
                 string+=					'<div class="product">';
                 string+=                '<a href="/san-pham/'+product.id+'" class="img-prod"><img class="img-fluid" style="height: 202px; width: 100%" src="'+storage_url+'" alt="Colorlib Template">'
@@ -213,7 +212,14 @@
                 string+=                '<h3><a href="#">'+product.name+' '+product.unit+'</a></h3>';
                 string+=                '<div class="d-flex">';
                 string+=                '<div class="pricing">';
-                string+=                '<p class="price"><span>'+product.price+ ' VNĐ </span></p>';
+                string+=                '<p class="price">';
+                if (product.discount) {
+                    string += '<span>' + product.price + ' VNĐ </span><span class="product_discount">-' + product.discount + '%</span>'
+                }
+                else {
+                    string += '<span>' + product.price + ' VNĐ </span>';
+                }
+                string+=     '</p>';
                 string+='</div>';
                 //start
                 string+='<div class="bottom-area d-flex px-3">';
@@ -230,7 +236,6 @@
                     else {
                         string += '<a class="heart add-to-favorite d-flex justify-content-center align-items-center" id="add-to-favorite-'+product.id+'" data-type="remove-favorite" data-id="'+product.id+'" title="Bỏ yêu thích" style="background-color: #e1f3c8; color: #82ae46;">';
                     }
-                //
                 string+='<span><i class="fas fa-heart"></i></span>';
                 string+='</a>';
                 @endif

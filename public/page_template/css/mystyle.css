@@ -76,3 +76,7 @@
     float:left;
     margin:0 3px;
 }
+.product_discount {
+    border: #d0d0d0 2px solid;
+    padding: 3px;
+}
